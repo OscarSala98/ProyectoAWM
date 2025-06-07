@@ -1,0 +1,16 @@
+.habitaciones-container {
+  padding: 2rem;
+}
+
+.habitaciones-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.habitaciones-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
