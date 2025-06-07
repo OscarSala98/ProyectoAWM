@@ -1,28 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Habitaciones from './pages/Habitaciones';
+import HabitacionesFiltradas from './pages/HabitacionesFiltradas';
+
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <div>
-          <h1>Jean El mas Cortado</h1>
-        </div>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/habitaciones" element={<Habitaciones />} />
+        
+        <Route path="/habitaciones-filtradas" element={<HabitacionesFiltradas />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
+export default App;	

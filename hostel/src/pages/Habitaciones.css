@@ -1,0 +1,69 @@
+.filtros-contenedor {
+  text-align: center;
+  margin: 2rem;
+}
+
+.filtros-contenedor button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+  margin: 0 1rem;
+  font-weight: 500;
+}
+
+.filtros-contenedor button:hover {
+  color: #e76e50;
+  border-bottom: 2px solid #e76e50;
+}
+
+.punto {
+  color: #999;
+  font-size: 1.2rem;
+}
+
+/* Estilo general para grilla de tarjetas (habitaciones.jsx) */
+.habitaciones-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+/* Nuevo: contenedor general centrado */
+.habitaciones-filtradas-contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+/* Nuevo: título de resultados */
+.habitaciones-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+}
+
+/* Distribución de tarjetas y mapa */
+.habitaciones-filtradas-grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Columna de tarjetas */
+.habitaciones-lista {
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
+}
+
+/* Columna del mapa */
+.habitaciones-mapa {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+}
