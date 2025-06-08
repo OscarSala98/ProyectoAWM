@@ -16,12 +16,63 @@ const HabitacionesFiltradas = () => {
   const [tipoSeleccionado, setTipoSeleccionado] = useState(null);
 
   const habitaciones = [
-    { titulo: 'Habitación Simple 103', tipo: 'Simple', precio: '$1000 - $5000 USD', descripcion: '2 Plazas', imagen: imgSimple },
-    { titulo: 'Habitación Simple 102', tipo: 'Simple', precio: '$1000 - $5000 USD', descripcion: '2 Plazas', imagen: imgSimple },
-    { titulo: 'Habitación Doble 103', tipo: 'Doble', precio: '$1000 - $5000 USD', descripcion: '2 Plazas y 1½ Plazas', imagen: imgDoble },
-    { titulo: 'Habitación Doble 304', tipo: 'Doble', precio: '$1000 - $5000 USD', descripcion: '2 Plazas y 1½ Plazas', imagen: imgDoble },
-    { titulo: 'Habitación Delux 302', tipo: 'Delux', precio: '$1000 - $5000 USD', descripcion: '3 Plazas y Yacuzzi', imagen: imgDelux },
-  ];
+  {
+    titulo: 'Habitación Simple 103',
+    tipo: 'Simple',
+    precio: '$1000 - $5000 USD',
+    descripcion: '2 Plazas',
+    imagen: imgSimple,
+    camas: 1,
+    banos: 1,
+    parqueo: 1,
+    mascotas: 0
+  },
+  {
+    titulo: 'Habitación Simple 102',
+    tipo: 'Simple',
+    precio: '$1000 - $5000 USD',
+    descripcion: '2 Plazas',
+    imagen: imgSimple,
+    camas: 1,
+    banos: 1,
+    parqueo: 1,
+    mascotas: 0
+  },
+  {
+    titulo: 'Habitación Doble 103',
+    tipo: 'Doble',
+    precio: '$1000 - $5000 USD',
+    descripcion: '2 Plazas y 1½ Plazas',
+    imagen: imgDoble,
+    camas: 2,
+    banos: 1,
+    parqueo: 1,
+    mascotas: 1
+  },
+  {
+    titulo: 'Habitación Doble 304',
+    tipo: 'Doble',
+    precio: '$1000 - $5000 USD',
+    descripcion: '2 Plazas y 1½ Plazas',
+    imagen: imgDoble,
+    camas: 2,
+    banos: 1,
+    parqueo: 1,
+    mascotas: 1
+  },
+  {
+    titulo: 'Habitación Delux 302',
+    tipo: 'Delux',
+    precio: '$1000 - $5000 USD',
+    descripcion: '3 Plazas y Yacuzzi',
+    imagen: imgDelux,
+    camas: 3,
+    banos: 2,
+    parqueo: 2,
+    mascotas: 1
+  }
+];
+
 
   useEffect(() => {
     if (location.state && location.state.tipo) {
