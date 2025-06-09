@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .habitacion-img {
@@ -55,4 +56,10 @@
   color: #007bff;
   font-weight: 600;
   text-align: right;
+}
+
+/* Efecto al pasar el mouse */
+.habitacion-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
 }
