@@ -36,7 +36,7 @@ const Header = () => {
       </div>
 
       <div className="right-area">
-        <div className="user-button">
+        <div className="user-button" onClick={() => navigate('/perfil')}>
           <FaUserCircle size={20} />
           <span>Usuario</span>
         </div>
