@@ -12,6 +12,11 @@ const FormularioLogin = ({ onClose }) => {
     onClose(); // Cierra modal
     navigate('/perfil'); // Redirige
   };
+  
+  const manejarAdmin = () => {
+    onClose(); // Cierra modal
+    navigate('/admin/perfil'); // Redirige a admin
+  }
   return (
     <>
       {!mostrarRecuperar ? (
@@ -28,7 +33,7 @@ const FormularioLogin = ({ onClose }) => {
             </p>
 
             <button className="btn-principal" onClick={manejarLogin}>Ingresar</button>
-            <button className="btn-admin">Admin</button>
+            <button className="btn-admin" onClick={manejarAdmin}>Admin</button>
           </div>
         </div>
       ) : (
