@@ -14,7 +14,7 @@ const Habitaciones = () => {
       <FiltroHabitaciones />
 
       <div className="habitaciones-container">
-        <h2 className="habitaciones-title">Todas las Habitaciones</h2>
+        <h2 className="habitaciones-title">Todas las Habitacions</h2>
         <div className="habitaciones-grid">
           {habitaciones.map((h) => (
             <HabitacionCard key={h.id} {...h} imagen={h.portada} />
