@@ -1,0 +1,68 @@
+.reserva-admin-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.2rem;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background-color: white;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.reserva-admin-img {
+  width: 100px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.reserva-admin-detalles {
+  flex: 1;
+  min-width: 180px;
+}
+
+.reserva-admin-detalles h4 {
+  margin: 0 0 0.2rem;
+}
+
+.reserva-admin-extra {
+  flex: 1;
+  min-width: 160px;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.reserva-admin-acciones {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.btn-aprobar,
+.btn-rechazar {
+  padding: 0.4rem 1.2rem;
+  border: none;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-aprobar {
+  background-color: #aaa;
+  color: white;
+}
+
+.btn-rechazar {
+  background-color: #f2f2f2;
+  color: #555;
+}
+
+.btn-aprobar:hover {
+  background-color: #888;
+}
+
+.btn-rechazar:hover {
+  background-color: #ddd;
+}
