@@ -1,0 +1,52 @@
+.notificaciones-container {
+  margin: 2rem;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.notificaciones-header {
+  background-color: #f8f8d8;
+  padding: 1rem;
+  border-radius: 12px 12px 0 0;
+}
+
+.notificaciones-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.notificaciones-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+}
+
+.notificacion-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.notificacion-item p {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.btn-cerrar {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-cerrar:hover {
+  color: #e76e50;
+}

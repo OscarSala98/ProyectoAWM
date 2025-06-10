@@ -1,17 +1,20 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './PerfilOpciones.css';
 
 const PerfilOpciones = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="perfil-opciones">
       <ul>
-        <li><strong>Mensajes</strong></li>
-        <li><strong>Notificaciones</strong></li>
-        <li><strong>Reservaciones</strong></li>
+        <li onClick={() => navigate('/chat')}><strong>Mensajes</strong></li>
+        <li onClick={() => navigate('/notificaciones')}><strong>Notificaciones</strong></li>
+        <li onClick={() => navigate('/mis-reservas')}><strong>Reservaciones</strong></li>
       </ul>
       <ul>
-        <li>Cuenta</li>
-        <li>Cerrar Sesión</li>
+        <li onClick={() => navigate('/perfil')}>Cuenta</li>
+        <li onClick={() => navigate('/')}>Cerrar Sesión</li>
       </ul>
     </div>
   );

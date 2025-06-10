@@ -6,6 +6,9 @@ import HabitacionDetalle from './pages/HabitacionDetalle';
 import Reservas from './pages/Reservas';
 import PerfilUsuario from './pages/PerfilUsuario';
 import EditarPerfil from './pages/EditarPerfil';
+import Chat from './pages/Chat';
+import NotificacionesPage from './pages/NotificacionesPage';
+import MisReservas from './pages/MisReservas';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -21,6 +24,9 @@ function App() {
         <Route path="/reservas" element={<Reservas />} />
         <Route path="/perfil" element={<PerfilUsuario/>} />
         <Route path="/editar-perfil" element={<EditarPerfil />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/notificaciones" element={<NotificacionesPage />} />
+        <Route path="/mis-reservas" element={<MisReservas />} />
         {/* Agrega más rutas según sea necesario */}
 
       </Routes>

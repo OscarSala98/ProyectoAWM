@@ -1,0 +1,30 @@
+.cuadro-mensaje {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 12px;
+  gap: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cuadro-mensaje:hover {
+  background-color: #f0f0f0;
+}
+
+.cuadro-mensaje.activo {
+  background-color: #f5f3d8;
+}
+
+.avatar-placeholder {
+  width: 45px;
+  height: 45px;
+  background-color: #ccc;
+  border-radius: 50%;
+}
+
+.contacto-info p {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: #666;
+}
