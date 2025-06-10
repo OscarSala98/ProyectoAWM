@@ -3,17 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import './Header.css';
 import { FaUserCircle, FaBars } from 'react-icons/fa';
 import logo from '../assets/logo.webp';
+import FormularioLogin from './FormularioLogin';
+import FormularioRegistro from './FormularioRegistro';
 
 const Header = () => {
   const navigate = useNavigate();
-  const [mostrarMenu, setMostrarMenu] = useState(false); // Estado para mostrar/ocultar el menú
+  const [mostrarLogin, setMostrarLogin] = useState(false);
+  const [mostrarRegistro, setMostrarRegistro] = useState(false);
+  const [mostrarMenu, setMostrarMenu] = useState(false);
 
-  const toggleMenu = () => {
-    setMostrarMenu(!mostrarMenu);
+  const toggleMenu = () => setMostrarMenu(!mostrarMenu);
+  const cerrarMenu = () => setMostrarMenu(false);
+
+  const abrirLogin = () => {
+    setMostrarLogin(true);
+    cerrarMenu();
   };
 
-  const cerrarMenu = () => {
-    setMostrarMenu(false);
+  const abrirRegistro = () => {
+    setMostrarRegistro(true);
+    cerrarMenu();
   };
 
   return (
@@ -38,11 +47,14 @@ const Header = () => {
 
         {mostrarMenu && (
           <div className="hamburger-menu">
-            <button onClick={() => { navigate('/login'); cerrarMenu(); }}>Iniciar Sesión</button>
-            <button onClick={() => { navigate('/registro'); cerrarMenu(); }}>Registrarse</button>
+            <button onClick={abrirLogin}>Iniciar Sesión</button>
+            <button onClick={abrirRegistro}>Registrarse</button>
           </div>
         )}
       </div>
+
+      {mostrarLogin && <FormularioLogin onClose={() => setMostrarLogin(false)} />}
+      {mostrarRegistro && <FormularioRegistro onClose={() => setMostrarRegistro(false)} />}
     </header>
   );
 };
