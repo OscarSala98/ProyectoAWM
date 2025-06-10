@@ -42,3 +42,11 @@
   margin-top: 1rem;
   cursor: pointer;
 }
+
+.modal-contenido h2 {
+    color: #000;
+}
+
+.modal-contenido p {
+    color: #000;
+}
