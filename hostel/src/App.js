@@ -4,6 +4,8 @@ import Habitaciones from './pages/Habitaciones';
 import HabitacionesFiltradas from './pages/HabitacionesFiltradas';
 import HabitacionDetalle from './pages/HabitacionDetalle';
 import Reservas from './pages/Reservas';
+import PerfilUsuario from './pages/PerfilUsuario';
+import EditarPerfil from './pages/EditarPerfil';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -17,6 +19,8 @@ function App() {
         <Route path="/habitaciones-filtradas" element={<HabitacionesFiltradas />} />
         <Route path="/habitacion/:id" element={<HabitacionDetalle />} />
         <Route path="/reservas" element={<Reservas />} />
+        <Route path="/perfil" element={<PerfilUsuario/>} />
+        <Route path="/editar-perfil" element={<EditarPerfil />} />
         {/* Agrega más rutas según sea necesario */}
 
       </Routes>

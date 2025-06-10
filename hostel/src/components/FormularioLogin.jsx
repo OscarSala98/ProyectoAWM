@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './FormularioLogin.css';
 import FormularioRecuperar from './FormularioRecuperar';
 
 const FormularioLogin = ({ onClose }) => {
   const [mostrarRecuperar, setMostrarRecuperar] = useState(false);
 
+    const navigate = useNavigate();
+
+  const manejarLogin = () => {
+    onClose(); // Cierra modal
+    navigate('/perfil'); // Redirige
+  };
   return (
     <>
       {!mostrarRecuperar ? (
@@ -20,7 +27,7 @@ const FormularioLogin = ({ onClose }) => {
               ¿Olvidaste tu contraseña?
             </p>
 
-            <button className="btn-principal">Ingresar</button>
+            <button className="btn-principal" onClick={manejarLogin}>Ingresar</button>
             <button className="btn-admin">Admin</button>
           </div>
         </div>

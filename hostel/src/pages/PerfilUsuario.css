@@ -1,0 +1,15 @@
+.perfil-usuario-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.perfil-usuario-derecha {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  flex-wrap: wrap;
+}
