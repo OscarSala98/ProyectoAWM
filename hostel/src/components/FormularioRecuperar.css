@@ -1,0 +1,96 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background-color: #fdf9ed;
+  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  box-sizing: border-box;
+}
+
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-content h3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+font-weight: 600;
+color: #000;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background-color: #fff;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.link {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  text-align: right;
+}
+
+/* Botón principal */
+.btn-principal {
+  background-color: #db5c35;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-bottom: 0.7rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-principal:hover {
+  background-color: #c64d2a;
+}
+
+/* Botón para ingresar como administrador */
+.btn-admin {
+  background-color: #999;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.95rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-admin:hover {
+  background-color: #777;
+}
+.modal-content p,
+p {
+    color: #666;
+}

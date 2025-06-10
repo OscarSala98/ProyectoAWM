@@ -1,0 +1,16 @@
+.editar-perfil-container {
+  display: flex;
+  flex-direction: row; /* CAMBIO IMPORTANTE */
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.perfil-usuario-derecha {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}

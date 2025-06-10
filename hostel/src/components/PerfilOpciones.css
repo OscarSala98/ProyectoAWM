@@ -1,0 +1,20 @@
+.perfil-opciones {
+  padding-left: 2rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.perfil-opciones ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.perfil-opciones li {
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.perfil-opciones li:hover {
+  text-decoration: underline;
+}
