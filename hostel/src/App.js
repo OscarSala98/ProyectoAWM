@@ -9,6 +9,12 @@ import EditarPerfil from './pages/EditarPerfil';
 import Chat from './pages/Chat';
 import NotificacionesPage from './pages/NotificacionesPage';
 import MisReservas from './pages/MisReservas';
+import PerfilAdmin from './pages/PerfilAdmin';
+import EditarPerfilAdmin from './pages/EditarPerfilAdmin';
+import ChatAdmin from './pages/ChatAdmin';
+import NotificacionesPageAdmin from './pages/NotificacionesPageAdmin';
+import ReservacionesAdmin from './pages/ReservacionesAdmin';
+import EditarHabitacion from './pages/EditarHabitacion';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -27,6 +33,13 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/notificaciones" element={<NotificacionesPage />} />
         <Route path="/mis-reservas" element={<MisReservas />} />
+        <Route path="/admin/perfil" element={<PerfilAdmin />} />
+        <Route path="/admin/editar-perfil" element={<EditarPerfilAdmin />} />
+        <Route path="/admin/chat" element={<ChatAdmin />} />
+        <Route path="/admin/notificaciones" element={<NotificacionesPageAdmin />} />
+        <Route path="/admin/reservaciones" element={<ReservacionesAdmin />} />
+        <Route path="/admin/editar-habitacion" element={<EditarHabitacion />} />
+
         {/* Agrega más rutas según sea necesario */}
 
       </Routes>

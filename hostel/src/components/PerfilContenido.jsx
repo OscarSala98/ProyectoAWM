@@ -2,11 +2,13 @@ import React from 'react';
 import './PerfilContenido.css';
 import { useNavigate } from 'react-router-dom';
 
-const PerfilContenido = ({ nombre }) => {
-    const navigate = useNavigate();
-    const manejarEdicion = () => {
-        navigate('/editar-perfil');
-    }
+const PerfilContenido = ({ nombre, isAdmin = false }) => {
+  const navigate = useNavigate();
+
+  const manejarEdicion = () => {
+    navigate(isAdmin ? '/admin/editar-perfil' : '/editar-perfil');
+  };
+
   return (
     <div className="perfil-contenido">
       <h2>Hola, {nombre}</h2>
@@ -16,3 +18,4 @@ const PerfilContenido = ({ nombre }) => {
 };
 
 export default PerfilContenido;
+

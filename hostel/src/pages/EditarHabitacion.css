@@ -1,0 +1,37 @@
+.editar-habitacion-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.editar-habitacion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.btn-atras,
+.btn-guardar {
+  padding: 0.6rem 1.4rem;
+  border-radius: 20px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-atras {
+  background-color: #ccc;
+  color: #333;
+}
+
+.btn-guardar {
+  background-color: #e76e50;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.btn-guardar:hover {
+  background-color: #c95c3d;
+}
