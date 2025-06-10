@@ -1,0 +1,54 @@
+/* src/components/HabitacionInfo.css */
+.habitacion-info-box {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+.habitacion-iconos {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.habitacion-iconos div {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.habitacion-precios {
+  margin-top: 1rem;
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.habitacion-precios h3 {
+  margin: 0 0 0.5rem;
+}
+
+.habitacion-precios ul {
+  padding-left: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.btn-reservar {
+  background-color: #e76e50;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn-reservar:hover {
+  background-color: #cc5d43;
+}

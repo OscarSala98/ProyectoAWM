@@ -1,0 +1,83 @@
+.detalle-info-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1.3fr; /* proporción entre izquierda y derecha */
+    gap: 2rem;
+    margin-top: 2rem;
+    align-items: flex-start;
+}
+
+
+.detalle-izquierda {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    grid-column: 1 / 2;
+}
+
+.detalle-derecha {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    grid-column: 2 / 3;
+}
+
+/* Alineación de elementos visualmente consistente */
+.habitacion-info-box h2 {
+  margin-bottom: 0.5rem;
+}
+
+.habitacion-iconos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 1rem;
+  color: #444;
+}
+
+.habitacion-iconos div {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.habitacion-precios {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.habitacion-precios h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.habitacion-precios ul {
+  padding-left: 1.2rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.btn-reservar {
+  background-color: #e76e50;
+  border: none;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-reservar:hover {
+  background-color: #cf5c40;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+  .detalle-info-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
