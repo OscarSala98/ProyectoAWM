@@ -1,40 +1,50 @@
-import React from 'react'; // Importa React, necesario para la creación de componentes en JSX.
-import { useNavigate } from 'react-router-dom'; // Importa el hook 'useNavigate' de react-router-dom para navegar entre rutas de la aplicación.
-import './Header.css'; // Importa el archivo CSS de estilos personalizados para este componente.
-import { FaUserCircle, FaBars } from 'react-icons/fa'; // Importa los íconos de usuario y menú hamburguesa desde react-icons.
-import logo from '../assets/logo.webp'; // Importa el logo de la aplicación desde la carpeta assets (formato .webp).
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Header.css';
+import { FaUserCircle, FaBars } from 'react-icons/fa';
+import logo from '../assets/logo.webp';
 
-// Componente funcional Header
 const Header = () => {
-  const navigate = useNavigate(); // Inicializa el hook 'useNavigate' que permite navegar programáticamente a otras rutas.
+  const navigate = useNavigate();
+  const [mostrarMenu, setMostrarMenu] = useState(false); // Estado para mostrar/ocultar el menú
+
+  const toggleMenu = () => {
+    setMostrarMenu(!mostrarMenu);
+  };
+
+  const cerrarMenu = () => {
+    setMostrarMenu(false);
+  };
 
   return (
-    <header className="header"> {/* Contenedor principal del encabezado, asignado con la clase 'header' */}
-      {/* Logo del Hostal */}
-      <div className="logo-area" onClick={() => navigate('/')} > {/* Área donde se encuentra el logo */}
-        <img src={logo} alt="Logo Hostal" className="logo" /> {/* Imagen del logo que redirige a la ruta principal ("/") */}
+    <header className="header">
+      <div className="logo-area" onClick={() => navigate('/')}>
+        <img src={logo} alt="Logo Hostal" className="logo" />
       </div>
 
-      {/* Enlace para navegar a la página de Habitaciones */}
-      <div className="menu-item" onClick={() => navigate('/habitaciones')} > {/* Cuando se hace clic, navega a la página de habitaciones */}
+      <div className="menu-item" onClick={() => navigate('/habitaciones')}>
         Habitaciones
       </div>
 
-      {/* Área derecha del encabezado */}
-      <div className="right-area"> 
-        {/* Botón de usuario con ícono */}
+      <div className="right-area">
         <div className="user-button">
-          <FaUserCircle size={20} /> {/* Ícono de perfil de usuario de react-icons con un tamaño de 20px */}
-          <span>Usuario</span> {/* Texto que indica que es el perfil de usuario */}
+          <FaUserCircle size={20} />
+          <span>Usuario</span>
         </div>
 
-        {/* Ícono del menú hamburguesa para mostrar opciones adicionales en pantallas pequeñas */}
-        <div className="hamburger">
-          <FaBars size={18} /> {/* Ícono de menú hamburguesa (generalmente utilizado en dispositivos móviles) */}
+        <div className="hamburger" onClick={toggleMenu}>
+          <FaBars size={18} />
         </div>
+
+        {mostrarMenu && (
+          <div className="hamburger-menu">
+            <button onClick={() => { navigate('/login'); cerrarMenu(); }}>Iniciar Sesión</button>
+            <button onClick={() => { navigate('/registro'); cerrarMenu(); }}>Registrarse</button>
+          </div>
+        )}
       </div>
     </header>
   );
 };
 
-export default Header;  // Exporta el componente para que pueda ser utilizado en otros archivos
+export default Header;
