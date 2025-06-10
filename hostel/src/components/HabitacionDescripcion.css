@@ -1,0 +1,31 @@
+/* src/components/HabitacionDescripcion.css */
+.habitacion-descripcion {
+  margin-top: 2rem;
+}
+
+.habitacion-descripcion h4 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.habitacion-descripcion p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.habitacion-amenities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  color: #333;
+}
+
+.habitacion-amenities div {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+}

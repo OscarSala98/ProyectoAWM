@@ -16,8 +16,8 @@ const Habitaciones = () => {
       <div className="habitaciones-container">
         <h2 className="habitaciones-title">Todas las Habitaciones</h2>
         <div className="habitaciones-grid">
-          {habitaciones.map((h, index) => (
-            <HabitacionCard key={index} {...h} />
+          {habitaciones.map((h) => (
+            <HabitacionCard key={h.id} {...h} imagen={h.portada} />
           ))}
         </div>
       </div>

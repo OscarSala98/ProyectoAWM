@@ -1,0 +1,24 @@
+/* src/components/ReservasTabs.css */
+
+.reservas-tabs {
+  display: flex;
+  gap: 1.5rem;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.reservas-tabs button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  padding-bottom: 4px;
+  cursor: pointer;
+  position: relative;
+}
+
+.reservas-tabs button.activo {
+  color: #e76e50;
+  border-bottom: 2px solid #e76e50;
+}
