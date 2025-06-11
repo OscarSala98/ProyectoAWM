@@ -27,9 +27,11 @@ const ReservaCard = ({ reserva }) => {
           <p className="reserva-precio">{reserva.precio}</p>
         </div>
 
-        <button className="btn-cancelar" onClick={manejarCancelacion}>
-          Cancelar Reservación
-        </button>
+        {reserva.tipo !== 'rechazada' && reserva.tipo !== 'pasada' && (
+          <button className="btn-cancelar" onClick={manejarCancelacion}>
+            Cancelar Reservación
+          </button>
+        )}
       </div>
 
       <ModalConfirmacion visible={mostrarModal} onClose={cerrarModal} />

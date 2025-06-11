@@ -38,12 +38,13 @@ const ReservaCardAdmin = ({ reserva }) => {
         </div>
 
         {/* Mostrar botones solo si la reserva NO está rechazada */}
-        {reserva.tipo !== 'rechazada' && (
+        {reserva.tipo !== 'rechazada' && reserva.tipo !== 'pasada' && (
           <div className="reserva-admin-acciones">
             <button className="btn-aprobar" onClick={manejarAprobar}>Aprobar</button>
             <button className="btn-rechazar" onClick={manejarRechazar}>Rechazar</button>
           </div>
-        )}
+)}
+
       </div>
 
       <ModalConfirmacion
