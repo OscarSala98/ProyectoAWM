@@ -1,7 +1,22 @@
 import React from 'react';
+import { useState } from 'react';
+import ModalConfirmacion from './ModalConfirmacion';
 import './FormularioRegistro.css';
 
 const FormularioRegistro = ({ onClose }) => {
+
+  const [modalVisible, setModalVisible] = useState(false);
+    const [mensajeModal, setMensajeModal] = useState('');
+  
+    const manejarRegistrar = () => {
+    setMensajeModal('Registro exitoso ✅');
+    setModalVisible(true);
+  };
+
+  const cerrarModal = () => {
+    setModalVisible(false);
+    setMensajeModal('');
+  };
   return (
     <div className="modal">
       <div className="modal-content formulario-registro">
@@ -22,9 +37,15 @@ const FormularioRegistro = ({ onClose }) => {
           <input type="text" placeholder="Ingrese su nombre" />
           <input type="password" placeholder="Ingrese su contraseña" />
 
-          <button type="submit" className="btn-continuar">Continuar</button>
+          <button className="btn-continuar" onClick={manejarRegistrar} >Continuar</button>
+          
         </form>
       </div>
+      <ModalConfirmacion
+        visible={modalVisible}
+        mensaje={mensajeModal}
+        onClose={cerrarModal}
+      />
     </div>
   );
 };
