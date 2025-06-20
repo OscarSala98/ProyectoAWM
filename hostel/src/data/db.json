@@ -1,9 +1,9 @@
 {
   "personas": [
     {
-      "id": 1,
+      "id": "1",
       "primerNombre": "Luis",
-      "segundoNombre": "Fernando",
+      "segundoNombre": "Joaquin",
       "primerApellido": "Guerrero",
       "numero": "0999999999",
       "correo": "correo@ejemplo.com",
@@ -17,9 +17,9 @@
       "segundoNombre": "Alberto",
       "primerApellido": "Guerrero",
       "numero": "0996775863",
-      "correo": "loco@jjj",
+      "correo": "loco@jjj.com",
       "contrasena": "1221321321312",
-      "tipo": "usuario",
+      "tipo": "admin",
       "foto": ""
     }
   ]

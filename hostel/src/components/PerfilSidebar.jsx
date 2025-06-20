@@ -2,10 +2,19 @@ import React from 'react';
 import './PerfilSidebar.css';
 import { FaUserCircle } from 'react-icons/fa';
 
-const PerfilSidebar = ({ nombre }) => {
+const PerfilSidebar = ({ usuario }) => {
+  if (!usuario) return null;
+
+  const nombreCompleto = `${usuario.primerNombre} ${usuario.primerApellido}`;
+
   return (
     <aside className="perfil-sidebar">
-      <FaUserCircle className="perfil-icono" size={80} />
+      {usuario.foto ? (
+        <img src={usuario.foto} alt="Foto de perfil" className="perfil-foto" />
+      ) : (
+        <FaUserCircle className="perfil-icono" size={80} />
+      )}
+
       <p className="perfil-subtexto">Upload a Photo</p>
 
       <div className="perfil-verificacion">
@@ -16,7 +25,7 @@ const PerfilSidebar = ({ nombre }) => {
         </p>
       </div>
 
-      <h3 className="perfil-nombre">{nombre}</h3>
+      <h3 className="perfil-nombre">{nombreCompleto}</h3>
     </aside>
   );
 };
