@@ -1,0 +1,26 @@
+{
+  "personas": [
+    {
+      "id": 1,
+      "primerNombre": "Luis",
+      "segundoNombre": "Fernando",
+      "primerApellido": "Guerrero",
+      "numero": "0999999999",
+      "correo": "correo@ejemplo.com",
+      "contrasena": "123456",
+      "tipo": "usuario",
+      "foto": ""
+    },
+    {
+      "id": "e68b",
+      "primerNombre": "Lucho",
+      "segundoNombre": "Alberto",
+      "primerApellido": "Guerrero",
+      "numero": "0996775863",
+      "correo": "loco@jjj",
+      "contrasena": "1221321321312",
+      "tipo": "usuario",
+      "foto": ""
+    }
+  ]
+}

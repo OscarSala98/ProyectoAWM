@@ -11,6 +11,12 @@
   z-index: 999;
 }
 
+label {
+  font-size: 1rem;
+  color: #050505;
+  margin-bottom: 0.5rem;
+}
+
 .modal-content {
   background-color: #fffdf5;
   padding: 2rem;
