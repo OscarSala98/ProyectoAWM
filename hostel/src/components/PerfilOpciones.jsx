@@ -5,6 +5,14 @@ import './PerfilOpciones.css';
 const PerfilOpciones = () => {
   const navigate = useNavigate();
 
+  const manejarCerrarSesion = () => {
+    // Elimina usuario del localStorage
+    localStorage.removeItem('usuario');
+
+    // Redirige al inicio
+    navigate('/');
+  };
+
   return (
     <div className="perfil-opciones">
       <ul>
@@ -14,7 +22,7 @@ const PerfilOpciones = () => {
       </ul>
       <ul>
         <li onClick={() => navigate('/perfil')}>Cuenta</li>
-        <li onClick={() => navigate('/')}>Cerrar Sesión</li>
+        <li onClick={manejarCerrarSesion}>Cerrar Sesión</li>
       </ul>
     </div>
   );
