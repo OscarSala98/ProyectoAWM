@@ -7,16 +7,20 @@ const FormularioRegistro = ({ onClose }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mensajeModal, setMensajeModal] = useState('');
 
+
   const [persona, setPersona] = useState({
     primerNombre: '',
     segundoNombre: '',
     primerApellido: '',
     numero: '',
+    prefijo: '+593', // 👈 importante para que funcione
     correo: '',
     contrasena: '',
     tipo: 'usuario',
     foto: ''
   });
+
+
 
   const handleChange = (e) => {
     setPersona({ ...persona, [e.target.name]: e.target.value });
@@ -24,7 +28,14 @@ const FormularioRegistro = ({ onClose }) => {
 
   const manejarRegistrar = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3002/personas', persona)
+
+    // Combinar prefijo y número antes de enviar
+    const datosAEnviar = {
+      ...persona,
+      numero: persona.prefijo + persona.numero // Sobrescribe el campo 'numero' con el prefijo incluido
+    };
+
+    axios.post('http://localhost:3002/personas', datosAEnviar)
       .then(() => {
         setMensajeModal('Registro exitoso ✅');
         setModalVisible(true);
@@ -36,6 +47,7 @@ const FormularioRegistro = ({ onClose }) => {
       });
   };
 
+
   const cerrarModal = () => {
     setModalVisible(false);
     setMensajeModal('');
@@ -44,6 +56,7 @@ const FormularioRegistro = ({ onClose }) => {
       segundoNombre: '',
       primerApellido: '',
       numero: '',
+      prefijo: '+593', // 👈 necesario para no romper el select
       correo: '',
       contrasena: '',
       tipo: 'usuario',
@@ -53,7 +66,7 @@ const FormularioRegistro = ({ onClose }) => {
   };
 
   return (
-    <div className="modal">
+    <div className="modal-overlay">
       <div className="modal-content formulario-registro">
         <button className="cerrar" onClick={onClose}>✕</button>
         <h3>Regístrate</h3>
@@ -68,6 +81,8 @@ const FormularioRegistro = ({ onClose }) => {
                 placeholder="Primer Nombre"
                 value={persona.primerNombre}
                 onChange={handleChange}
+                pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$"
+                title="Solo letras"
                 required
               />
             </div>
@@ -80,6 +95,8 @@ const FormularioRegistro = ({ onClose }) => {
                 placeholder="Segundo Nombre"
                 value={persona.segundoNombre}
                 onChange={handleChange}
+                pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$"
+                title="Solo letras"
               />
             </div>
           </div>
@@ -93,20 +110,41 @@ const FormularioRegistro = ({ onClose }) => {
                 placeholder="Primer Apellido"
                 value={persona.primerApellido}
                 onChange={handleChange}
+                pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$"
+                title="Solo letras"
                 required
               />
             </div>
 
             <div>
-              <label>Número de teléfono</label>
-              <input
-                type="text"
-                name="numero"
-                placeholder="Número de teléfono"
-                value={persona.numero}
-                onChange={handleChange}
-                required
-              />
+              <label>Teléfono</label>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <select
+                  name="prefijo"
+                  value={persona.prefijo}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="+593">+593</option>
+                  <option value="+7">+7</option>
+                  <option value="+21">+21</option>
+                </select>
+                <input
+                  type="text"
+                  name="numero"
+                  placeholder="1234567890"
+                  value={persona.numero}
+                  onChange={(e) => {
+                    const soloNumeros = e.target.value.replace(/\D/g, '');
+                    if (soloNumeros.length <= 10) {
+                      setPersona({ ...persona, numero: soloNumeros });
+                    }
+                  }}
+                  pattern="\d{7,10}"
+                  title="Debe tener entre 7 y 10 dígitos"
+                  required
+                />
+              </div>
             </div>
           </div>
 
@@ -118,6 +156,8 @@ const FormularioRegistro = ({ onClose }) => {
               placeholder="Correo Electrónico"
               value={persona.correo}
               onChange={handleChange}
+              pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+              title="Formato de correo inválido"
               required
             />
           </div>
@@ -130,9 +170,12 @@ const FormularioRegistro = ({ onClose }) => {
               placeholder="Nueva Contraseña"
               value={persona.contrasena}
               onChange={handleChange}
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.,;:_\-])[A-Za-z\d@$!%*?&.,;:_\-]{8,}$"
+              title="Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo especial"
               required
             />
           </div>
+
 
           <button className="btn-continuar" type="submit">Continuar</button>
         </form>
