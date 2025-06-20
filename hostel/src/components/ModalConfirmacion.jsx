@@ -1,7 +1,7 @@
 import React from 'react';
 import './ModalConfirmacion.css';
 
-const ModalConfirmacion = ({ visible, onClose, mensaje = "Cancelación exitosa!!", boton = "Salir" }) => {
+const ModalConfirmacion = ({ visible, onClose, mensaje = "Cancelación exitosa!!", boton = "Aceptar" }) => {
   if (!visible) return null;
 
   return (

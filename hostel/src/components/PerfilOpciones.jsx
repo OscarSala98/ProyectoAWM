@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PerfilOpciones.css';
+import ModalConfirmacionSiNo from './ModalConfirmacionSiNo'; 
 
 const PerfilOpciones = () => {
   const navigate = useNavigate();
+  const [mostrarModal, setMostrarModal] = useState(false);
 
-  const manejarCerrarSesion = () => {
-    // Elimina usuario del localStorage
+  const confirmarCerrarSesion = () => {
     localStorage.removeItem('usuario');
-
-    // Redirige al inicio
     navigate('/');
   };
 
@@ -22,8 +21,15 @@ const PerfilOpciones = () => {
       </ul>
       <ul>
         <li onClick={() => navigate('/perfil')}>Cuenta</li>
-        <li onClick={manejarCerrarSesion}>Cerrar Sesión</li>
+        <li onClick={() => setMostrarModal(true)}>Cerrar Sesión</li>
       </ul>
+
+      <ModalConfirmacionSiNo
+        visible={mostrarModal}
+        onConfirmar={confirmarCerrarSesion}
+        onCancelar={() => setMostrarModal(false)}
+        mensaje="¿Estás seguro que deseas cerrar sesión?"
+      />
     </div>
   );
 };

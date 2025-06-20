@@ -18,3 +18,42 @@
 .perfil-opciones li:hover {
   text-decoration: underline;
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modal-botones button {
+  margin: 0 10px;
+  padding: 8px 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-botones button:first-child {
+  background-color: #d9534f;
+  color: white;
+}
+
+.modal-botones button:last-child {
+  background-color: #5bc0de;
+  color: white;
+}
