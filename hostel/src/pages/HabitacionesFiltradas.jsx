@@ -15,7 +15,7 @@ const HabitacionesFiltradas = () => {
   const [tipoSeleccionado, setTipoSeleccionado] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/habitaciones')
+    axios.get('http://localhost:3002/habitaciones')
       .then((response) => {
         setHabitaciones(response.data);
       })

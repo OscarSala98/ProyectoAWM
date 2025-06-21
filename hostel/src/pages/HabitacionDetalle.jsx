@@ -13,7 +13,7 @@ import axios from 'axios';
 const HabitacionDetalle = () => {
   const [habitaciones, setHabitaciones] = React.useState([]);
   useEffect(() => {
-    axios.get('http://localhost:3001/habitaciones')
+    axios.get('http://localhost:3002/habitaciones')
       .then((response) => {
         setHabitaciones(response.data);
       })
