@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import habitaciones from '../data/dataHabitaciones';
+
 import HabitacionCardGeneral from '../components/HabitacionCardGeneral';
 import HabitacionInfo from '../components/HabitacionInfo';
 import HabitacionDescripcion from '../components/HabitacionDescripcion';
 import './HabitacionDetalle.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const HabitacionDetalle = () => {
+  const [habitaciones, setHabitaciones] = React.useState([]);
+  useEffect(() => {
+    axios.get('http://localhost:3001/habitaciones')
+      .then((response) => {
+        setHabitaciones(response.data);
+      })
+      .catch((error) => {
+        console.error('Error al obtener habitaciones:', error);
+      });
+  }, []);
+
+
   const navigate = useNavigate();
   const { id } = useParams();
   const habitacion = habitaciones.find(h => h.id === id);
@@ -19,11 +32,11 @@ const HabitacionDetalle = () => {
   }
 
   const imagenes = [
-    require(`../assets/Habitaciones/${id}/${id}.webp`),
-    require(`../assets/Habitaciones/${id}/${id}_secundario.webp`),
-    require(`../assets/Habitaciones/${id}/${id}_bano.webp`),
-    require(`../assets/Habitaciones/${id}/${id}_sala.webp`),
-    require(`../assets/Habitaciones/${id}/${id}_secundario2.webp`)
+    `/Habitaciones/${id}/${id}.webp`,
+    `/Habitaciones/${id}/${id}_secundario.webp`,
+    `/Habitaciones/${id}/${id}_bano.webp`,
+    `/Habitaciones/${id}/${id}_sala.webp`,
+    `/Habitaciones/${id}/${id}_secundario2.webp`
   ];
 
   return (

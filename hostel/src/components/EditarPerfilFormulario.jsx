@@ -19,8 +19,9 @@ const EditarPerfilFormulario = () => {
     correo: '',
     contrasena: ''
   });
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
+    const usuarioLocal = JSON.parse(localStorage.getItem('usuario'));
     if (usuarioLocal) {
       // Separar prefijo si el número lo contiene
       const numeroCompleto = usuarioLocal.numero || '';
@@ -47,7 +48,7 @@ const EditarPerfilFormulario = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const numeroCompleto = prefijo + persona.numero;
+    
 
     const datosActualizados = {
       ...usuarioLocal,

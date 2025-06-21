@@ -3,15 +3,27 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FiltroHabitaciones from '../components/FiltroHabitaciones';
-import habitaciones from '../data/dataHabitaciones';
 import ResultadosHabitaciones from '../components/ResultadosHabitaciones';
 import MapaHabitaciones from '../components/MapaHabitaciones';
 import './HabitacionesFiltradas.css';
+import axios from 'axios';
 
 const HabitacionesFiltradas = () => {
+  const [habitaciones, setHabitaciones] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
   const [tipoSeleccionado, setTipoSeleccionado] = useState(null);
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/habitaciones')
+      .then((response) => {
+        setHabitaciones(response.data);
+      })
+      .catch((error) => {
+        console.error('Error al obtener habitaciones:', error);
+      });
+  }, []);
+  
 
   useEffect(() => {
     if (location.state && location.state.tipo) {
