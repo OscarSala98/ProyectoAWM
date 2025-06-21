@@ -7,13 +7,13 @@
 
 .info-habitacion-grupo {
   display: flex;
-  gap: 1.5rem;
   flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
 }
 
 .campo {
-  flex: 1;
-  min-width: 220px;
+  flex: 1 1 23%; /* Hasta 4 por fila */
   display: flex;
   flex-direction: column;
 }
@@ -24,9 +24,54 @@
   font-size: 0.95rem;
 }
 
-.campo input {
+.campo input,
+.campo select {
   padding: 0.5rem 0.8rem;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.campo-con-simbolo {
+  display: flex;
+  align-items: center;
+}
+
+.simbolo-dolar {
+  font-weight: bold;
+  margin-right: 0.4rem;
+  font-size: 1rem;
+}
+
+.precio-total {
+  flex: 1 1 100%;
+}
+
+.precio-total label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
+
+.precio-total-valor {
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0.3rem 0.5rem;
+}
+
+
+/* Para pantallas medianas */
+@media (max-width: 1024px) {
+  .campo {
+    flex: 1 1 48%;
+  }
+}
+
+/* Para móviles */
+@media (max-width: 600px) {
+  .campo {
+    flex: 1 1 100%;
+  }
 }

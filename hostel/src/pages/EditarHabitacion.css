@@ -35,3 +35,18 @@
 .btn-guardar:hover {
   background-color: #c95c3d;
 }
+.editar-habitacion-container {
+  padding: 1.5rem;
+}
+
+.editar-habitacion-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.habitaciones-lista-editar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

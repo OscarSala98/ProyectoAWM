@@ -1,0 +1,61 @@
+.habitacion-editar-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.2rem;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background-color: white;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.habitacion-editar-img {
+  width: 100px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.habitacion-editar-detalles {
+  flex: 1;
+  min-width: 180px;
+}
+
+.habitacion-editar-detalles h4 {
+  margin: 0 0 0.2rem;
+}
+
+.habitacion-editar-acciones {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.btn-editar,
+.btn-eliminar {
+  padding: 0.4rem 1.2rem;
+  border: none;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-editar {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-eliminar {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-editar:hover {
+  background-color: #0056b3;
+}
+
+.btn-eliminar:hover {
+  background-color: #d32f2f;
+}

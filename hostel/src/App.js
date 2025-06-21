@@ -39,6 +39,8 @@ function App() {
         <Route path="/admin/notificaciones" element={<NotificacionesPageAdmin />} />
         <Route path="/admin/reservaciones" element={<ReservacionesAdmin />} />
         <Route path="/admin/editar-habitacion" element={<EditarHabitacion />} />
+        <Route path="/admin/editar-habitacion/:id" element={<EditarHabitacion />} />
+
 
         {/* Agrega más rutas según sea necesario */}
 
