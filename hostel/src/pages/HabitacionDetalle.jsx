@@ -32,11 +32,11 @@ const HabitacionDetalle = () => {
   }
 
   const imagenes = [
-    `/Habitaciones/${id}/${id}.webp`,
-    `/Habitaciones/${id}/${id}_secundario.webp`,
-    `/Habitaciones/${id}/${id}_bano.webp`,
-    `/Habitaciones/${id}/${id}_sala.webp`,
-    `/Habitaciones/${id}/${id}_secundario2.webp`
+    `/Habitaciones/${habitacion.id_habitacion}/${habitacion.id_habitacion}.webp`,
+    `/Habitaciones/${habitacion.id_habitacion}/${habitacion.id_habitacion}_secundario.webp`,
+    `/Habitaciones/${habitacion.id_habitacion}/${habitacion.id_habitacion}_bano.webp`,
+    `/Habitaciones/${habitacion.id_habitacion}/${habitacion.id_habitacion}_sala.webp`,
+    `/Habitaciones/${habitacion.id_habitacion}/${habitacion.id_habitacion}_secundario2.webp`
   ];
 
   return (
