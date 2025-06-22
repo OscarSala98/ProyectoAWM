@@ -110,5 +110,79 @@
       ],
       "portada": "/Habitaciones/HD303/HD303.webp"
     }
+  ],
+  "conversaciones": [
+    {
+      "id": "conv1",
+      "participantes": [
+        "d505",
+        "e68b"
+      ],
+      "mensajes": [
+        {
+          "id": 1,
+          "emisor": "d505",
+          "fecha": "2025-06-22T15:00:00",
+          "texto": "Hola Luis, ¿cómo estás?"
+        },
+        {
+          "id": 2,
+          "emisor": "e68b",
+          "fecha": "2025-06-22T15:01:00",
+          "texto": "Hola Kevin, todo bien. ¿Y tú?"
+        },
+        {
+          "id": 1750629361622,
+          "emisor": "e68b",
+          "fecha": "2025-06-22T21:56:01.622Z",
+          "texto": "aaaaa"
+        },
+        {
+          "id": 1750629375034,
+          "emisor": "e68b",
+          "fecha": "2025-06-22T21:56:15.034Z",
+          "texto": "hola"
+        }
+      ]
+    },
+    {
+      "id": "conv-admin-d505",
+      "participantes": [
+        "e68b",
+        "1"
+      ],
+      "mensajes": [
+        {
+          "id": 1,
+          "emisor": "e68b",
+          "fecha": "2025-06-22T10:00:00",
+          "texto": "Hola Kevin, ¿cómo  vas"
+        },
+        {
+          "id": 2,
+          "emisor": "d505",
+          "fecha": "2025-06-22T10:01:30",
+          "texto": "Hola admin, ya están todas listas y limpias."
+        },
+        {
+          "id": 3,
+          "emisor": "e68b",
+          "fecha": "2025-06-22T10:02:45",
+          "texto": "Perfecto. Gracias por el reporte, Kevin."
+        },
+        {
+          "id": 4,
+          "emisor": "d505",
+          "fecha": "2025-06-22T10:04:00",
+          "texto": "A la orden jefe 👍"
+        },
+        {
+          "id": 1750629312472,
+          "emisor": "e68b",
+          "fecha": "2025-06-22T21:55:12.472Z",
+          "texto": "aaaa"
+        }
+      ]
+    }
   ]
 }

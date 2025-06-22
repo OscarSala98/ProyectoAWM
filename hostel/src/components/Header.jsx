@@ -5,7 +5,7 @@ import { FaUserCircle, FaBars } from 'react-icons/fa';
 import logo from '../assets/logo.webp';
 import FormularioLogin from './FormularioLogin';
 import FormularioRegistro from './FormularioRegistro';
-import ModalConfirmacion from './ModalConfirmacion'; // Asegúrate de tener este modal
+import ModalConfirmacion from './ModalConfirmacion'; 
 
 const Header = () => {
   const navigate = useNavigate();
