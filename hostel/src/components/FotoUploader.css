@@ -1,30 +1,59 @@
-.foto-uploader {
+.foto-uploader-contenedor {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-right: 2rem;
+  gap: 1rem;
+  max-width: 250px;
+  margin-right: 1.5rem;
+  align-items: flex-start; /* Asegura alineación a la izquierda */
 }
 
-.foto-uploader-imagen {
-  width: 180px;
-  height: 130px;
+.foto-uploader-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.foto-uploader-item label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+}
+
+.foto-uploader-preview {
+  width: 230px;
+  height: 170px;
   object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 0.5rem;
   border: 1px solid #ccc;
-}
-
-.foto-uploader-label {
-  background-color: transparent;
-  color: #444;
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 0.95rem;
-  padding: 0.3rem 0.5rem;
   border-radius: 8px;
-  transition: color 0.2s ease;
+  margin: 0.3rem 0;
 }
 
-.foto-uploader-label:hover {
-  color: #e76e50;
+.foto-uploader-item input[type="file"] {
+  font-size: 0.85rem;
+}
+
+.foto-uploader-contenedor button {
+  margin-top: 1rem;
+  padding: 0.4rem 1rem;
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+}
+#foto-upload-input + label {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  background-color: #2196F3;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
+}
+
+#foto-upload-input + label:hover {
+  background-color: #1769aa;
 }
