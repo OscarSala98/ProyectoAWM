@@ -60,6 +60,18 @@
   font-size: 1.1rem;
   padding: 0.3rem 0.5rem;
 }
+.precio-input {
+  display: flex;
+  align-items: center;
+}
+
+.simbolo-precio {
+  margin-right: 4px;
+}
+
+.precio-input input {
+  flex: 1;
+}
 
 
 /* Para pantallas medianas */

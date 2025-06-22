@@ -4,7 +4,7 @@ import axios from 'axios';
 import FotoUploader from './FotoUploader';
 import InfoHabitacion from './InfoHabitacion';
 import ServiciosCheckbox from './ServiciosCheckbox';
-import ModalConfirmacion from './ModalConfirmacion'; // ✅ Importar
+import ModalConfirmacion from './ModalConfirmacion'; 
 import './HabitacionFormulario.css';
 
 const HabitacionFormulario = ({ esNuevo = false }) => {
@@ -27,8 +27,8 @@ const HabitacionFormulario = ({ esNuevo = false }) => {
 
   const [loading, setLoading] = useState(!esNuevo);
 
-  const [modalVisible, setModalVisible] = useState(false); // ✅
-  const [modalMensaje, setModalMensaje] = useState(''); // ✅
+  const [modalVisible, setModalVisible] = useState(false); 
+  const [modalMensaje, setModalMensaje] = useState(''); 
 
   useEffect(() => {
     if (!esNuevo && id) {
@@ -46,7 +46,7 @@ const HabitacionFormulario = ({ esNuevo = false }) => {
     setDatos(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleGuardar = async () => {
+  const handleGuardar = () => {
     const idFinal = datos.id_habitacion;
 
     if (!idFinal) {
@@ -55,23 +55,25 @@ const HabitacionFormulario = ({ esNuevo = false }) => {
     }
 
     if (esNuevo) {
-      try {
-        await axios.post('http://localhost:3002/habitaciones', datos);
-        setModalMensaje('Habitación creada exitosamente ✅'); // ✅
-        setModalVisible(true); // ✅
-      } catch (err) {
-        console.error('Error al crear habitación:', err);
-        alert('❌ Error al crear la habitación');
-      }
+      axios.post('http://localhost:3002/habitaciones', datos)
+        .then(() => {
+          setModalMensaje('Habitación creada exitosamente ✅'); // ✅
+          setModalVisible(true); // ✅
+        })
+        .catch((err) => {
+          console.error('Error al crear habitación:', err);
+          alert('❌ Error al crear la habitación');
+        });
     } else {
-      try {
-        await axios.put(`http://localhost:3002/habitaciones/${id}`, datos);
-        setModalMensaje('Cambios guardados correctamente ✅'); // ✅
-        setModalVisible(true); // ✅
-      } catch (err) {
-        console.error('Error al guardar los cambios:', err);
-        alert('❌ Hubo un error al guardar los cambios');
-      }
+      axios.put(`http://localhost:3002/habitaciones/${id}`, datos)
+        .then(() => {
+          setModalMensaje('Cambios guardados correctamente ✅'); // ✅
+          setModalVisible(true); // ✅
+        })
+        .catch((err) => {
+          console.error('Error al guardar los cambios:', err);
+          alert('❌ Hubo un error al guardar los cambios');
+        });
     }
   };
 

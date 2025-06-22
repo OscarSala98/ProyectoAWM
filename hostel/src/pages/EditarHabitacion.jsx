@@ -6,22 +6,26 @@ import './EditarHabitacion.css';
 import axios from 'axios';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import HabitacionFormulario from '../components/HabitacionFormulario';
+import ModalConfirmacion from '../components/ModalConfirmacion'; // ✅ importar
 
 const EditarHabitacion = () => {
   const { id } = useParams();
   const [habitaciones, setHabitaciones] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false); // ✅
+  const [modalMensaje, setModalMensaje] = useState('');     // ✅
+
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-  obtenerHabitaciones();
-}, []);
-
-useEffect(() => {
-  if (location.state?.actualizar) {
     obtenerHabitaciones();
-  }
-}, [location.state]);
+  }, []);
+
+  useEffect(() => {
+    if (location.state?.actualizar) {
+      obtenerHabitaciones();
+    }
+  }, [location.state]);
 
   const manejarAtras = () => {
     window.history.back();
@@ -42,6 +46,8 @@ useEffect(() => {
       axios.delete(`http://localhost:3002/habitaciones/${id}`)
         .then(() => {
           setHabitaciones(habitaciones.filter(h => h.id !== id));
+          setModalMensaje('✅ Habitación eliminada correctamente');
+          setModalVisible(true); // ✅ mostrar modal
         })
         .catch((err) => console.error('Error al eliminar:', err));
     }
@@ -51,9 +57,9 @@ useEffect(() => {
     navigate(`/admin/editar-habitacion/${id}`);
   };
 
-  useEffect(() => {
-    obtenerHabitaciones();
-  }, []);
+  const handleCerrarModal = () => {
+    setModalVisible(false);
+  };
 
   return (
     <>
@@ -62,9 +68,8 @@ useEffect(() => {
         <div className="editar-habitacion-header">
           <button className="btn-atras" onClick={manejarAtras}>Atrás</button>
           {id !== 'nueva' && (
-          <button className="btn-crear" onClick={manejarCrear}>+ Crear nueva habitación</button>
-      )}
-
+            <button className="btn-crear" onClick={manejarCrear}>+ Crear nueva habitación</button>
+          )}
         </div>
 
         {id && id !== 'nueva' ? (
@@ -84,6 +89,13 @@ useEffect(() => {
           </div>
         )}
       </div>
+
+      <ModalConfirmacion
+        visible={modalVisible}
+        mensaje={modalMensaje}
+        onClose={handleCerrarModal}
+      />
+
       <Footer />
     </>
   );
