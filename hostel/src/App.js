@@ -11,12 +11,14 @@ import NotificacionesPage from './pages/NotificacionesPage';
 import MisReservas from './pages/MisReservas';
 import PerfilAdmin from './pages/PerfilAdmin';
 import EditarPerfilAdmin from './pages/EditarPerfilAdmin';
-import ChatAdmin from './pages/ChatAdmin';
 import NotificacionesPageAdmin from './pages/NotificacionesPageAdmin';
 import ReservacionesAdmin from './pages/ReservacionesAdmin';
 import EditarHabitacion from './pages/EditarHabitacion';
+import PerfilOpcionesAdmin from './components/PerfilOpcionesAdmin';
 
 import 'react-datepicker/dist/react-datepicker.css';
+import Mensajes from './components/Mensajes';
+import ChatAdmin from './pages/ChatAdmin';
 
 
 function App() {
@@ -30,12 +32,12 @@ function App() {
         <Route path="/reservas" element={<Reservas />} />
         <Route path="/perfil" element={<PerfilUsuario/>} />
         <Route path="/editar-perfil" element={<EditarPerfil />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat/:id" element={<Chat />} />
         <Route path="/notificaciones" element={<NotificacionesPage />} />
         <Route path="/mis-reservas" element={<MisReservas />} />
         <Route path="/admin/perfil" element={<PerfilAdmin />} />
         <Route path="/admin/editar-perfil" element={<EditarPerfilAdmin />} />
-        <Route path="/admin/chat" element={<ChatAdmin />} />
+        <Route path="/admin/chat/:id" element={<ChatAdmin/>} />
         <Route path="/admin/notificaciones" element={<NotificacionesPageAdmin />} />
         <Route path="/admin/reservaciones" element={<ReservacionesAdmin />} />
         <Route path="/admin/editar-habitacion" element={<EditarHabitacion />} />

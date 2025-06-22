@@ -7,6 +7,8 @@ const PerfilOpciones = () => {
   const navigate = useNavigate();
   const [mostrarModal, setMostrarModal] = useState(false);
 
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
+
   const confirmarCerrarSesion = () => {
     localStorage.removeItem('usuario');
     navigate('/');
@@ -15,7 +17,7 @@ const PerfilOpciones = () => {
   return (
     <div className="perfil-opciones">
       <ul>
-        <li onClick={() => navigate('/chat')}><strong>Mensajes</strong></li>
+        <li onClick={() => navigate(`/chat/${usuario.id}`)}><strong>Mensajes</strong></li>
         <li onClick={() => navigate('/notificaciones')}><strong>Notificaciones</strong></li>
         <li onClick={() => navigate('/mis-reservas')}><strong>Reservaciones</strong></li>
       </ul>
