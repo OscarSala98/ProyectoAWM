@@ -39,30 +39,6 @@
   ],
   "habitaciones": [
     {
-      "id": "3",
-      "id_habitacion": "HD303",
-      "titulo": "Habitación Doble 303",
-      "tipo": "Doble",
-      "precio": "$1100 - $200",
-      "descripcion": "2 Plazas y 1½ Plazas",
-      "descripcionLarga": "Perfecta para parejas o familias pequeñas, esta habitación doble cuenta con dos camas, buena ventilación y espacio acogedor.",
-      "camas": 2,
-      "banos": 1,
-      "parqueo": 1,
-      "mascotas": 1,
-      "precioDesglose": {
-        "corto": "1100",
-        "medio": "600",
-        "largo": "200"
-      },
-      "amenities": [
-        "Smart TV",
-        "Wifi",
-        "Alimentación"
-      ],
-      "portada": "/Habitaciones/HD303/HD303.webp"
-    },
-    {
       "id": "2",
       "id_habitacion": "HDE302",
       "titulo": "Habitación Delux 302",
@@ -111,29 +87,28 @@
       "portada": "/Habitaciones/HS303/HS303.webp"
     },
     {
-      "id": "bdb5",
-      "id_habitacion": "HS102",
-      "tipo": "",
-      "descripcion": "1 plaza",
-      "precio": "$1150 - $3000",
-      "precioDesglose": {
-        "corto": "1150",
-        "largo": "3000",
-        "media": "",
-        "medio": "600"
-      },
-      "camas": 1,
+      "id": "3",
+      "id_habitacion": "HD303",
+      "titulo": "Habitación Doble 303",
+      "tipo": "Doble",
+      "precio": "$1100 - $200",
+      "descripcion": "2 Plazas y 1½ Plazas",
+      "descripcionLarga": "Perfecta para parejas o familias pequeñas, esta habitación doble cuenta con dos camas, buena ventilación y espacio acogedor.",
+      "camas": 2,
       "banos": 1,
       "parqueo": 1,
-      "mascotas": 0,
-      "servicios": [],
-      "portada": "",
-      "titulo": "Habitación Simple 102",
-      "descripcionLarga": "asfsafdasfasfdasdf",
+      "mascotas": 1,
+      "precioDesglose": {
+        "corto": "1100",
+        "medio": "600",
+        "largo": "200"
+      },
       "amenities": [
+        "Smart TV",
         "Wifi",
-        "Vista al Patio"
-      ]
+        "Alimentación"
+      ],
+      "portada": "/Habitaciones/HD303/HD303.webp"
     }
   ]
 }

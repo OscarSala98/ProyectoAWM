@@ -7,8 +7,8 @@ const HabitacionEditarCard = ({ habitacion, onEditar, onEliminar }) => {
   const [mensajeModal, setMensajeModal] = useState('');
 
   const manejarEliminar = () => {
-    setMensajeModal('Habitación eliminada 🗑️');
-    setModalVisible(true);
+    
+    
     onEliminar && onEliminar(habitacion.id); // callback al padre si se proporciona
   };
 

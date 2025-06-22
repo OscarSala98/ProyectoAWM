@@ -115,39 +115,52 @@ const InfoHabitacion = ({ datos, onChange }) => {
           </div>
         ))}
       </div>
+<div className="info-habitacion-grupo">
+  <div className="campo">
+    <label>Precio Corto</label>
+    <div className="precio-input">
+      <span className="simbolo-precio">$</span>
+      <input
+        type="number"
+        name="corto"
+        value={datos.precioDesglose?.corto || ''}
+        onChange={handlePrecioChange}
+        placeholder="Ej: 1250"
+        min="0"
+      />
+    </div>
+  </div>
 
-      <div className="info-habitacion-grupo">
-        <div className="campo">
-          <label>Precio Corto ($)</label>
-          <input
-            type="text"
-            name="corto"
-            value={`$${datos.precioDesglose?.corto || ''}`}
-            onChange={handlePrecioChange}
-            placeholder="Ej: 1250"
-          />
-        </div>
-        <div className="campo">
-          <label>Precio Medio ($)</label>
-          <input
-            type="text"
-            name="medio"
-            value={`$${datos.precioDesglose?.medio || ''}`}
-            onChange={handlePrecioChange}
-            placeholder="Ej: 1500"
-          />
-        </div>
-        <div className="campo">
-          <label>Precio Largo ($)</label>
-          <input
-            type="text"
-            name="largo"
-            value={`$${datos.precioDesglose?.largo || ''}`}
-            onChange={handlePrecioChange}
-            placeholder="Ej: 2000"
-          />
-        </div>
-      </div>
+  <div className="campo">
+    <label>Precio Medio</label>
+    <div className="precio-input">
+      <span className="simbolo-precio">$</span>
+      <input
+        type="number"
+        name="medio"
+        value={datos.precioDesglose?.medio || ''}
+        onChange={handlePrecioChange}
+        placeholder="Ej: 1500"
+        min="0"
+      />
+    </div>
+  </div>
+
+  <div className="campo">
+    <label>Precio Largo</label>
+    <div className="precio-input">
+      <span className="simbolo-precio">$</span>
+      <input
+        type="number"
+        name="largo"
+        value={datos.precioDesglose?.largo || ''}
+        onChange={handlePrecioChange}
+        placeholder="Ej: 2000"
+        min="0"
+      />
+    </div>
+  </div>
+</div>
 
       {/* ✅ Mostrar el label del precio combinado */}
       <div className="info-habitacion-grupo">
