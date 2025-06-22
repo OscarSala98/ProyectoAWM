@@ -109,6 +109,30 @@
         "Alimentación"
       ],
       "portada": "/Habitaciones/HD303/HD303.webp"
+    },
+    {
+      "id": "e56f",
+      "id_habitacion": "2",
+      "tipo": "Doble",
+      "descripcion": "2",
+      "precio": "$2 - $2",
+      "precioDesglose": {
+        "corto": "2",
+        "largo": "2",
+        "medio": "2"
+      },
+      "camas": 1,
+      "banos": 1,
+      "parqueo": 1,
+      "mascotas": 0,
+      "servicios": [],
+      "portada": "",
+      "titulo": "2",
+      "descripcionLarga": "2",
+      "amenities": [
+        "Wifi",
+        "Vista al Patio"
+      ]
     }
   ]
 }

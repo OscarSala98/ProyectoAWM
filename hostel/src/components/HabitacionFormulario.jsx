@@ -16,7 +16,7 @@ const HabitacionFormulario = ({ esNuevo = false }) => {
     tipo: '',
     descripcion: '',
     precio: '',
-    precioDesglose: { corto: '', largo: '', media: '' },
+    precioDesglose: { corto: '', largo: '', medio: '' },
     camas: 1,
     banos: 1,
     parqueo: 1,
@@ -48,9 +48,13 @@ const HabitacionFormulario = ({ esNuevo = false }) => {
 
   const handleGuardar = () => {
     const idFinal = datos.id_habitacion;
+    const tipoFinal = datos.tipo;
+    const descripcionFinal = datos.descripcion;
+    const precioDesgloseFinal = datos.precioDesglose;
+    
 
-    if (!idFinal) {
-      alert('❌ El campo "ID Habitación" es obligatorio');
+    if (!idFinal || !tipoFinal || !descripcionFinal || !precioDesgloseFinal.corto || !precioDesgloseFinal.largo || !precioDesgloseFinal.medio) {
+      alert('❌ Llene todos los campos obligatorios');
       return;
     }
 
