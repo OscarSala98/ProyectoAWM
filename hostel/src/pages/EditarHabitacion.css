@@ -49,4 +49,27 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}.editar-habitacion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.btn-atras,
+.btn-crear {
+  padding: 0.6rem 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-atras {
+  background-color: #ccc;
+}
+
+.btn-crear {
+  background-color: #4CAF50;
+  color: white;
 }

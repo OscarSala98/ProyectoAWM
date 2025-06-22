@@ -4,23 +4,32 @@ import Footer from '../components/Footer';
 import HabitacionEditarCard from '../components/HabitacionEditarCard';
 import './EditarHabitacion.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import HabitacionFormulario from '../components/HabitacionFormulario'; // Asegúrate de que este componente exista
-
-
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import HabitacionFormulario from '../components/HabitacionFormulario';
 
 const EditarHabitacion = () => {
   const { id } = useParams();
   const [habitaciones, setHabitaciones] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+  obtenerHabitaciones();
+}, []);
+
+useEffect(() => {
+  if (location.state?.actualizar) {
+    obtenerHabitaciones();
+  }
+}, [location.state]);
+
   const manejarAtras = () => {
     window.history.back();
   };
 
-  /*const manejarGuardar = () => {
-    alert('Cambios guardados correctamente ✅');
-  };*/
+  const manejarCrear = () => {
+    navigate('/admin/editar-habitacion/nueva');
+  };
 
   const obtenerHabitaciones = () => {
     axios.get('http://localhost:3002/habitaciones')
@@ -39,7 +48,6 @@ const EditarHabitacion = () => {
   };
 
   const manejarEditar = (id) => {
-    
     navigate(`/admin/editar-habitacion/${id}`);
   };
 
@@ -49,32 +57,35 @@ const EditarHabitacion = () => {
 
   return (
     <>
-    <Header />
-
-    <div className="editar-habitacion-container">
-      <div className="editar-habitacion-header">
-        <button className="btn-atras" onClick={manejarAtras}>Atrás</button>
-      </div>
-
-      {/* Si hay un ID en la URL, mostrar el formulario */}
-      {id ? (
-        <HabitacionFormulario />
-      ) : (
-        <div className="habitaciones-lista-editar">
-          {habitaciones.map(habitacion => (
-            <HabitacionEditarCard
-              key={habitacion.id}
-              habitacion={habitacion}
-              onEditar={manejarEditar}
-              onEliminar={manejarEliminar}
-            />
-          ))}
-        </div>
+      <Header />
+      <div className="editar-habitacion-container">
+        <div className="editar-habitacion-header">
+          <button className="btn-atras" onClick={manejarAtras}>Atrás</button>
+          {id !== 'nueva' && (
+          <button className="btn-crear" onClick={manejarCrear}>+ Crear nueva habitación</button>
       )}
-    </div>
 
-    <Footer />
-  </>
+        </div>
+
+        {id && id !== 'nueva' ? (
+          <HabitacionFormulario />
+        ) : id === 'nueva' ? (
+          <HabitacionFormulario esNuevo />
+        ) : (
+          <div className="habitaciones-lista-editar">
+            {habitaciones.map(habitacion => (
+              <HabitacionEditarCard
+                key={habitacion.id}
+                habitacion={habitacion}
+                onEditar={manejarEditar}
+                onEliminar={manejarEliminar}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+      <Footer />
+    </>
   );
 };
 
