@@ -15,6 +15,8 @@ import NotificacionesPageAdmin from './pages/NotificacionesPageAdmin';
 import ReservacionesAdmin from './pages/ReservacionesAdmin';
 import EditarHabitacion from './pages/EditarHabitacion';
 import PerfilOpcionesAdmin from './components/PerfilOpcionesAdmin';
+import ReservaFormulario from './components/ReservaFormulario';
+
 
 import 'react-datepicker/dist/react-datepicker.css';
 import Mensajes from './components/Mensajes';
@@ -29,7 +31,7 @@ function App() {
         <Route path="/habitaciones" element={<Habitaciones />} />
         <Route path="/habitaciones-filtradas" element={<HabitacionesFiltradas />} />
         <Route path="/habitacion/:id" element={<HabitacionDetalle />} />
-        <Route path="/reservas" element={<Reservas />} />
+        <Route path="/reservas" element={<ReservaFormulario />} />
         <Route path="/perfil" element={<PerfilUsuario/>} />
         <Route path="/editar-perfil" element={<EditarPerfil />} />
         <Route path="/chat/:id" element={<Chat />} />

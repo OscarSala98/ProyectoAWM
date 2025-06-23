@@ -14,6 +14,92 @@
       "id": "4",
       "texto": "Nuevo mensaje de HostelNovel",
       "fecha": "12 Mar 2021"
+    },
+    {
+      "id": "1750645838944",
+      "texto": "Nueva reserva: Habitación Delux 302",
+      "fecha": "2025-06-23"
+    },
+    {
+      "id": "1750645883619",
+      "texto": "Nueva reserva: Habitación Simple 303",
+      "fecha": "2025-06-23"
+    },
+    {
+      "id": "1750645977745",
+      "texto": "Nueva reserva: Habitación Doble 303",
+      "fecha": "2025-06-23"
+    }
+  ],
+  "reservas": [
+    {
+      "id": "rsv1",
+      "habitacionId": "2",
+      "tituloHabitacion": "Habitación Delux 302",
+      "imagen": "/Habitaciones/HDE302/HDE302.webp",
+      "usuarioId": "d505",
+      "usuarioNombre": "Kevin Patricio",
+      "correo": "guachis@hostel.com",
+      "checkIn": "2025-07-01",
+      "checkOut": "2025-07-05",
+      "personas": {
+        "adultos": 2,
+        "ninos": 1
+      },
+      "precioTotal": 1800,
+      "estado": "confirmada",
+      "fechaCreacion": "2025-06-22T23:55:00.000Z"
+    },
+    {
+      "id": "1750645838922",
+      "habitacionId": "2",
+      "tituloHabitacion": "Habitación Delux 302",
+      "imagen": "/Habitaciones/HDE302/HDE302.webp",
+      "usuarioId": "1",
+      "usuarioNombre": "Luis Joaquin Guerrero",
+      "correo": "ejemplo@hostel.com",
+      "checkIn": "2025-06-23",
+      "checkOut": "2025-06-24",
+      "adultos": 1,
+      "ninos": 0,
+      "personas": "1 Adulto(s), 0 Niño(s)",
+      "precio": "$1200",
+      "estado": "confirmada",
+      "fechaCreacion": "2025-06-23T02:30:38.922Z"
+    },
+    {
+      "id": "1750645883599",
+      "habitacionId": "1",
+      "tituloHabitacion": "Habitación Simple 303",
+      "imagen": "/Habitaciones/HS303/HS303.webp",
+      "usuarioId": "1",
+      "usuarioNombre": "Luis Joaquin Guerrero",
+      "correo": "ejemplo@hostel.com",
+      "checkIn": "2025-06-20",
+      "checkOut": "2025-06-27",
+      "adultos": 1,
+      "ninos": 0,
+      "personas": "1 Adulto(s), 0 Niño(s)",
+      "precio": "$2100",
+      "estado": "confirmada",
+      "fechaCreacion": "2025-06-23T02:31:23.599Z"
+    },
+    {
+      "id": "1750645977724",
+      "habitacionId": "3",
+      "tituloHabitacion": "Habitación Doble 303",
+      "imagen": "/Habitaciones/HD303/HD303.webp",
+      "usuarioId": "1",
+      "usuarioNombre": "Luis Joaquin Guerrero",
+      "correo": "ejemplo@hostel.com",
+      "checkIn": "2025-06-28",
+      "checkOut": "2025-06-30",
+      "adultos": 1,
+      "ninos": 0,
+      "personas": "1 Adulto(s), 0 Niño(s)",
+      "precio": "$2200",
+      "estado": "confirmada",
+      "fechaCreacion": "2025-06-23T02:32:57.724Z"
     }
   ],
   "personas": [

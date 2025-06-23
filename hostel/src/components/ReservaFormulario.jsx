@@ -140,7 +140,7 @@ const ReservaFormulario = () => {
           </div>
 
           <div className="search-btn">
-            <button type="submit">Crear Reserva</button>
+            <button type="submit">Reservar</button>
           </div>
         </div>
       </form>

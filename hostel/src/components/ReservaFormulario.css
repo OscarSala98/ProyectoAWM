@@ -1,0 +1,77 @@
+.booking-form {
+  background-color: #f8f8d5;
+  border-radius: 40px;
+  padding: 2rem;
+  max-width: 95%;
+  margin: auto;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.booking-form h2 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.booking-form h2 span {
+  color: #e76e50;
+  font-weight: normal;
+  margin-left: 0.5rem;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+  flex: 1;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"] {
+  padding: 6px 0;
+  border: none;
+  border-bottom: 1px solid #999;
+  font-size: 1rem;
+  background: transparent;
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-btn button {
+  background-color: #e76e50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px; /* cuadrado con esquinas redondeadas */
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-btn button:hover {
+  background-color: #d45f45;
+}
