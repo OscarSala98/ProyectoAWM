@@ -14,10 +14,10 @@ import EditarPerfilAdmin from './pages/EditarPerfilAdmin';
 import NotificacionesPageAdmin from './pages/NotificacionesPageAdmin';
 import ReservacionesAdmin from './pages/ReservacionesAdmin';
 import EditarHabitacion from './pages/EditarHabitacion';
-import PerfilOpcionesAdmin from './components/PerfilOpcionesAdmin';
+
 
 import 'react-datepicker/dist/react-datepicker.css';
-import Mensajes from './components/Mensajes';
+
 import ChatAdmin from './pages/ChatAdmin';
 
 

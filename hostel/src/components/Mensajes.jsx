@@ -11,64 +11,93 @@ const Mensajes = () => {
   const [contactos, setContactos] = useState([]);
   const [contactoActivo, setContactoActivo] = useState(null);
   const [conversacion, setConversacion] = useState(null);
+  const [conversaciones, setConversaciones] = useState([]);
   const [nuevoMensaje, setNuevoMensaje] = useState('');
   const [menuAbierto, setMenuAbierto] = useState(null);
   const [mensajeEditando, setMensajeEditando] = useState(null);
   const [textoEditado, setTextoEditado] = useState('');
+  const [tipoUsuario, setTipoUsuario] = useState('');
+  const [mostrarListaUsuarios, setMostrarListaUsuarios] = useState(false);
 
-  // Obtener datos de usuarios
   useEffect(() => {
-    axios.get('http://localhost:3002/personas').then(res => {
-      setUsuarios(res.data);
-      const otros = res.data.filter(u => u.id !== id);
-      setContactos(otros);
-      if (otros.length > 0) setContactoActivo(otros[0]);
-    });
+    const fetchData = async () => {
+      const usuariosRes = await axios.get('http://localhost:3002/personas');
+      const conversacionesRes = await axios.get('http://localhost:3002/conversaciones');
+
+      const todos = usuariosRes.data;
+      const convs = conversacionesRes.data;
+      setUsuarios(todos);
+      setConversaciones(convs);
+      const yo = todos.find(u => u.id === id);
+      setTipoUsuario(yo?.tipo?.toLowerCase());
+
+      if (yo?.tipo?.toLowerCase() === 'admin') {
+        const participantesUnicos = convs
+          .filter(c => c.participantes.includes(id))
+          .map(c => c.participantes.find(pid => pid !== id));
+        const usuariosFiltrados = todos.filter(u => participantesUnicos.includes(u.id));
+        setContactos(usuariosFiltrados);
+      } else {
+        const admin = todos.find(u => u.tipo?.toLowerCase() === 'admin');
+        if (convs.some(c => c.participantes.includes(id) && c.participantes.includes(admin?.id))) {
+          setContactos([admin]);
+        }
+      }
+    };
+    fetchData();
   }, [id]);
 
-  // Cargar conversación
   useEffect(() => {
     if (!contactoActivo) return;
-    axios.get('http://localhost:3002/conversaciones').then(res => {
-      const conv = res.data.find(c =>
-        c.participantes.includes(id) && c.participantes.includes(contactoActivo.id)
-      );
-      setConversacion(conv || null);
-    });
-  }, [contactoActivo, id]);
+    const conv = conversaciones.find(c =>
+      c.participantes.includes(id) && c.participantes.includes(contactoActivo.id)
+    );
+    setConversacion(conv || null);
+  }, [contactoActivo, id, conversaciones]);
 
   const obtenerNombreUsuario = (userId) => {
     const user = usuarios.find(u => u.id === userId);
     return user ? `${user.primerNombre} ${user.primerApellido}` : 'Usuario';
   };
 
+  const iniciarConversacionCon = async (otroUsuario) => {
+    const existente = conversaciones.find(c =>
+      c.participantes.includes(id) && c.participantes.includes(otroUsuario.id)
+    );
+
+    if (existente) {
+      setContactoActivo(otroUsuario);
+      setConversacion(existente);
+    } else {
+      const nueva = {
+        id: `conv-${Date.now()}`,
+        participantes: [id, otroUsuario.id],
+        mensajes: []
+      };
+      const creada = await axios.post('http://localhost:3002/conversaciones', nueva);
+      setConversacion(creada.data);
+      setContactoActivo(otroUsuario);
+      setConversaciones([...conversaciones, creada.data]);
+      if (!contactos.find(c => c.id === otroUsuario.id)) {
+        setContactos([...contactos, otroUsuario]);
+      }
+    }
+  };
+
   const handleEnviarMensaje = async () => {
     if (!nuevoMensaje.trim()) return;
-
     const nuevo = {
       id: Date.now(),
       emisor: id,
       fecha: new Date().toISOString(),
       texto: nuevoMensaje
     };
-
-    if (conversacion) {
-      const actualizada = {
-        ...conversacion,
-        mensajes: [...conversacion.mensajes, nuevo]
-      };
-      await axios.put(`http://localhost:3002/conversaciones/${conversacion.id}`, actualizada);
-      setConversacion(actualizada);
-    } else {
-      const nueva = {
-        id: `conv-${Date.now()}`,
-        participantes: [id, contactoActivo.id],
-        mensajes: [nuevo]
-      };
-      await axios.post('http://localhost:3002/conversaciones', nueva);
-      setConversacion(nueva);
-    }
-
+    const actualizada = {
+      ...conversacion,
+      mensajes: [...conversacion.mensajes, nuevo]
+    };
+    await axios.put(`http://localhost:3002/conversaciones/${conversacion.id}`, actualizada);
+    setConversacion(actualizada);
     setNuevoMensaje('');
   };
 
@@ -90,11 +119,61 @@ const Mensajes = () => {
     setTextoEditado('');
   };
 
+const handleEliminarConversacion = async () => {
+  if (!conversacion) return;
+  if (!window.confirm("¿Estás seguro de eliminar esta conversación?")) return;
+
+  await axios.delete(`http://localhost:3002/conversaciones/${conversacion.id}`);
+  setConversacion(null);
+  setContactoActivo(null);
+
+  // 🔄 Recalcular contactos con conversación para ambos tipos de usuario
+  const convRes = await axios.get('http://localhost:3002/conversaciones');
+  const conversacionesRestantes = convRes.data.filter(c => c.participantes.includes(id));
+  const idsConConversacion = conversacionesRestantes.map(c =>
+    c.participantes.find(pid => pid !== id)
+  );
+  const nuevosContactos = usuarios.filter(u => idsConConversacion.includes(u.id));
+  setContactos(nuevosContactos);
+
+  // Recargar la página al final
+  window.location.reload();
+};
+
+
   return (
     <div className="mensajes-container">
-      {/* Izquierda: Lista de contactos */}
       <div className="mensajes-sidebar">
         <h3>Todos los Mensajes</h3>
+
+        {tipoUsuario === 'admin' ? (
+          <>
+            <button className="btn-admin" onClick={() => setMostrarListaUsuarios(!mostrarListaUsuarios)}>
+              Iniciar conversación
+            </button>
+            {mostrarListaUsuarios && (
+              <select onChange={e => {
+                const user = usuarios.find(u => u.id === e.target.value);
+                if (user) iniciarConversacionCon(user);
+                setMostrarListaUsuarios(false);
+              }}>
+                <option value="">Selecciona un usuario</option>
+                {usuarios.filter(u => u.id !== id).map(c => (
+                  <option key={c.id} value={c.id}>{c.primerNombre} {c.primerApellido}</option>
+                ))}
+              </select>
+            )}
+          </>
+        ) : (
+          <button className="btn-admin" onClick={() => {
+            const admin = usuarios.find(u => u.tipo?.toLowerCase() === 'admin');
+            if (admin) iniciarConversacionCon(admin);
+            else alert("No se encontró un administrador.");
+          }}>
+            Conversar con Admin
+          </button>
+        )}
+
         {contactos.map(contacto => (
           <div
             key={contacto.id}
@@ -112,12 +191,15 @@ const Mensajes = () => {
         ))}
       </div>
 
-      {/* Derecha: Conversación */}
       <div className="mensajes-conversacion">
         <div className="mensajes-body">
-          <h2>Conversación con {obtenerNombreUsuario(contactoActivo?.id)}</h2>
+          <div className="encabezado-conversacion">
+            <h2>Conversación con {obtenerNombreUsuario(contactoActivo?.id)}</h2>
+            <button className="btn-eliminar-conversacion" onClick={handleEliminarConversacion}>Eliminar conversación</button>
+          </div>
+
           <ul>
-            {conversacion?.mensajes.map((msg) => {
+            {conversacion?.mensajes.map(msg => {
               const esPropio = msg.emisor === id;
               return (
                 <li key={msg.id} className={`mensaje-item ${esPropio ? 'mensaje-emisor' : 'mensaje-receptor'}`}>
@@ -143,11 +225,7 @@ const Mensajes = () => {
                   </div>
                   {mensajeEditando === msg.id ? (
                     <div className="edicion-input">
-                      <input
-                        type="text"
-                        value={textoEditado}
-                        onChange={(e) => setTextoEditado(e.target.value)}
-                      />
+                      <input value={textoEditado} onChange={e => setTextoEditado(e.target.value)} />
                       <button onClick={() => handleEditarMensaje(msg.id)}>Guardar</button>
                     </div>
                   ) : (
@@ -169,9 +247,7 @@ const Mensajes = () => {
             onChange={(e) => setNuevoMensaje(e.target.value)}
             placeholder="Escribe tu mensaje..."
           />
-          <button className="btn-enviar" onClick={handleEnviarMensaje}>
-            <BsSendFill />
-          </button>
+          <button className="btn-enviar" onClick={handleEnviarMensaje}><BsSendFill /></button>
         </div>
       </div>
     </div>
