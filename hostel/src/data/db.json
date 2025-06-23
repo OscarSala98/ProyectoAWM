@@ -1,4 +1,26 @@
 {
+  "notificaciones": [
+    {
+      "id": 1,
+      "texto": "Nueva alerta de reserva",
+      "fecha": "12 Mar 2021"
+    },
+    {
+      "id": 2,
+      "texto": "Tu reserva ha sido rechazada",
+      "fecha": "12 Mar 2021"
+    },
+    {
+      "id": "3",
+      "texto": "Perfil actualizado",
+      "fecha": "12 Mar 2021"
+    },
+    {
+      "id": "4",
+      "texto": "Nuevo mensaje de HostelNovel",
+      "fecha": "12 Mar 2021"
+    }
+  ],
   "personas": [
     {
       "id": "1",

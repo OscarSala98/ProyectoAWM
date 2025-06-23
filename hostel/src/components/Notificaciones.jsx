@@ -1,16 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Notificaciones.css';
 
-const Notificaciones = () => {
-  const [notificaciones, setNotificaciones] = useState([
-    { id: 1, texto: 'Nueva alerta de reserva', fecha: '12 Mar 2021' },
-    { id: 2, texto: 'Tu reserva a sido rechazada', fecha: '12 Mar 2021' },
-    { id: 3, texto: 'Perfil actualizado', fecha: '12 Mar 2021' },
-    { id: 4, texto: 'Nuevo mensaje de HostelNovel', fecha: '12 Mar 2021' },
-  ]);
+const API_URL = 'http://localhost:3002/notificaciones';
 
+const Notificaciones = () => {
+  const [notificaciones, setNotificaciones] = useState([]);
+
+  // GET: cargar notificaciones
+  useEffect(() => {
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => {
+        console.log('Datos cargados:', data);
+        setNotificaciones(data);
+      })
+      .catch(error => console.error('Error al cargar notificaciones:', error));
+  }, []);
+
+  // DELETE: eliminar notificación
   const eliminarNotificacion = (id) => {
-    setNotificaciones(notificaciones.filter(n => n.id !== id));
+    console.log(`Eliminando ID: ${id}`);
+    fetch(`${API_URL}/${id}`, {
+      method: 'DELETE'
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Error al eliminar notificación con ID ${id}`);
+        }
+        console.log(`Notificación ${id} eliminada correctamente`);
+        setNotificaciones(notificaciones.filter(n => n.id !== id));
+      })
+      .catch(error => console.error('Error al eliminar notificación:', error));
   };
 
   return (
