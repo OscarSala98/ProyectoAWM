@@ -1,42 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ReservasTabs from '../components/ReservasTabs';
 import ReservaCard from '../components/ReservaCard';
+import axios from 'axios';
 import './Reservas.css';
-
-const reservasMock = [
-  {
-    id: 1,
-    tipo: 'futura',
-    habitacion: 'Habitación Doble',
-    checkIn: '12 May 2025',
-    duracion: '2',
-    personas: '1 Adulto, 1 Niño',
-    precio: '$1000 USD',
-    imagen: require('../assets/Habitaciones/HD303/HD303.webp'),
-  },
-  {
-    id: 2,
-    tipo: 'futura',
-    habitacion: 'Habitación Delux',
-    checkIn: '12 May 2025',
-    duracion: '2 días',
-    personas: '2 Adultos',
-    precio: '$1000 USD',
-    imagen: require('../assets/Habitaciones/HDE302/HDE302.webp'),
-  },
-  {
-    id: 3,
-    tipo: 'pasada',
-    habitacion: 'Habitación Simple',
-    checkIn: '01 Abr 2024',
-    duracion: '3 días',
-    personas: '1 Adulto',
-    precio: '$800 USD',
-    imagen: require('../assets/Habitaciones/HS303/HS303.webp'),
-  }
-];
 
 const manejarAtras = () => {
   window.history.back();
@@ -44,8 +12,29 @@ const manejarAtras = () => {
 
 const MisReservas = () => {
   const [tabActivo, setTabActivo] = useState('futura');
+  const [reservas, setReservas] = useState([]);
+  const [usuario, setUsuario] = useState(null);
 
-  const reservasFiltradas = reservasMock.filter(r => r.tipo === tabActivo);
+  useEffect(() => {
+    const usuarioLocal = JSON.parse(localStorage.getItem('usuario'));
+    setUsuario(usuarioLocal);
+
+    if (!usuarioLocal) return;
+
+    axios.get('http://localhost:3002/reservas', {
+      params: { usuarioId: usuarioLocal.id }
+    })
+    .then(res => setReservas(res.data))
+    .catch(err => console.error('Error al cargar reservas:', err));
+  }, []);
+
+  // Clasifica reservas pasadas y futuras
+  const ahora = new Date();
+  const reservasFiltradas = reservas.filter((r) => {
+    const checkIn = new Date(r.checkIn);
+    if (tabActivo === 'futura') return checkIn >= ahora;
+    else return checkIn < ahora;
+  });
 
   return (
     <div>
@@ -57,9 +46,13 @@ const MisReservas = () => {
         <ReservasTabs tabActivo={tabActivo} setTabActivo={setTabActivo} />
 
         <div className="reservas-lista">
-          {reservasFiltradas.map(reserva => (
-            <ReservaCard key={reserva.id} reserva={reserva} />
-          ))}
+          {reservasFiltradas.length > 0 ? (
+            reservasFiltradas.map(reserva => (
+              <ReservaCard key={reserva.id} reserva={reserva} />
+            ))
+          ) : (
+            <p style={{ textAlign: 'center' }}>No hay reservas {tabActivo === 'futura' ? 'futuras' : 'pasadas'}.</p>
+          )}
         </div>
       </div>
       <Footer />
