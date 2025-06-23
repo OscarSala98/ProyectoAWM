@@ -1,12 +1,7 @@
 {
   "notificaciones": [
     {
-      "id": 1,
-      "texto": "Nueva alerta de reserva",
-      "fecha": "12 Mar 2021"
-    },
-    {
-      "id": 2,
+      "id": "2",
       "texto": "Tu reserva ha sido rechazada",
       "fecha": "12 Mar 2021"
     },

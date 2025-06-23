@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Notificaciones.css';
 
 const API_URL = 'http://localhost:3002/notificaciones';
@@ -6,32 +7,38 @@ const API_URL = 'http://localhost:3002/notificaciones';
 const Notificaciones = () => {
   const [notificaciones, setNotificaciones] = useState([]);
 
-  // GET: cargar notificaciones
+  // GET: Cargar notificaciones
   useEffect(() => {
-    fetch(API_URL)
-      .then(res => res.json())
-      .then(data => {
-        console.log('Datos cargados:', data);
-        setNotificaciones(data);
+    axios.get(API_URL)
+      .then(res => {
+        setNotificaciones(res.data);
       })
-      .catch(error => console.error('Error al cargar notificaciones:', error));
+      .catch(err => {
+        console.error('Error al cargar notificaciones:', err);
+      });
   }, []);
 
-  // DELETE: eliminar notificación
   const eliminarNotificacion = (id) => {
-    console.log(`Eliminando ID: ${id}`);
-    fetch(`${API_URL}/${id}`, {
-      method: 'DELETE'
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Error al eliminar notificación con ID ${id}`);
-        }
-        console.log(`Notificación ${id} eliminada correctamente`);
+  console.log(`Intentando eliminar notificación con ID: ${id}`);
+  axios.delete(`${API_URL}/${id}`)
+    .then((res) => {
+      if (res.status === 200 || res.status === 204) {
+        console.log(`Notificación con ID ${id} eliminada`);
         setNotificaciones(notificaciones.filter(n => n.id !== id));
-      })
-      .catch(error => console.error('Error al eliminar notificación:', error));
-  };
+      } else {
+        console.error(`Error inesperado: código de estado ${res.status}`);
+      }
+    })
+    .catch((error) => {
+      if (error.response) {
+        console.error(`Error ${error.response.status}:`, error.response.data);
+      } else if (error.request) {
+        console.error("No hubo respuesta del servidor:", error.request);
+      } else {
+        console.error("Error general:", error.message);
+      }
+    });
+};
 
   return (
     <div className="notificaciones-container">
