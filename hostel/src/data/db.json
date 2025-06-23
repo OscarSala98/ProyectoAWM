@@ -1,19 +1,186 @@
 {
   "notificaciones": [
     {
-      "id": "2",
-      "texto": "Tu reserva ha sido rechazada",
-      "fecha": "12 Mar 2021"
+      "id": "1750648396938",
+      "texto": "Nueva reserva: Habitación Simple 303",
+      "fecha": "2025-06-23"
     },
     {
-      "id": "3",
-      "texto": "Perfil actualizado",
-      "fecha": "12 Mar 2021"
+      "id": "1750649094091",
+      "texto": "Nueva reserva: Habitación Doble 303",
+      "fecha": "2025-06-23"
     },
     {
-      "id": "4",
-      "texto": "Nuevo mensaje de HostelNovel",
-      "fecha": "12 Mar 2021"
+      "id": "1750649121059",
+      "texto": "Nueva reserva: Habitación Simple 303",
+      "fecha": "2025-06-23"
+    },
+    {
+      "id": "1750649135551",
+      "texto": "Nueva reserva: Habitación Doble 303",
+      "fecha": "2025-06-23"
+    },
+    {
+      "id": "1750650030372",
+      "texto": "Reserva aceptada: Habitación Delux 302",
+      "fecha": "2025-06-23"
+    },
+    {
+      "id": "1750650041027",
+      "texto": "Reserva rechazada: Habitación Doble 303",
+      "fecha": "2025-06-23"
+    },
+    {
+      "id": "1750650108207",
+      "texto": "Reserva aceptada: Habitación Simple 303",
+      "fecha": "2025-06-23"
+    },
+    {
+      "id": "1750650121663",
+      "texto": "Reserva aceptada: Habitación Delux 302",
+      "fecha": "2025-06-23"
+    },
+    {
+      "id": "1750650125578",
+      "texto": "Reserva aceptada: Habitación Simple 303",
+      "fecha": "2025-06-23"
+    },
+    {
+      "id": "1750650126043",
+      "texto": "Reserva aceptada: Habitación Delux 302",
+      "fecha": "2025-06-23"
+    },
+    {
+      "id": "1750650450242",
+      "texto": "Reserva aceptada: Habitación Doble 303",
+      "fecha": "2025-06-23"
+    },
+    {
+      "id": "1750650503635",
+      "texto": "Nueva reserva: Habitación Doble 303",
+      "fecha": "2025-06-23"
+    }
+  ],
+  "reservas": [
+    {
+      "id": "rsv1",
+      "habitacionId": "2",
+      "tituloHabitacion": "Habitación Delux 302",
+      "imagen": "/Habitaciones/HDE302/HDE302.webp",
+      "usuarioId": "d505",
+      "usuarioNombre": "Kevin Patricio",
+      "correo": "guachis@hostel.com",
+      "checkIn": "2025-07-01",
+      "checkOut": "2025-07-05",
+      "personas": {
+        "adultos": 2,
+        "ninos": 1
+      },
+      "precioTotal": 1800,
+      "estado": "aceptada",
+      "fechaCreacion": "2025-06-22T23:55:00.000Z"
+    },
+    {
+      "id": "1750645838922",
+      "habitacionId": "2",
+      "tituloHabitacion": "Habitación Delux 302",
+      "imagen": "/Habitaciones/HDE302/HDE302.webp",
+      "usuarioId": "1",
+      "usuarioNombre": "Luis Joaquin Guerrero",
+      "correo": "ejemplo@hostel.com",
+      "checkIn": "2025-06-23",
+      "checkOut": "2025-06-24",
+      "adultos": 1,
+      "ninos": 0,
+      "personas": "1 Adulto(s), 0 Niño(s)",
+      "precio": "$1200",
+      "estado": "aceptada",
+      "fechaCreacion": "2025-06-23T02:30:38.922Z"
+    },
+    {
+      "id": "1750645883599",
+      "habitacionId": "1",
+      "tituloHabitacion": "Habitación Simple 303",
+      "imagen": "/Habitaciones/HS303/HS303.webp",
+      "usuarioId": "1",
+      "usuarioNombre": "Luis Joaquin Guerrero",
+      "correo": "ejemplo@hostel.com",
+      "checkIn": "2025-06-20",
+      "checkOut": "2025-06-27",
+      "adultos": 1,
+      "ninos": 0,
+      "personas": "1 Adulto(s), 0 Niño(s)",
+      "precio": "$2100",
+      "estado": "aceptada",
+      "fechaCreacion": "2025-06-23T02:31:23.599Z"
+    },
+    {
+      "id": "1750648328377",
+      "habitacionId": "2",
+      "tituloHabitacion": "Habitación Delux 302",
+      "imagen": "/Habitaciones/HDE302/HDE302.webp",
+      "usuarioId": "1",
+      "usuarioNombre": "Luis Joaquin Guerrero",
+      "correo": "ejemplo@hostel.com",
+      "checkIn": "2025-06-20",
+      "checkOut": "2025-06-24",
+      "adultos": 1,
+      "ninos": 0,
+      "personas": "1 Adulto(s), 0 Niño(s)",
+      "precio": "$4800",
+      "estado": "aceptada",
+      "fechaCreacion": "2025-06-23T03:12:08.377Z"
+    },
+    {
+      "id": "1750649094074",
+      "habitacionId": "3",
+      "tituloHabitacion": "Habitación Doble 303",
+      "imagen": "/Habitaciones/HD303/HD303.webp",
+      "usuarioId": "1",
+      "usuarioNombre": "Luis Joaquin Guerrero",
+      "correo": "ejemplo@hostel.com",
+      "checkIn": "2025-06-18",
+      "checkOut": "2025-06-27",
+      "adultos": "2",
+      "ninos": 0,
+      "personas": "2 Adulto(s), 0 Niño(s)",
+      "precio": "$1800",
+      "estado": "aceptada",
+      "fechaCreacion": "2025-06-23T03:24:54.074Z"
+    },
+    {
+      "id": "1750649135535",
+      "habitacionId": "3",
+      "tituloHabitacion": "Habitación Doble 303",
+      "imagen": "/Habitaciones/HD303/HD303.webp",
+      "usuarioId": "1",
+      "usuarioNombre": "Luis Joaquin Guerrero",
+      "correo": "ejemplo@hostel.com",
+      "checkIn": "2025-06-25",
+      "checkOut": "2025-06-29",
+      "adultos": "1",
+      "ninos": 0,
+      "personas": "1 Adulto(s), 0 Niño(s)",
+      "precio": "$4400",
+      "estado": "confirmada",
+      "fechaCreacion": "2025-06-23T03:48:39.436Z"
+    },
+    {
+      "id": "1750650503612",
+      "habitacionId": "3",
+      "tituloHabitacion": "Habitación Doble 303",
+      "imagen": "/Habitaciones/HD303/HD303.webp",
+      "usuarioId": "1",
+      "usuarioNombre": "Luis Joaquin Guerrero",
+      "correo": "ejemplo@hostel.com",
+      "checkIn": "2025-06-24",
+      "checkOut": "2025-06-25",
+      "adultos": 1,
+      "ninos": 0,
+      "personas": "1 Adulto(s), 0 Niño(s)",
+      "precio": "$1100",
+      "estado": "confirmada",
+      "fechaCreacion": "2025-06-23T03:48:23.612Z"
     }
   ],
   "personas": [

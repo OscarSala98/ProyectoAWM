@@ -1,51 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ReservasTabs from '../components/ReservasTabs';
 import ReservaCard from '../components/ReservaCard';
 import './Reservas.css';
 
-const reservasMock = [
-  {
-    id: 1,
-    tipo: 'futura',
-    habitacion: 'Habitación Doble',
-    checkIn: '12 May 2025',
-    duracion: '2',
-    personas: '1 Adulto, 1 Niño',
-    precio: '$1000 USD',
-    imagen: require('../assets/Habitaciones/HD303/HD303.webp'),
-  },
-  {
-    id: 2,
-    tipo: 'futura',
-    habitacion: 'Habitación Delux',
-    checkIn: '12 May 2025',
-    duracion: '2 días',
-    personas: '2 Adultos',
-    precio: '$1000 USD',
-    imagen: require('../assets/Habitaciones/HDE302/HDE302.webp'),
-  },
-  {
-    id: 3,
-    tipo: 'pasada',
-    habitacion: 'Habitación Simple',
-    checkIn: '01 Abr 2024',
-    duracion: '3 días',
-    personas: '1 Adulto',
-    precio: '$800 USD',
-    imagen: require('../assets/Habitaciones/HS303/HS303.webp'),
-  }
-];
-
-const manejarAtras = () => {
-  window.history.back();
-};
-
 const MisReservas = () => {
   const [tabActivo, setTabActivo] = useState('futura');
+  const [reservas, setReservas] = useState([]);
 
-  const reservasFiltradas = reservasMock.filter(r => r.tipo === tabActivo);
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+  useEffect(() => {
+    if (usuario) {
+      axios.get(`http://localhost:3002/reservas?usuarioId=${usuario.id}`)
+        .then(res => setReservas(res.data))
+        .catch(err => console.error('Error cargando reservas:', err));
+    }
+  }, [usuario]);
+
+  const cancelarReserva = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3002/reservas/${id}`);
+      setReservas(prev => prev.filter(r => r.id !== id));
+    } catch (error) {
+      console.error('Error al cancelar reserva:', error);
+    }
+  };
+
+  const reservasFiltradas = reservas.filter(r => {
+    const esFutura = new Date(r.checkIn) >= new Date();
+    return tabActivo === 'futura' ? esFutura : !esFutura;
+  });
+
+  const manejarAtras = () => {
+    window.history.back();
+  };
 
   return (
     <div>
@@ -58,7 +49,11 @@ const MisReservas = () => {
 
         <div className="reservas-lista">
           {reservasFiltradas.map(reserva => (
-            <ReservaCard key={reserva.id} reserva={reserva} />
+            <ReservaCard
+              key={reserva.id}
+              reserva={reserva}
+              onCancelar={cancelarReserva} // ✅ Aquí pasas la función
+            />
           ))}
         </div>
       </div>

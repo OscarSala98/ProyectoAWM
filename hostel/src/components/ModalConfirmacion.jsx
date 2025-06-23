@@ -1,15 +1,17 @@
 import React from 'react';
 import './ModalConfirmacion.css';
 
-const ModalConfirmacion = ({ visible, onClose, mensaje = "Cancelación exitosa!!", boton = "Aceptar" }) => {
+const ModalConfirmacion = ({ visible, onClose, onConfirm, mensaje }) => {
   if (!visible) return null;
 
   return (
     <div className="modal-overlay">
-      <div className="modal-contenido">
-        <button className="modal-cerrar" onClick={onClose}>✕</button>
-        <h2>{mensaje}</h2>
-        <button className="btn-modal" onClick={onClose}>{boton}</button>
+      <div className="modal-content">
+        <p>{mensaje}</p>
+        <div className="modal-botones">
+          <button onClick={onConfirm}>Sí</button>
+          <button onClick={onClose}>No</button>
+        </div>
       </div>
     </div>
   );
