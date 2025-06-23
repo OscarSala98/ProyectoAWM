@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './ReservaFormulario.css';
@@ -6,18 +6,48 @@ import './ReservaFormulario.css';
 const ReservaFormulario = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const habitacion = state?.habitacion;
-
   const usuario = JSON.parse(localStorage.getItem('usuario'));
 
+  const reservaEdit = state?.reserva || null;
+  const habitacionInicial = state?.habitacion || null;
+
+  const [habitacion, setHabitacion] = useState(habitacionInicial);
   const [datos, setDatos] = useState({
     fechaEntrada: '',
     fechaSalida: '',
     adultos: 1,
     ninos: 0
   });
-
   const [errorMsg, setErrorMsg] = useState('');
+
+  // Buscar habitación si estamos en modo edición
+  useEffect(() => {
+    const cargarHabitacion = async () => {
+      if (reservaEdit && !habitacionInicial) {
+        try {
+          const res = await axios.get(`http://localhost:3002/habitaciones/${reservaEdit.habitacionId}`);
+          setHabitacion(res.data);
+          setDatos({
+            fechaEntrada: reservaEdit.checkIn,
+            fechaSalida: reservaEdit.checkOut,
+            adultos: reservaEdit.adultos,
+            ninos: reservaEdit.ninos
+          });
+        } catch (error) {
+          console.error('Error al cargar habitación:', error);
+        }
+      } else if (habitacionInicial && reservaEdit) {
+        setDatos({
+          fechaEntrada: reservaEdit.checkIn,
+          fechaSalida: reservaEdit.checkOut,
+          adultos: reservaEdit.adultos,
+          ninos: reservaEdit.ninos
+        });
+      }
+    };
+
+    cargarHabitacion();
+  }, [reservaEdit, habitacionInicial]);
 
   const calcularDias = () => {
     if (!datos.fechaEntrada || !datos.fechaSalida) return 0;
@@ -39,7 +69,6 @@ const ReservaFormulario = () => {
     const largo = parseFloat(habitacion.precioDesglose.largo.replace('$', ''));
 
     let basePrecio = corto;
-
     if (totalPersonas === camas) basePrecio = largo;
     else if (totalPersonas > 1) basePrecio = medio;
 
@@ -63,8 +92,8 @@ const ReservaFormulario = () => {
 
     const precioTotal = calcularPrecio();
 
-    const nuevaReserva = {
-      id: Date.now().toString(),
+    const reservaFinal = {
+      id: reservaEdit ? reservaEdit.id : Date.now().toString(),
       habitacionId: habitacion.id,
       tituloHabitacion: habitacion.titulo,
       imagen: habitacion.portada,
@@ -82,30 +111,33 @@ const ReservaFormulario = () => {
     };
 
     try {
-      await axios.post('http://localhost:3002/reservas', nuevaReserva);
+      if (reservaEdit) {
+        await axios.put(`http://localhost:3002/reservas/${reservaEdit.id}`, reservaFinal);
+      } else {
+        await axios.post('http://localhost:3002/reservas', reservaFinal);
+        await axios.post('http://localhost:3002/notificaciones', {
+          id: Date.now().toString(),
+          texto: `Nueva reserva: ${habitacion.titulo}`,
+          fecha: new Date().toISOString().split('T')[0]
+        });
+      }
 
-      await axios.post('http://localhost:3002/notificaciones', {
-        id: Date.now().toString(),
-        texto: `Nueva reserva: ${habitacion.titulo}`,
-        fecha: new Date().toISOString().split('T')[0]
-      });
-
-      alert('¡Reserva registrada!');
+      alert(reservaEdit ? 'Reserva actualizada' : '¡Reserva registrada!');
       navigate('/mis-reservas');
     } catch (error) {
-      console.error('Error al registrar reserva:', error);
+      console.error('Error al guardar reserva:', error);
     }
   };
 
-  if (!habitacion) return <p>Error: No se encontró la habitación.</p>;
   if (!usuario) return <p>Error: Usuario no autenticado.</p>;
+  if (!habitacion) return <p>Error: No se encontró la habitación.</p>;
 
   const precioTotal = calcularPrecio();
   const duracion = calcularDias();
 
   return (
     <div className="booking-form">
-      <h2>Reservar: <span>{habitacion.titulo}</span></h2>
+      <h2>{reservaEdit ? 'Editar' : 'Reservar'}: <span>{habitacion.titulo}</span></h2>
 
       <img src={habitacion.portada} alt={habitacion.titulo} width="300" style={{ borderRadius: '10px' }} />
 
@@ -140,7 +172,7 @@ const ReservaFormulario = () => {
           </div>
 
           <div className="search-btn">
-            <button type="submit">Reservar</button>
+            <button type="submit">{reservaEdit ? 'Actualizar' : 'Reservar'}</button>
           </div>
         </div>
       </form>

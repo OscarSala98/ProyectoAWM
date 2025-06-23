@@ -1,40 +1,42 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ReservasTabs from '../components/ReservasTabs';
 import ReservaCard from '../components/ReservaCard';
-import axios from 'axios';
 import './Reservas.css';
-
-const manejarAtras = () => {
-  window.history.back();
-};
 
 const MisReservas = () => {
   const [tabActivo, setTabActivo] = useState('futura');
   const [reservas, setReservas] = useState([]);
-  const [usuario, setUsuario] = useState(null);
+
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
 
   useEffect(() => {
-    const usuarioLocal = JSON.parse(localStorage.getItem('usuario'));
-    setUsuario(usuarioLocal);
+    if (usuario) {
+      axios.get(`http://localhost:3002/reservas?usuarioId=${usuario.id}`)
+        .then(res => setReservas(res.data))
+        .catch(err => console.error('Error cargando reservas:', err));
+    }
+  }, [usuario]);
 
-    if (!usuarioLocal) return;
+  const cancelarReserva = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3002/reservas/${id}`);
+      setReservas(prev => prev.filter(r => r.id !== id));
+    } catch (error) {
+      console.error('Error al cancelar reserva:', error);
+    }
+  };
 
-    axios.get('http://localhost:3002/reservas', {
-      params: { usuarioId: usuarioLocal.id }
-    })
-    .then(res => setReservas(res.data))
-    .catch(err => console.error('Error al cargar reservas:', err));
-  }, []);
-
-  // Clasifica reservas pasadas y futuras
-  const ahora = new Date();
-  const reservasFiltradas = reservas.filter((r) => {
-    const checkIn = new Date(r.checkIn);
-    if (tabActivo === 'futura') return checkIn >= ahora;
-    else return checkIn < ahora;
+  const reservasFiltradas = reservas.filter(r => {
+    const esFutura = new Date(r.checkIn) >= new Date();
+    return tabActivo === 'futura' ? esFutura : !esFutura;
   });
+
+  const manejarAtras = () => {
+    window.history.back();
+  };
 
   return (
     <div>
@@ -46,13 +48,13 @@ const MisReservas = () => {
         <ReservasTabs tabActivo={tabActivo} setTabActivo={setTabActivo} />
 
         <div className="reservas-lista">
-          {reservasFiltradas.length > 0 ? (
-            reservasFiltradas.map(reserva => (
-              <ReservaCard key={reserva.id} reserva={reserva} />
-            ))
-          ) : (
-            <p style={{ textAlign: 'center' }}>No hay reservas {tabActivo === 'futura' ? 'futuras' : 'pasadas'}.</p>
-          )}
+          {reservasFiltradas.map(reserva => (
+            <ReservaCard
+              key={reserva.id}
+              reserva={reserva}
+              onCancelar={cancelarReserva} // ✅ Aquí pasas la función
+            />
+          ))}
         </div>
       </div>
       <Footer />

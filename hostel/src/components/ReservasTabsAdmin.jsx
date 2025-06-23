@@ -5,16 +5,16 @@ const ReservasTabsAdmin = ({ tabActivo, setTabActivo }) => {
   return (
     <div className="reservas-tabs">
       <button
-        className={tabActivo === 'futura' ? 'activo' : ''}
-        onClick={() => setTabActivo('futura')}
+        className={tabActivo === 'confirmada' ? 'activo' : ''}
+        onClick={() => setTabActivo('confirmada')}
       >
-        Futuras
+        Confirmadas
       </button>
       <button
-        className={tabActivo === 'pasada' ? 'activo' : ''}
-        onClick={() => setTabActivo('pasada')}
+        className={tabActivo === 'aceptada' ? 'activo' : ''}
+        onClick={() => setTabActivo('aceptada')}
       >
-        Pasadas
+        Aceptadas
       </button>
       <button
         className={tabActivo === 'rechazada' ? 'activo' : ''}
