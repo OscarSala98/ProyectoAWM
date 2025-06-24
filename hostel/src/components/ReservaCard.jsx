@@ -1,7 +1,6 @@
-// src/components/ReservaCard.jsx
 import React, { useState } from 'react';
 import './ReservaCard.css';
-import ModalConfirmacion from './ModalConfirmacion';
+import ModalConfirmacionSiNo from './ModalConfirmacionSiNo'; // Cambiado el import
 import { useNavigate } from 'react-router-dom';
 
 const ReservaCard = ({ reserva, onCancelar }) => {
@@ -32,7 +31,11 @@ const ReservaCard = ({ reserva, onCancelar }) => {
   return (
     <>
       <div className="reserva-card">
-        <img src={reserva.imagen} alt={reserva.tituloHabitacion} className="reserva-img" />
+        <img
+          src={reserva.imagen}
+          alt={reserva.tituloHabitacion}
+          className="reserva-img"
+        />
 
         <div className="reserva-info">
           <h4>{reserva.tituloHabitacion}</h4>
@@ -53,11 +56,12 @@ const ReservaCard = ({ reserva, onCancelar }) => {
         )}
       </div>
 
-      <ModalConfirmacion
+      {/* Modal de Confirmación Sí/No */}
+      <ModalConfirmacionSiNo
         visible={mostrarModal}
-        onClose={cerrarModal}
-        onConfirm={confirmarCancelacion}
         mensaje="¿Estás seguro de que deseas cancelar esta reserva?"
+        onConfirmar={confirmarCancelacion}
+        onCancelar={cerrarModal}
       />
     </>
   );
