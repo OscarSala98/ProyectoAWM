@@ -1,40 +1,68 @@
-// src/components/ReservaCard.jsx
 import React, { useState } from 'react';
 import './ReservaCard.css';
-import ModalConfirmacion from './ModalConfirmacion'; // asegúrate de tener este componente creado
+import ModalConfirmacionSiNo from './ModalConfirmacionSiNo'; // Cambiado el import
+import { useNavigate } from 'react-router-dom';
 
-const ReservaCard = ({ reserva }) => {
+const ReservaCard = ({ reserva, onCancelar }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
+  const navigate = useNavigate();
+
+  const esFutura = new Date(reserva.checkIn) >= new Date();
 
   const manejarCancelacion = () => {
     setMostrarModal(true);
+  };
+
+  const confirmarCancelacion = () => {
+    if (typeof onCancelar === 'function') {
+      onCancelar(reserva.id);
+    }
+    setMostrarModal(false);
   };
 
   const cerrarModal = () => {
     setMostrarModal(false);
   };
 
+  const manejarEditar = () => {
+    navigate('/reservas', { state: { reserva } });
+  };
+
   return (
     <>
       <div className="reserva-card">
-        <img src={reserva.imagen} alt={reserva.habitacion} className="reserva-img" />
+        <img
+          src={reserva.imagen}
+          alt={reserva.tituloHabitacion}
+          className="reserva-img"
+        />
 
         <div className="reserva-info">
-          <h4>{reserva.habitacion}</h4>
+          <h4>{reserva.tituloHabitacion}</h4>
           <p><strong>Check In:</strong> {reserva.checkIn}</p>
-          <p><strong>Duración:</strong> {reserva.duracion}</p>
           <p><strong>Personas:</strong> {reserva.personas}</p>
-          <p className="reserva-precio">{reserva.precio}</p>
+          <p><strong>Precio:</strong> {reserva.precio}</p>
         </div>
 
-        {reserva.tipo !== 'rechazada' && reserva.tipo !== 'pasada' && (
-          <button className="btn-cancelar" onClick={manejarCancelacion}>
-            Cancelar Reservación
-          </button>
+        {esFutura && (
+          <div className="reserva-acciones">
+            <button className="btn-editar" onClick={manejarEditar}>
+              Editar
+            </button>
+            <button className="btn-cancelar" onClick={manejarCancelacion}>
+              Cancelar Reservación
+            </button>
+          </div>
         )}
       </div>
 
-      <ModalConfirmacion visible={mostrarModal} onClose={cerrarModal} />
+      {/* Modal de Confirmación Sí/No */}
+      <ModalConfirmacionSiNo
+        visible={mostrarModal}
+        mensaje="¿Estás seguro de que deseas cancelar esta reserva?"
+        onConfirmar={confirmarCancelacion}
+        onCancelar={cerrarModal}
+      />
     </>
   );
 };

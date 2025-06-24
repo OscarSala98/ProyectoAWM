@@ -46,9 +46,9 @@ const PerfilContenido = ({ usuario }) => {
           <p><strong>Rol:</strong> {usuario.tipo}</p>
         </div>
 
-        <button className="btn-editar" onClick={manejarEdicion}>Editar Perfil</button>
+        <button className="btn-editara" onClick={manejarEdicion}>Editar Perfil</button>
         <br />
-        <button className="btn-eliminar" onClick={() => setMostrarModal(true)}>Eliminar Cuenta</button>
+        <button className="btn-eliminara" onClick={() => setMostrarModal(true)}>Eliminar Cuenta</button>
       </div>
 
       <ModalConfirmacionSiNo
