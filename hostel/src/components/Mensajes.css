@@ -216,3 +216,62 @@ ul {
   align-items: center;
   justify-content: center;
 }
+
+.btn-admin {
+  background-color: #0d6efd;
+  color: white;
+  padding: 10px;
+  margin-bottom: 15px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-admin:hover {
+  background-color: #0b5ed7;
+}
+
+.encabezado-conversacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.btn-eliminar-conversacion {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.btn-eliminar-conversacion:hover {
+  background-color: #bb2d3b;
+}
+
+.btn-admin {
+  background-color: #007bff;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid black;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.btn-admin:hover {
+  background-color: #0056b3;
+}
+
+.dropdown-usuarios {
+  width: 100%;
+  padding: 0.4rem;
+  margin-top: 10px;
+}

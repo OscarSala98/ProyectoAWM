@@ -171,9 +171,9 @@
   "personas": [
     {
       "id": "e68b",
-      "primerNombre": "Luis",
-      "segundoNombre": "Albertosss",
-      "primerApellido": "Guerrero",
+      "primerNombre": "Oscar",
+      "segundoNombre": "David",
+      "primerApellido": "Sala",
       "prefijo": "+7",
       "numero": "+70996775863",
       "correo": "admin@hostel.com",
@@ -194,26 +194,29 @@
       "foto": ""
     },
     {
-      "id": "fbab",
-      "primerNombre": "sabian",
-      "segundoNombre": "alomo",
-      "primerApellido": "Alomoto",
-      "numero": "+593995526514",
+
+      "id": "1750633887141",
+      "primerNombre": "Jean",
+      "segundoNombre": "Poll",
+      "primerApellido": "Cardoso",
       "prefijo": "+593",
-      "correo": "ejemplo2@hostel.com",
-      "contrasena": "Sabina1106@",
+      "numero": "2222222222",
+      "correo": "jean@hostel.com",
+      "contrasena": "123",
+
       "tipo": "usuario",
       "foto": ""
     },
     {
-      "id": "3525",
-      "primerNombre": "sabian",
-      "segundoNombre": "alomo",
-      "primerApellido": "Alomoto",
-      "numero": "+593995526514",
+      "id": "1750636959986",
+      "primerNombre": "Jorge",
+      "segundoNombre": "Luis",
+      "primerApellido": "Pérez",
       "prefijo": "+593",
-      "correo": "ejemplo2@hostel.com",
-      "contrasena": "Sabina1106@",
+      "numero": "3333333333",
+      "correo": "jorge@hostel.com",
+      "contrasena": "123",
+
       "tipo": "usuario",
       "foto": ""
     }
@@ -323,45 +326,43 @@
           "emisor": "e68b",
           "fecha": "2025-06-22T21:56:15.034Z",
           "texto": "hola"
+        },
+        {
+          "id": 1750638035796,
+          "emisor": "e68b",
+          "fecha": "2025-06-23T00:20:35.796Z",
+          "texto": "hola"
         }
       ]
     },
     {
-      "id": "conv-admin-d505",
+      "id": "conv-1750633887141",
+      "participantes": [
+        "d505",
+        "1"
+      ],
+      "mensajes": []
+    },
+    {
+      "id": "conv-1750636959986",
       "participantes": [
         "e68b",
         "1"
       ],
+      "mensajes": []
+    },
+    {
+      "id": "conv-1750638144875",
+      "participantes": [
+        "e68b",
+        "1750633887141"
+      ],
       "mensajes": [
         {
-          "id": 1,
+          "id": 1750638151446,
           "emisor": "e68b",
-          "fecha": "2025-06-22T10:00:00",
-          "texto": "Hola Kevin, ¿cómo  vas"
-        },
-        {
-          "id": 2,
-          "emisor": "d505",
-          "fecha": "2025-06-22T10:01:30",
-          "texto": "Hola admin, ya están todas listas y limpias."
-        },
-        {
-          "id": 3,
-          "emisor": "e68b",
-          "fecha": "2025-06-22T10:02:45",
-          "texto": "Perfecto. Gracias por el reporte, Kevin."
-        },
-        {
-          "id": 4,
-          "emisor": "d505",
-          "fecha": "2025-06-22T10:04:00",
-          "texto": "A la orden jefe 👍"
-        },
-        {
-          "id": 1750629312472,
-          "emisor": "e68b",
-          "fecha": "2025-06-22T21:55:12.472Z",
-          "texto": "aaaa"
+          "fecha": "2025-06-23T00:22:31.446Z",
+          "texto": "hola"
         }
       ]
     }
