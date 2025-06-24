@@ -248,6 +248,7 @@ const handleEliminarConversacion = async () => {
             placeholder="Escribe tu mensaje..."
           />
           <button className="btn-enviar" onClick={handleEnviarMensaje}><BsSendFill /></button>
+          
         </div>
       </div>
     </div>
