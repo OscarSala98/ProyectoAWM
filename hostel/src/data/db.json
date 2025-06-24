@@ -204,6 +204,12 @@
       "contrasena": "123",
       "tipo": "usuario",
       "foto": ""
+    },
+    {
+      "id": "6520"
+    },
+    {
+      "id": "a078"
     }
   ],
   "habitaciones": [
@@ -236,7 +242,7 @@
       "id_habitacion": "HS303",
       "titulo": "Habitación Simple 303",
       "tipo": "Simple",
-      "precio": "$1 - $300",
+      "precio": "$10 - $300",
       "descripcion": "2 Plazas",
       "descripcionLarga": "Habitación cómoda ideal para una o dos personas. Cuenta con cama doble, baño privado, escritorio y excelente iluminación natural.",
       "camas": 1,
@@ -244,7 +250,7 @@
       "parqueo": 1,
       "mascotas": 0,
       "precioDesglose": {
-        "corto": "1",
+        "corto": "10",
         "medio": "20",
         "largo": "300"
       },
