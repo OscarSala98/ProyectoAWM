@@ -170,18 +170,6 @@
   ],
   "personas": [
     {
-      "id": "1",
-      "primerNombre": "Luis",
-      "segundoNombre": "Joaquin",
-      "primerApellido": "Guerrero",
-      "prefijo": "+593",
-      "numero": "0999999999",
-      "correo": "ejemplo@hostel.com",
-      "contrasena": "123456",
-      "tipo": "usuario",
-      "foto": ""
-    },
-    {
       "id": "e68b",
       "primerNombre": "Luis",
       "segundoNombre": "Albertosss",
@@ -206,10 +194,28 @@
       "foto": ""
     },
     {
-      "id": "6520"
+      "id": "fbab",
+      "primerNombre": "sabian",
+      "segundoNombre": "alomo",
+      "primerApellido": "Alomoto",
+      "numero": "+593995526514",
+      "prefijo": "+593",
+      "correo": "ejemplo2@hostel.com",
+      "contrasena": "Sabina1106@",
+      "tipo": "usuario",
+      "foto": ""
     },
     {
-      "id": "a078"
+      "id": "3525",
+      "primerNombre": "sabian",
+      "segundoNombre": "alomo",
+      "primerApellido": "Alomoto",
+      "numero": "+593995526514",
+      "prefijo": "+593",
+      "correo": "ejemplo2@hostel.com",
+      "contrasena": "Sabina1106@",
+      "tipo": "usuario",
+      "foto": ""
     }
   ],
   "habitaciones": [
@@ -242,7 +248,7 @@
       "id_habitacion": "HS303",
       "titulo": "Habitación Simple 303",
       "tipo": "Simple",
-      "precio": "$10 - $300",
+      "precio": "$1 - $300",
       "descripcion": "2 Plazas",
       "descripcionLarga": "Habitación cómoda ideal para una o dos personas. Cuenta con cama doble, baño privado, escritorio y excelente iluminación natural.",
       "camas": 1,
@@ -250,7 +256,7 @@
       "parqueo": 1,
       "mascotas": 0,
       "precioDesglose": {
-        "corto": "10",
+        "corto": "1",
         "medio": "20",
         "largo": "300"
       },
