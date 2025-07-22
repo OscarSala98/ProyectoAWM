@@ -4,6 +4,7 @@ import axios from 'axios';
 import ModalConfirmacion from './ModalConfirmacion';
 import './EditarPerfilFormulario.css';
 
+
 const EditarPerfilFormulario = () => {
   const navigate = useNavigate();
   const usuarioLocal = JSON.parse(localStorage.getItem('usuario'));
