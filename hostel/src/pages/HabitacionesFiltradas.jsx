@@ -8,6 +8,8 @@ import MapaHabitaciones from '../components/MapaHabitaciones';
 import './HabitacionesFiltradas.css';
 import axios from 'axios';
 
+const URLbase = 'http://localhost:3002/api/v1/';
+
 const HabitacionesFiltradas = () => {
   const [habitaciones, setHabitaciones] = useState([]);
   const location = useLocation();
@@ -15,7 +17,7 @@ const HabitacionesFiltradas = () => {
   const [tipoSeleccionado, setTipoSeleccionado] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3002/habitaciones')
+    axios.get(`${URLbase}habitaciones`)
       .then((response) => {
         setHabitaciones(response.data);
       })

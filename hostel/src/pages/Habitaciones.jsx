@@ -6,11 +6,12 @@ import HabitacionCard from '../components/HabitacionCard';
 import './Habitaciones.css';
 import axios from 'axios';
 
+const URLbase = 'http://localhost:3002/api/v1/';
 
 const Habitaciones = () => {
   const [habitaciones, setHabitaciones] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:3002/habitaciones')
+    axios.get(`${URLbase}habitaciones`)
     .then((response) => {
       setHabitaciones(response.data);
     })

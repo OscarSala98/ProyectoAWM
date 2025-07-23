@@ -10,22 +10,22 @@ import './HabitacionDetalle.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const URLbase = 'http://localhost:3002/api/v1/';
+
 const HabitacionDetalle = () => {
-  const [habitaciones, setHabitaciones] = React.useState([]);
-  useEffect(() => {
-    axios.get('http://localhost:3002/habitaciones')
-      .then((response) => {
-        setHabitaciones(response.data);
-      })
-      .catch((error) => {
-        console.error('Error al obtener habitaciones:', error);
-      });
-  }, []);
-
-
+  const [habitacion, setHabitacion] = React.useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
-  const habitacion = habitaciones.find(h => h.id === id);
+
+  useEffect(() => {
+    axios.get(`${URLbase}habitaciones/${id}`)
+      .then((response) => {
+        setHabitacion(response.data);
+      })
+      .catch((error) => {
+        console.error('Error al obtener la habitación:', error);
+      });
+  }, [id]);
 
   if (!habitacion) {
     return <p style={{ textAlign: 'center' }}>Habitación no encontrada</p>;

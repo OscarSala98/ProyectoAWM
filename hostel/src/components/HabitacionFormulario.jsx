@@ -6,6 +6,7 @@ import InfoHabitacion from './InfoHabitacion';
 import ServiciosCheckbox from './ServiciosCheckbox';
 import ModalConfirmacion from './ModalConfirmacion'; 
 import './HabitacionFormulario.css';
+const URLbase = 'http://localhost:3002/api/v1/';
 
 const HabitacionFormulario = ({ esNuevo = false }) => {
   const { id } = useParams();
@@ -32,7 +33,7 @@ const HabitacionFormulario = ({ esNuevo = false }) => {
 
   useEffect(() => {
     if (!esNuevo && id) {
-      axios.get(`http://localhost:3002/habitaciones/${id}`)
+      axios.get(`${URLbase}habitaciones/${id}`)
         .then((res) => {
           setDatos(res.data);
           setLoading(false);
@@ -59,7 +60,7 @@ const HabitacionFormulario = ({ esNuevo = false }) => {
     }
 
     if (esNuevo) {
-      axios.post('http://localhost:3002/habitaciones', datos)
+      axios.post(`${URLbase}habitaciones`, datos)
         .then(() => {
           setModalMensaje('Habitación creada exitosamente ✅'); // ✅
           setModalVisible(true); // ✅
@@ -69,7 +70,7 @@ const HabitacionFormulario = ({ esNuevo = false }) => {
           alert('❌ Error al crear la habitación');
         });
     } else {
-      axios.put(`http://localhost:3002/habitaciones/${id}`, datos)
+      axios.put(`${URLbase}habitaciones/${id}`, datos)
         .then(() => {
           setModalMensaje('Cambios guardados correctamente ✅'); // ✅
           setModalVisible(true); // ✅

@@ -3,6 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './ReservaFormulario.css';
 
+const URLbase = 'http://localhost:3002/api/v1/';
+
+
 const ReservaFormulario = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -25,7 +28,7 @@ const ReservaFormulario = () => {
     const cargarHabitacion = async () => {
       if (reservaEdit && !habitacionInicial) {
         try {
-          const res = await axios.get(`http://localhost:3002/habitaciones/${reservaEdit.habitacionId}`);
+          const res = await axios.get(`${URLbase}habitaciones/${reservaEdit.habitacionId}`);
           setHabitacion(res.data);
           setDatos({
             fechaEntrada: reservaEdit.checkIn,
