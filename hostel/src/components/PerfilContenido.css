@@ -3,7 +3,7 @@
   padding-left: 2rem;
 }
 
-.btn-editara {
+.btn-editar {
   background-color: #db5c35;
   color: white;
   padding: 0.6rem 1.2rem;
@@ -14,7 +14,7 @@
   margin-top: 0.5rem;
 }
 
-.btn-editara:hover {
+.btn-editar:hover {
   background-color: #c24e2a;
 }
 
@@ -24,7 +24,7 @@
   color: #444;
 }
 
-.btn-eliminara {
+.btn-eliminar {
   background-color: #db5c35;
   color: white;
   padding: 0.6rem 1.2rem;
@@ -35,7 +35,7 @@
   margin-top: 0.5rem;
 }
 
-.btn-eliminara:hover {
+.btn-eliminar:hover {
   background-color: #e60000;
 }
 

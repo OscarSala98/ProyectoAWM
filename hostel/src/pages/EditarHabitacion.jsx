@@ -8,6 +8,8 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import HabitacionFormulario from '../components/HabitacionFormulario';
 import ModalConfirmacion from '../components/ModalConfirmacion'; // ✅ importar
 
+const URLbase = 'http://localhost:3002/api/v1/';
+
 const EditarHabitacion = () => {
   const { id } = useParams();
   const [habitaciones, setHabitaciones] = useState([]);
@@ -36,14 +38,14 @@ const EditarHabitacion = () => {
   };
 
   const obtenerHabitaciones = () => {
-    axios.get('http://localhost:3002/habitaciones')
+    axios.get(`${URLbase}habitaciones`)
       .then((res) => setHabitaciones(res.data))
       .catch((err) => console.error('Error al obtener habitaciones:', err));
   };
 
   const manejarEliminar = (id) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta habitación?')) {
-      axios.delete(`http://localhost:3002/habitaciones/${id}`)
+      axios.delete(`${URLbase}habitaciones/${id}`)
         .then(() => {
           setHabitaciones(habitaciones.filter(h => h.id !== id));
           setModalMensaje('✅ Habitación eliminada correctamente');
