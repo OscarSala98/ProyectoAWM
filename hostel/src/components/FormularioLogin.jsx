@@ -4,6 +4,8 @@ import './FormularioLogin.css';
 import FormularioRecuperar from './FormularioRecuperar';
 import axios from 'axios';
 
+const URLbase = 'http://localhost:3002/api/v1/';
+
 const FormularioLogin = ({ onClose }) => {
   const [mostrarRecuperar, setMostrarRecuperar] = useState(false);
   const [correo, setCorreo] = useState('');
@@ -29,7 +31,7 @@ const FormularioLogin = ({ onClose }) => {
     }
 
     try {
-      const res = await axios.get('http://localhost:3002/personas', {
+      const res = await axios.get(`${URLbase}personas`, {
         params: {
           correo: correo,
           contrasena: contrasena

@@ -3,6 +3,8 @@ import axios from 'axios';
 import ModalConfirmacion from './ModalConfirmacion';
 import './FormularioRegistro.css';
 
+const URLbase = 'http://localhost:3002/api/v1/';
+
 const FormularioRegistro = ({ onClose }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mensajeModal, setMensajeModal] = useState('');
@@ -35,7 +37,7 @@ const FormularioRegistro = ({ onClose }) => {
       numero: persona.prefijo + persona.numero // Sobrescribe el campo 'numero' con el prefijo incluido
     };
 
-    axios.post('http://localhost:3002/personas', datosAEnviar)
+    axios.post(`${URLbase}personas`, datosAEnviar)
       .then(() => {
         setMensajeModal('Registro exitoso ✅');
         setModalVisible(true);

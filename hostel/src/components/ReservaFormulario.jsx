@@ -115,10 +115,10 @@ const ReservaFormulario = () => {
 
     try {
       if (reservaEdit) {
-        await axios.put(`http://localhost:3002/reservas/${reservaEdit.id}`, reservaFinal);
+        await axios.put(`${URLbase}reservas/${reservaEdit.id}`, reservaFinal);
       } else {
-        await axios.post('http://localhost:3002/reservas', reservaFinal);
-        await axios.post('http://localhost:3002/notificaciones', {
+        await axios.post(`${URLbase}reservas`, reservaFinal);
+        await axios.post(`${URLbase}notificaciones`, {
           id: Date.now().toString(),
           texto: `Nueva reserva: ${habitacion.titulo}`,
           fecha: new Date().toISOString().split('T')[0]

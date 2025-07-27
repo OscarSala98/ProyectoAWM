@@ -6,6 +6,8 @@ import ReservasTabsAdmin from '../components/ReservasTabsAdmin';
 import ReservaCardAdmin from '../components/ReservaCardAdmin';
 import './Reservas.css';
 
+const URLbase = 'http://localhost:3002/api/v1/';
+
 const manejarAtras = () => {
   window.history.back();
 };
@@ -16,7 +18,7 @@ const ReservacionesAdmin = () => {
 
   const cargarReservas = async () => {
     try {
-      const res = await axios.get('http://localhost:3002/reservas');
+      const res = await axios.get(`${URLbase}reservas`);
       setReservas(res.data);
     } catch (error) {
       console.error('Error al cargar reservas:', error);

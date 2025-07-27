@@ -11,7 +11,7 @@ import './PerfilUsuario.css';
 
 const PerfilUsuario = () => {
   const navigate = useNavigate();
-  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  const usuario = JSON.parse(localStorage.getItem('usuario'));// Obtiene el usuario del localStorage
 
   useEffect(() => {
     if (!usuario) {

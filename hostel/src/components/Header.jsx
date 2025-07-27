@@ -5,7 +5,7 @@ import { FaUserCircle, FaBars } from 'react-icons/fa';
 import logo from '../assets/logo.webp';
 import FormularioLogin from './FormularioLogin';
 import FormularioRegistro from './FormularioRegistro';
-import ModalConfirmacion from './ModalConfirmacion'; 
+import ModalConfirmacion from './ModalConfirmacion';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -13,6 +13,8 @@ const Header = () => {
   const [mostrarRegistro, setMostrarRegistro] = useState(false);
   const [mostrarMenu, setMostrarMenu] = useState(false);
   const [mostrarAlerta, setMostrarAlerta] = useState(false);
+
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
 
   const toggleMenu = () => setMostrarMenu(!mostrarMenu);
   const cerrarMenu = () => setMostrarMenu(false);
@@ -28,12 +30,18 @@ const Header = () => {
   };
 
   const manejarClickUsuario = () => {
-    const usuario = localStorage.getItem('usuario');
     if (usuario) {
       navigate('/perfil');
     } else {
       setMostrarAlerta(true);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('usuario');
+    cerrarMenu();
+    navigate('/');
+    window.location.reload(); // Refrescar para aplicar cambios
   };
 
   return (
@@ -49,7 +57,10 @@ const Header = () => {
       <div className="right-area">
         <div className="user-button" onClick={manejarClickUsuario}>
           <FaUserCircle size={20} />
-          <span>Usuario</span>
+          
+          <span>
+            {usuario ? `${usuario.primerNombre} ${usuario.primerApellido}` : 'Usuario'}
+          </span>
         </div>
 
         <div className="hamburger" onClick={toggleMenu}>
@@ -58,8 +69,24 @@ const Header = () => {
 
         {mostrarMenu && (
           <div className="hamburger-menu">
-            <button onClick={abrirLogin}>Iniciar Sesión</button>
-            <button onClick={abrirRegistro}>Registrarse</button>
+            {usuario ? (
+              <>
+                <button onClick={() => { navigate('/perfil'); cerrarMenu(); }}>
+                  Perfil
+                </button>
+                <button onClick={() => { navigate('/mis-reservas'); cerrarMenu(); }}>
+                  Reservaciones
+                </button>
+                <button onClick={handleLogout}>
+                  Cerrar Sesión
+                </button>
+              </>
+            ) : (
+              <>
+                <button onClick={abrirLogin}>Iniciar Sesión</button>
+                <button onClick={abrirRegistro}>Registrarse</button>
+              </>
+            )}
           </div>
         )}
       </div>

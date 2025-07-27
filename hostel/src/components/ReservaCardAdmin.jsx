@@ -3,17 +3,19 @@ import './ReservaCardAdmin.css';
 import ModalConfirmacion from './ModalConfirmacion';
 import axios from 'axios';
 
+const URLbase = 'http://localhost:3002/api/v1/';
+
 const ReservaCardAdmin = ({ reserva, recargarReservas }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mensajeModal, setMensajeModal] = useState('');
 
   const actualizarEstadoReserva = async (nuevoEstado, mensaje) => {
     try {
-      await axios.patch(`http://localhost:3002/reservas/${reserva.id}`, {
+      await axios.patch(`${URLbase}reservas/${reserva.id}`, {
         estado: nuevoEstado
       });
 
-      await axios.post('http://localhost:3002/notificaciones', {
+      await axios.post(`${URLbase}notificaciones`, {
         id: Date.now().toString(),
         texto: `Reserva ${nuevoEstado}: ${reserva.tituloHabitacion}`,
         fecha: new Date().toISOString().split('T')[0]

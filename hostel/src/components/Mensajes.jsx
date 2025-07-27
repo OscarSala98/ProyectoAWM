@@ -5,6 +5,8 @@ import './Mensajes.css';
 import { BsSendFill } from 'react-icons/bs';
 import { FaEllipsisV } from 'react-icons/fa';
 
+const URLbase = 'http://localhost:3002/api/v1/';
+
 const Mensajes = () => {
   const { id } = useParams();
   const [usuarios, setUsuarios] = useState([]);
@@ -21,8 +23,8 @@ const Mensajes = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const usuariosRes = await axios.get('http://localhost:3002/personas');
-      const conversacionesRes = await axios.get('http://localhost:3002/conversaciones');
+      const usuariosRes = await axios.get(`${URLbase}personas`);
+      const conversacionesRes = await axios.get(`${URLbase}conversaciones`);
 
       const todos = usuariosRes.data;
       const convs = conversacionesRes.data;
@@ -74,7 +76,7 @@ const Mensajes = () => {
         participantes: [id, otroUsuario.id],
         mensajes: []
       };
-      const creada = await axios.post('http://localhost:3002/conversaciones', nueva);
+      const creada = await axios.post(`${URLbase}conversaciones`, nueva);
       setConversacion(creada.data);
       setContactoActivo(otroUsuario);
       setConversaciones([...conversaciones, creada.data]);
@@ -96,7 +98,7 @@ const Mensajes = () => {
       ...conversacion,
       mensajes: [...conversacion.mensajes, nuevo]
     };
-    await axios.put(`http://localhost:3002/conversaciones/${conversacion.id}`, actualizada);
+    await axios.put(`${URLbase}conversaciones/${conversacion.id}`, actualizada);
     setConversacion(actualizada);
     setNuevoMensaje('');
   };
@@ -104,7 +106,7 @@ const Mensajes = () => {
   const handleEliminarMensaje = async (idMensaje) => {
     const mensajesFiltrados = conversacion.mensajes.filter(m => m.id !== idMensaje);
     const actualizada = { ...conversacion, mensajes: mensajesFiltrados };
-    await axios.put(`http://localhost:3002/conversaciones/${conversacion.id}`, actualizada);
+    await axios.put(`${URLbase}conversaciones/${conversacion.id}`, actualizada);
     setConversacion(actualizada);
   };
 
@@ -113,7 +115,7 @@ const Mensajes = () => {
       m.id === idMensaje ? { ...m, texto: textoEditado } : m
     );
     const actualizada = { ...conversacion, mensajes: mensajesActualizados };
-    await axios.put(`http://localhost:3002/conversaciones/${conversacion.id}`, actualizada);
+    await axios.put(`${URLbase}conversaciones/${conversacion.id}`, actualizada);
     setConversacion(actualizada);
     setMensajeEditando(null);
     setTextoEditado('');
@@ -123,12 +125,12 @@ const handleEliminarConversacion = async () => {
   if (!conversacion) return;
   if (!window.confirm("¿Estás seguro de eliminar esta conversación?")) return;
 
-  await axios.delete(`http://localhost:3002/conversaciones/${conversacion.id}`);
+  await axios.delete(`${URLbase}conversaciones/${conversacion.id}`);
   setConversacion(null);
   setContactoActivo(null);
 
   // 🔄 Recalcular contactos con conversación para ambos tipos de usuario
-  const convRes = await axios.get('http://localhost:3002/conversaciones');
+  const convRes = await axios.get(`${URLbase}conversaciones`);
   const conversacionesRestantes = convRes.data.filter(c => c.participantes.includes(id));
   const idsConConversacion = conversacionesRestantes.map(c =>
     c.participantes.find(pid => pid !== id)
