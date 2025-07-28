@@ -16,8 +16,6 @@ import ReservacionesAdmin from './pages/ReservacionesAdmin';
 import EditarHabitacion from './pages/EditarHabitacion';
 
 
-import ReservaFormulario from './components/ReservaFormulario';
-
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -32,7 +30,7 @@ function App() {
         <Route path="/habitaciones" element={<Habitaciones />} />
         <Route path="/habitaciones-filtradas" element={<HabitacionesFiltradas />} />
         <Route path="/habitacion/:id" element={<HabitacionDetalle />} />
-        <Route path="/reservas" element={<ReservaFormulario />} />
+        <Route path="/reservas" element={<Reservas />} />
         <Route path="/perfil" element={<PerfilUsuario/>} />
         <Route path="/editar-perfil" element={<EditarPerfil />} />
         <Route path="/chat/:id" element={<Chat />} />

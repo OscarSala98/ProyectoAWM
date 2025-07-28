@@ -6,6 +6,13 @@ import { BsSendFill } from 'react-icons/bs';
 import { FaEllipsisV } from 'react-icons/fa';
 
 const URLbase = 'http://localhost:3002/api/v1/';
+const token = localStorage.getItem("token");
+
+const axiosConfig = {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+};
 
 const Mensajes = () => {
   const { id } = useParams();
@@ -23,27 +30,31 @@ const Mensajes = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const usuariosRes = await axios.get(`${URLbase}personas`);
-      const conversacionesRes = await axios.get(`${URLbase}conversaciones`);
+      try {
+        const usuariosRes = await axios.get(`${URLbase}personas`, axiosConfig);
+        const conversacionesRes = await axios.get(`${URLbase}conversaciones`, axiosConfig);
 
-      const todos = usuariosRes.data;
-      const convs = conversacionesRes.data;
-      setUsuarios(todos);
-      setConversaciones(convs);
-      const yo = todos.find(u => u.id === id);
-      setTipoUsuario(yo?.tipo?.toLowerCase());
+        const todos = usuariosRes.data;
+        const convs = conversacionesRes.data;
+        setUsuarios(todos);
+        setConversaciones(convs);
+        const yo = todos.find(u => u.id === id);
+        setTipoUsuario(yo?.tipo?.toLowerCase());
 
-      if (yo?.tipo?.toLowerCase() === 'admin') {
-        const participantesUnicos = convs
-          .filter(c => c.participantes.includes(id))
-          .map(c => c.participantes.find(pid => pid !== id));
-        const usuariosFiltrados = todos.filter(u => participantesUnicos.includes(u.id));
-        setContactos(usuariosFiltrados);
-      } else {
-        const admin = todos.find(u => u.tipo?.toLowerCase() === 'admin');
-        if (convs.some(c => c.participantes.includes(id) && c.participantes.includes(admin?.id))) {
-          setContactos([admin]);
+        if (yo?.tipo?.toLowerCase() === 'admin') {
+          const participantesUnicos = convs
+            .filter(c => c.participantes.includes(id))
+            .map(c => c.participantes.find(pid => pid !== id));
+          const usuariosFiltrados = todos.filter(u => participantesUnicos.includes(u.id));
+          setContactos(usuariosFiltrados);
+        } else {
+          const admin = todos.find(u => u.tipo?.toLowerCase() === 'admin');
+          if (convs.some(c => c.participantes.includes(id) && c.participantes.includes(admin?.id))) {
+            setContactos([admin]);
+          }
         }
+      } catch (error) {
+        console.error('Error al obtener datos:', error);
       }
     };
     fetchData();
@@ -72,11 +83,9 @@ const Mensajes = () => {
       setConversacion(existente);
     } else {
       const nueva = {
-        id: `conv-${Date.now()}`,
-        participantes: [id, otroUsuario.id],
-        mensajes: []
+        participantes: [id, otroUsuario.id]
       };
-      const creada = await axios.post(`${URLbase}conversaciones`, nueva);
+      const creada = await axios.post(`${URLbase}conversaciones`, nueva, axiosConfig);
       setConversacion(creada.data);
       setContactoActivo(otroUsuario);
       setConversaciones([...conversaciones, creada.data]);
@@ -87,61 +96,83 @@ const Mensajes = () => {
   };
 
   const handleEnviarMensaje = async () => {
-    if (!nuevoMensaje.trim()) return;
-    const nuevo = {
-      id: Date.now(),
-      emisor: id,
-      fecha: new Date().toISOString(),
-      texto: nuevoMensaje
-    };
-    const actualizada = {
-      ...conversacion,
-      mensajes: [...conversacion.mensajes, nuevo]
-    };
-    await axios.put(`${URLbase}conversaciones/${conversacion.id}`, actualizada);
-    setConversacion(actualizada);
-    setNuevoMensaje('');
+    if (!nuevoMensaje.trim() || !conversacion) return;
+
+    try {
+      const respuesta = await axios.post(
+        `${URLbase}conversaciones/${conversacion.id}/mensajes`,
+        {
+          emisor: id,
+          texto: nuevoMensaje
+        },
+        axiosConfig
+      );
+
+      const mensajeNuevo = respuesta.data.mensajeEnviado;
+      setConversacion(prev => ({
+        ...prev,
+        mensajes: [...prev.mensajes, mensajeNuevo]
+      }));
+      setNuevoMensaje('');
+    } catch (error) {
+      console.error('Error al enviar mensaje:', error);
+    }
   };
 
   const handleEliminarMensaje = async (idMensaje) => {
-    const mensajesFiltrados = conversacion.mensajes.filter(m => m.id !== idMensaje);
-    const actualizada = { ...conversacion, mensajes: mensajesFiltrados };
-    await axios.put(`${URLbase}conversaciones/${conversacion.id}`, actualizada);
-    setConversacion(actualizada);
+    try {
+      await axios.delete(`${URLbase}conversaciones/${conversacion.id}/mensajes/${idMensaje}`, axiosConfig);
+      setConversacion(prev => ({
+        ...prev,
+        mensajes: prev.mensajes.filter(m => m.id !== idMensaje)
+      }));
+    } catch (error) {
+      console.error('Error al eliminar mensaje:', error);
+    }
   };
 
   const handleEditarMensaje = async (idMensaje) => {
-    const mensajesActualizados = conversacion.mensajes.map(m =>
-      m.id === idMensaje ? { ...m, texto: textoEditado } : m
-    );
-    const actualizada = { ...conversacion, mensajes: mensajesActualizados };
-    await axios.put(`${URLbase}conversaciones/${conversacion.id}`, actualizada);
-    setConversacion(actualizada);
-    setMensajeEditando(null);
-    setTextoEditado('');
+    try {
+      const respuesta = await axios.put(
+        `${URLbase}conversaciones/${conversacion.id}/mensajes/${idMensaje}`,
+        { texto: textoEditado },
+        axiosConfig
+      );
+
+      const actualizado = respuesta.data.mensaje;
+
+      setConversacion(prev => ({
+        ...prev,
+        mensajes: prev.mensajes.map(m =>
+          m.id === actualizado.id ? actualizado : m
+        )
+      }));
+
+      setMensajeEditando(null);
+      setTextoEditado('');
+    } catch (error) {
+      console.error('Error al editar mensaje:', error);
+    }
   };
 
-const handleEliminarConversacion = async () => {
-  if (!conversacion) return;
-  if (!window.confirm("¿Estás seguro de eliminar esta conversación?")) return;
+  const handleEliminarConversacion = async () => {
+    if (!conversacion) return;
+    if (!window.confirm("¿Estás seguro de eliminar esta conversación?")) return;
 
-  await axios.delete(`${URLbase}conversaciones/${conversacion.id}`);
-  setConversacion(null);
-  setContactoActivo(null);
+    await axios.delete(`${URLbase}conversaciones/${conversacion.id}`, axiosConfig);
+    setConversacion(null);
+    setContactoActivo(null);
 
-  // 🔄 Recalcular contactos con conversación para ambos tipos de usuario
-  const convRes = await axios.get(`${URLbase}conversaciones`);
-  const conversacionesRestantes = convRes.data.filter(c => c.participantes.includes(id));
-  const idsConConversacion = conversacionesRestantes.map(c =>
-    c.participantes.find(pid => pid !== id)
-  );
-  const nuevosContactos = usuarios.filter(u => idsConConversacion.includes(u.id));
-  setContactos(nuevosContactos);
+    const convRes = await axios.get(`${URLbase}conversaciones`, axiosConfig);
+    const conversacionesRestantes = convRes.data.filter(c => c.participantes.includes(id));
+    const idsConConversacion = conversacionesRestantes.map(c =>
+      c.participantes.find(pid => pid !== id)
+    );
+    const nuevosContactos = usuarios.filter(u => idsConConversacion.includes(u.id));
+    setContactos(nuevosContactos);
 
-  // Recargar la página al final
-  window.location.reload();
-};
-
+    window.location.reload();
+  };
 
   return (
     <div className="mensajes-container">
@@ -250,7 +281,6 @@ const handleEliminarConversacion = async () => {
             placeholder="Escribe tu mensaje..."
           />
           <button className="btn-enviar" onClick={handleEnviarMensaje}><BsSendFill /></button>
-          
         </div>
       </div>
     </div>

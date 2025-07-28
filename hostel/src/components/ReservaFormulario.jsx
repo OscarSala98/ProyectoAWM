@@ -5,7 +5,6 @@ import './ReservaFormulario.css';
 
 const URLbase = 'http://localhost:3002/api/v1/';
 
-
 const ReservaFormulario = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -23,10 +22,10 @@ const ReservaFormulario = () => {
   });
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Buscar habitación si estamos en modo edición
+  // Cargar habitación si es edición
   useEffect(() => {
-    const cargarHabitacion = async () => {
-      if (reservaEdit && !habitacionInicial) {
+    const obtenerHabitacion = async () => {
+      if (!habitacion && reservaEdit) {
         try {
           const res = await axios.get(`${URLbase}habitaciones/${reservaEdit.habitacionId}`);
           setHabitacion(res.data);
@@ -36,8 +35,8 @@ const ReservaFormulario = () => {
             adultos: reservaEdit.adultos,
             ninos: reservaEdit.ninos
           });
-        } catch (error) {
-          console.error('Error al cargar habitación:', error);
+        } catch (err) {
+          console.error('Error cargando habitación', err);
         }
       } else if (habitacionInicial && reservaEdit) {
         setDatos({
@@ -49,33 +48,35 @@ const ReservaFormulario = () => {
       }
     };
 
-    cargarHabitacion();
-  }, [reservaEdit, habitacionInicial]);
+    obtenerHabitacion();
+  }, [reservaEdit, habitacion, habitacionInicial]);
 
   const calcularDias = () => {
     if (!datos.fechaEntrada || !datos.fechaSalida) return 0;
-    const entrada = new Date(datos.fechaEntrada);
-    const salida = new Date(datos.fechaSalida);
-    const diferencia = salida - entrada;
-    return Math.max(Math.ceil(diferencia / (1000 * 60 * 60 * 24)), 1);
+    const inicio = new Date(datos.fechaEntrada);
+    const fin = new Date(datos.fechaSalida);
+    const diff = fin - inicio;
+    return Math.max(Math.ceil(diff / (1000 * 60 * 60 * 24)), 1);
   };
 
   const calcularPrecio = () => {
-    const totalPersonas = parseInt(datos.adultos) + parseInt(datos.ninos);
+    if (!habitacion || !habitacion.precioDesglose) return 0;
+
+    const personas = parseInt(datos.adultos) + parseInt(datos.ninos);
     const dias = calcularDias();
     const camas = parseInt(habitacion.camas);
 
-    if (totalPersonas > camas) return -1;
+    if (personas > camas) return -1;
 
     const corto = parseFloat(habitacion.precioDesglose.corto.replace('$', ''));
     const medio = parseFloat(habitacion.precioDesglose.medio.replace('$', ''));
     const largo = parseFloat(habitacion.precioDesglose.largo.replace('$', ''));
 
-    let basePrecio = corto;
-    if (totalPersonas === camas) basePrecio = largo;
-    else if (totalPersonas > 1) basePrecio = medio;
+    let precioBase = corto;
+    if (personas === camas) precioBase = largo;
+    else if (personas > 1) precioBase = medio;
 
-    return basePrecio * dias;
+    return precioBase * dias;
   };
 
   const handleChange = (e) => {
@@ -85,17 +86,18 @@ const ReservaFormulario = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const totalPersonas = parseInt(datos.adultos) + parseInt(datos.ninos);
+
+    const personas = parseInt(datos.adultos) + parseInt(datos.ninos);
     const camas = parseInt(habitacion.camas);
 
-    if (totalPersonas > camas) {
-      setErrorMsg(`Esta habitación admite hasta ${camas} personas.`);
+    if (personas > camas) {
+      setErrorMsg(`La habitación solo permite hasta ${camas} personas.`);
       return;
     }
 
     const precioTotal = calcularPrecio();
 
-    const reservaFinal = {
+    const reserva = {
       id: reservaEdit ? reservaEdit.id : Date.now().toString(),
       habitacionId: habitacion.id,
       tituloHabitacion: habitacion.titulo,
@@ -115,28 +117,32 @@ const ReservaFormulario = () => {
 
     try {
       if (reservaEdit) {
-        await axios.put(`${URLbase}reservas/${reservaEdit.id}`, reservaFinal);
+        await axios.put(`${URLbase}reservas/${reservaEdit.id}`, reserva);
+        alert('Reserva actualizada correctamente.');
       } else {
-        await axios.post(`${URLbase}reservas`, reservaFinal);
-        await axios.post(`${URLbase}notificaciones`, {
-          id: Date.now().toString(),
-          texto: `Nueva reserva: ${habitacion.titulo}`,
-          fecha: new Date().toISOString().split('T')[0]
-        });
+        await axios.post(`${URLbase}reservas`, reserva);
+        alert('Reserva creada con éxito.');
       }
 
-      alert(reservaEdit ? 'Reserva actualizada' : '¡Reserva registrada!');
-      navigate('/mis-reservas');
-    } catch (error) {
-      console.error('Error al guardar reserva:', error);
+      // Intentar notificar sin bloquear
+      axios.post(`${URLbase}notificaciones`, {
+        id: Date.now().toString(),
+        texto: `Nueva reserva: ${habitacion.titulo}`,
+        fecha: new Date().toISOString().split('T')[0]
+      }).catch(err => console.warn('No se pudo enviar notificación:', err.message));
+
+      navigate('/habitaciones');
+    } catch (err) {
+      console.error(err);
+      alert('Ocurrió un error al guardar la reserva.');
     }
   };
 
   if (!usuario) return <p>Error: Usuario no autenticado.</p>;
   if (!habitacion) return <p>Error: No se encontró la habitación.</p>;
 
-  const precioTotal = calcularPrecio();
-  const duracion = calcularDias();
+  const dias = calcularDias();
+  const total = calcularPrecio();
 
   return (
     <div className="booking-form">
@@ -144,11 +150,11 @@ const ReservaFormulario = () => {
 
       <img src={habitacion.portada} alt={habitacion.titulo} width="300" style={{ borderRadius: '10px' }} />
 
-      <div style={{ margin: '1rem 0', padding: '1rem', background: '#fff', borderRadius: '10px' }}>
+      <div className="resumen">
         {datos.fechaEntrada && <p><strong>Check In:</strong> {new Date(datos.fechaEntrada).toLocaleDateString()}</p>}
-        {duracion > 0 && <p><strong>Duración:</strong> {duracion} {duracion === 1 ? 'día' : 'días'}</p>}
+        {dias > 0 && <p><strong>Duración:</strong> {dias} {dias === 1 ? 'día' : 'días'}</p>}
         <p><strong>Personas:</strong> {datos.adultos} adulto(s), {datos.ninos} niño(s)</p>
-        {precioTotal > 0 && <p><strong>Total:</strong> ${precioTotal} USD</p>}
+        {total > 0 && <p><strong>Total:</strong> ${total} USD</p>}
         {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
       </div>
 
@@ -158,22 +164,18 @@ const ReservaFormulario = () => {
             <label>Check In</label>
             <input type="date" name="fechaEntrada" value={datos.fechaEntrada} onChange={handleChange} required />
           </div>
-
           <div className="form-group">
             <label>Check Out</label>
             <input type="date" name="fechaSalida" value={datos.fechaSalida} onChange={handleChange} required />
           </div>
-
           <div className="form-group">
             <label>Adultos</label>
             <input type="number" name="adultos" min="1" value={datos.adultos} onChange={handleChange} required />
           </div>
-
           <div className="form-group">
             <label>Niños</label>
             <input type="number" name="ninos" min="0" value={datos.ninos} onChange={handleChange} />
           </div>
-
           <div className="search-btn">
             <button type="submit">{reservaEdit ? 'Actualizar' : 'Reservar'}</button>
           </div>

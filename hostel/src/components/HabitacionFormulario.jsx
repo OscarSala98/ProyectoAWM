@@ -13,6 +13,7 @@ const HabitacionFormulario = ({ esNuevo = false }) => {
   const navigate = useNavigate();
 
   const [datos, setDatos] = useState({
+    id: null,
     id_habitacion: '',
     tipo: '',
     descripcion: '',
@@ -35,7 +36,7 @@ const HabitacionFormulario = ({ esNuevo = false }) => {
     if (!esNuevo && id) {
       axios.get(`${URLbase}habitaciones/${id}`)
         .then((res) => {
-          setDatos(res.data);
+          setDatos(res.data, {id: parseInt(id)});
           setLoading(false);
         })
         .catch((err) => console.error('Error al obtener datos de la habitación:', err));
@@ -68,15 +69,16 @@ const HabitacionFormulario = ({ esNuevo = false }) => {
         .catch((err) => {
           console.error('Error al crear habitación:', err);
           alert('❌ Error al crear la habitación');
+          console.log(err);
         });
     } else {
-      axios.put(`${URLbase}habitaciones/${id}`, datos)
+      axios.put(`${URLbase}habitaciones/${datos.id}`, datos)
         .then(() => {
           setModalMensaje('Cambios guardados correctamente ✅'); // ✅
           setModalVisible(true); // ✅
         })
         .catch((err) => {
-          console.error('Error al guardar los cambios:', err);
+          console.error('Error al guardar los cambios:', err, datos.id);
           alert('❌ Hubo un error al guardar los cambios');
         });
     }
