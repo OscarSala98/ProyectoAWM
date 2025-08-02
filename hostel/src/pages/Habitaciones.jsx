@@ -6,7 +6,7 @@ import HabitacionCard from '../components/HabitacionCard';
 import './Habitaciones.css';
 import axios from 'axios';
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const Habitaciones = () => {
   const [habitaciones, setHabitaciones] = useState([]);

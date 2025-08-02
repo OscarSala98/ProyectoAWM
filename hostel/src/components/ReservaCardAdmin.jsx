@@ -3,7 +3,7 @@ import './ReservaCardAdmin.css';
 import ModalConfirmacion from './ModalConfirmacion';
 import axios from 'axios';
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const ReservaCardAdmin = ({ reserva, recargarReservas }) => {
   const [modalVisible, setModalVisible] = useState(false);

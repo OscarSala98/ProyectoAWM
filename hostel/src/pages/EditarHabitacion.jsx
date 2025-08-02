@@ -8,7 +8,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import HabitacionFormulario from '../components/HabitacionFormulario';
 import ModalConfirmacion from '../components/ModalConfirmacion'; // ✅ importar
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const EditarHabitacion = () => {
   const { id } = useParams();

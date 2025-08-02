@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './ReservaFormulario.css';
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const ReservaFormulario = () => {
   const { state } = useLocation();

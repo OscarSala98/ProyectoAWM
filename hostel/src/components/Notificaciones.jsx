@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Notificaciones.css';
 
-const API_URL = 'http://localhost:3002/notificaciones';
+const API_URL = 'http://localhost:3002/api/notificaciones';
 
 const Notificaciones = () => {
   const [notificaciones, setNotificaciones] = useState([]);

@@ -4,7 +4,7 @@ import axios from 'axios';
 import ModalConfirmacion from './ModalConfirmacion';
 import './EditarPerfilFormulario.css';
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const EditarPerfilFormulario = () => {
   const navigate = useNavigate();

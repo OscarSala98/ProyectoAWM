@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './FormularioLogin.css';
 import FormularioRecuperar from './FormularioRecuperar';
-import axios from 'axios';
-
-const URLbase = 'http://localhost:3002/api/v1/';
+import authService from '../services/authService';
 
 const FormularioLogin = ({ onClose }) => {
   const [mostrarRecuperar, setMostrarRecuperar] = useState(false);
@@ -31,25 +29,28 @@ const FormularioLogin = ({ onClose }) => {
     }
 
     try {
-      const res = await axios.get(`${URLbase}personas`, {
-        params: {
-          correo: correo,
-          contrasena: contrasena
-        }
+      // Usar el servicio de autenticación JWT
+      const response = await authService.login({
+        correo: correo,
+        contrasena: contrasena
       });
 
-      if (res.data.length > 0) {
-        const usuario = res.data[0];
-        localStorage.setItem('usuario', JSON.stringify(usuario));
-
-        onClose();
-        navigate(usuario.tipo === 'admin' ? '/admin/perfil' : '/perfil');
-      } else {
-        setError('Correo o contraseña incorrectos');
-      }
+      // Login exitoso - cerrar modal y redirigir
+      onClose();
+      
+      const usuario = response.persona;
+      navigate(usuario.tipo === 'admin' ? '/admin/perfil' : '/perfil');
+      
     } catch (error) {
       console.error(error);
-      setError('Error al conectar con el servidor');
+      // Manejar diferentes tipos de errores
+      if (error.error) {
+        setError(error.error);
+      } else if (error.message) {
+        setError(error.message);
+      } else {
+        setError('Las credenciales están mal ingresadas');
+      }
     }
   };
 

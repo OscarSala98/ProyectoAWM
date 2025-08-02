@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
 import { FaUserCircle, FaBars } from 'react-icons/fa';
@@ -6,6 +6,7 @@ import logo from '../assets/logo.webp';
 import FormularioLogin from './FormularioLogin';
 import FormularioRegistro from './FormularioRegistro';
 import ModalConfirmacion from './ModalConfirmacion';
+import authService from '../services/authService';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -13,8 +14,13 @@ const Header = () => {
   const [mostrarRegistro, setMostrarRegistro] = useState(false);
   const [mostrarMenu, setMostrarMenu] = useState(false);
   const [mostrarAlerta, setMostrarAlerta] = useState(false);
+  const [usuario, setUsuario] = useState(null);
 
-  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  // Obtener usuario del localStorage cuando el componente se monte
+  useEffect(() => {
+    const usuarioActual = authService.getCurrentUser();
+    setUsuario(usuarioActual);
+  }, []);
 
   const toggleMenu = () => setMostrarMenu(!mostrarMenu);
   const cerrarMenu = () => setMostrarMenu(false);
@@ -31,14 +37,20 @@ const Header = () => {
 
   const manejarClickUsuario = () => {
     if (usuario) {
-      navigate('/perfil');
+      // Redirigir según el tipo de usuario
+      if (usuario.tipo === 'admin') {
+        navigate('/admin/perfil');
+      } else {
+        navigate('/perfil');
+      }
     } else {
       setMostrarAlerta(true);
     }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('usuario');
+    authService.logout();
+    setUsuario(null);
     cerrarMenu();
     navigate('/');
     window.location.reload(); // Refrescar para aplicar cambios
@@ -71,7 +83,15 @@ const Header = () => {
           <div className="hamburger-menu">
             {usuario ? (
               <>
-                <button onClick={() => { navigate('/perfil'); cerrarMenu(); }}>
+                <button onClick={() => { 
+                  // Redirigir según el tipo de usuario
+                  if (usuario.tipo === 'admin') {
+                    navigate('/admin/perfil');
+                  } else {
+                    navigate('/perfil');
+                  }
+                  cerrarMenu(); 
+                }}>
                   Perfil
                 </button>
                 <button onClick={() => { navigate('/mis-reservas'); cerrarMenu(); }}>

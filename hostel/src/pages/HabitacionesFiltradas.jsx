@@ -8,7 +8,7 @@ import MapaHabitaciones from '../components/MapaHabitaciones';
 import './HabitacionesFiltradas.css';
 import axios from 'axios';
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const HabitacionesFiltradas = () => {
   const [habitaciones, setHabitaciones] = useState([]);

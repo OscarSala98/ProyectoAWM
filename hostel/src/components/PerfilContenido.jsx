@@ -5,7 +5,7 @@ import ModalConfirmacionSiNo from './ModalConfirmacionSiNo';
 import ModalConfirmacion from './ModalConfirmacion';
 import './PerfilContenido.css';
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const PerfilContenido = () => {
   const [usuario, setUsuario] = useState(null);

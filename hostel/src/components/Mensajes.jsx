@@ -5,7 +5,7 @@ import './Mensajes.css';
 import { BsSendFill } from 'react-icons/bs';
 import { FaEllipsisV } from 'react-icons/fa';
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 const token = localStorage.getItem("token");
 
 const axiosConfig = {

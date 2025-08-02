@@ -6,7 +6,7 @@ import ReservasTabs from '../components/ReservasTabs';
 import ReservaCard from '../components/ReservaCard';
 import './Reservas.css';
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const MisReservas = () => {
   const [tabActivo, setTabActivo] = useState('futura');

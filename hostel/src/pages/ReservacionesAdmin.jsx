@@ -6,7 +6,7 @@ import ReservasTabsAdmin from '../components/ReservasTabsAdmin';
 import ReservaCardAdmin from '../components/ReservaCardAdmin';
 import './Reservas.css';
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const manejarAtras = () => {
   window.history.back();

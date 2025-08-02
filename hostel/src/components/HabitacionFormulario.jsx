@@ -6,7 +6,7 @@ import InfoHabitacion from './InfoHabitacion';
 import ServiciosCheckbox from './ServiciosCheckbox';
 import ModalConfirmacion from './ModalConfirmacion'; 
 import './HabitacionFormulario.css';
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const HabitacionFormulario = ({ esNuevo = false }) => {
   const { id } = useParams();
