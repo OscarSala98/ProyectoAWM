@@ -6,7 +6,6 @@ import HabitacionDetalle from './pages/HabitacionDetalle';
 import Reservas from './pages/Reservas';
 import PerfilUsuario from './pages/PerfilUsuario';
 import EditarPerfil from './pages/EditarPerfil';
-import Chat from './pages/Chat';
 import NotificacionesPage from './pages/NotificacionesPage';
 import MisReservas from './pages/MisReservas';
 import PerfilAdmin from './pages/PerfilAdmin';
@@ -14,10 +13,9 @@ import EditarPerfilAdmin from './pages/EditarPerfilAdmin';
 import NotificacionesPageAdmin from './pages/NotificacionesPageAdmin';
 import ReservacionesAdmin from './pages/ReservacionesAdmin';
 import EditarHabitacion from './pages/EditarHabitacion';
-import ChatAdmin from './pages/ChatAdmin';
 import Unauthorized from './pages/Unauthorized';
 import ProtectedRoute from './components/ProtectedRoute';
-
+import MensajesPage from './pages/MensajesPage';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
@@ -51,9 +49,9 @@ function App() {
           </ProtectedRoute>
         } />
         
-        <Route path="/chat/:id" element={
+        <Route path="/mensajes" element={
           <ProtectedRoute>
-            <Chat />
+            <MensajesPage />
           </ProtectedRoute>
         } />
         
@@ -82,9 +80,9 @@ function App() {
           </ProtectedRoute>
         } />
         
-        <Route path="/admin/chat/:id" element={
+        <Route path="/admin/mensajes" element={
           <ProtectedRoute requiredRole="admin">
-            <ChatAdmin />
+            <MensajesPage />
           </ProtectedRoute>
         } />
         

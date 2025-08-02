@@ -6,16 +6,9 @@ import { BsSendFill } from 'react-icons/bs';
 import { FaEllipsisV } from 'react-icons/fa';
 
 const URLbase = 'http://localhost:3002/api/';
-const token = localStorage.getItem("token");
-
-const axiosConfig = {
-  headers: {
-    Authorization: `Bearer ${token}`
-  }
-};
 
 const Mensajes = () => {
-  const { id } = useParams();
+ // const { id } = useParams();
   const [usuarios, setUsuarios] = useState([]);
   const [contactos, setContactos] = useState([]);
   const [contactoActivo, setContactoActivo] = useState(null);
@@ -28,45 +21,96 @@ const Mensajes = () => {
   const [tipoUsuario, setTipoUsuario] = useState('');
   const [mostrarListaUsuarios, setMostrarListaUsuarios] = useState(false);
 
+  // Obtener usuario actual del JWT
+  const usuarioActual = JSON.parse(localStorage.getItem('usuario'));
+  
+  // Función para obtener configuración de axios con token fresco
+  const getAxiosConfig = () => {
+    const token = localStorage.getItem('token');
+    return {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const axiosConfig = getAxiosConfig();
         const usuariosRes = await axios.get(`${URLbase}personas`, axiosConfig);
         const conversacionesRes = await axios.get(`${URLbase}conversaciones`, axiosConfig);
 
         const todos = usuariosRes.data;
         const convs = conversacionesRes.data;
+        
+        console.log('Conversaciones recibidas del servidor:', convs);
+        console.log('Estructura de primera conversación (si existe):', convs[0]);
+        console.log('Usuarios recibidos:', todos);
+        
         setUsuarios(todos);
         setConversaciones(convs);
-        const yo = todos.find(u => u.id === id);
+        
+        // Usar el usuario actual del JWT
+        const yo = usuarioActual;
         setTipoUsuario(yo?.tipo?.toLowerCase());
 
         if (yo?.tipo?.toLowerCase() === 'admin') {
+          // Para admin: mostrar usuarios con quienes tiene conversación
           const participantesUnicos = convs
-            .filter(c => c.participantes.includes(id))
-            .map(c => c.participantes.find(pid => pid !== id));
+            .filter(c => c.participantes && c.participantes.includes(parseInt(yo.id)))
+            .map(c => c.participantes.find(pid => pid !== parseInt(yo.id)));
           const usuariosFiltrados = todos.filter(u => participantesUnicos.includes(u.id));
           setContactos(usuariosFiltrados);
         } else {
+          // Para usuario: mostrar admin si existe conversación, o permitir iniciar conversación
           const admin = todos.find(u => u.tipo?.toLowerCase() === 'admin');
-          if (convs.some(c => c.participantes.includes(id) && c.participantes.includes(admin?.id))) {
-            setContactos([admin]);
+          if (admin) {
+            const tieneConversacionConAdmin = convs.some(c => 
+              c.participantes && 
+              c.participantes.includes(parseInt(yo.id)) && 
+              c.participantes.includes(admin.id)
+            );
+            
+            if (tieneConversacionConAdmin) {
+              setContactos([admin]);
+            } else {
+              // Permitir iniciar conversación con admin aunque no exista aún
+              setContactos([]);
+            }
           }
         }
       } catch (error) {
         console.error('Error al obtener datos:', error);
       }
     };
-    fetchData();
-  }, [id]);
+    
+    // Solo ejecutar si tenemos usuario actual
+    if (usuarioActual) {
+      fetchData();
+    }
+  }, []); // Dependencias vacías para ejecutar solo una vez
 
   useEffect(() => {
-    if (!contactoActivo) return;
+    if (!contactoActivo || !usuarioActual) return;
+    
+    // Buscar conversación existente
     const conv = conversaciones.find(c =>
-      c.participantes.includes(id) && c.participantes.includes(contactoActivo.id)
+      c.participantes && 
+      c.participantes.includes(parseInt(usuarioActual.id)) && 
+      c.participantes.includes(contactoActivo.id)
     );
-    setConversacion(conv || null);
-  }, [contactoActivo, id, conversaciones]);
+    
+    if (conv) {
+      // Si existe conversación, cargarla
+      setConversacion(conv);
+    } else {
+      // Si no existe, crear una nueva conversación pero SOLO si no estamos ya en proceso
+      if (!conversacion || conversacion.participantes?.every(p => ![parseInt(usuarioActual.id), contactoActivo.id].includes(p))) {
+        iniciarConversacionCon(contactoActivo);
+      }
+    }
+  }, [contactoActivo]); // Removido conversaciones de las dependencias para evitar loops
 
   const obtenerNombreUsuario = (userId) => {
     const user = usuarios.find(u => u.id === userId);
@@ -74,54 +118,228 @@ const Mensajes = () => {
   };
 
   const iniciarConversacionCon = async (otroUsuario) => {
-    const existente = conversaciones.find(c =>
-      c.participantes.includes(id) && c.participantes.includes(otroUsuario.id)
-    );
+    console.log('Buscando conversación existente entre:', usuarioActual.id, 'y', otroUsuario.id);
+    console.log('Conversaciones disponibles:', conversaciones);
+    
+    // Verificar si ya existe una conversación - necesitamos adaptar esto a la estructura real del backend
+    const existente = conversaciones.find(c => {
+      console.log('Verificando conversación:', c);
+      
+      // El backend podría devolver participantes de diferentes formas
+      let participantes = [];
+      
+      // Caso 1: participantes como array directo
+      if (Array.isArray(c.participantes)) {
+        participantes = c.participantes;
+      }
+      // Caso 2: participantes como objetos con relaciones de Sequelize
+      else if (c.personas && Array.isArray(c.personas)) {
+        participantes = c.personas.map(p => p.id);
+      }
+      // Caso 3: participantes en una propiedad anidada
+      else if (c.participantes && c.participantes.length) {
+        participantes = c.participantes.map(p => p.persona_id || p.id);
+      }
+      
+      console.log('Participantes extraídos:', participantes);
+      
+      return participantes.includes(parseInt(usuarioActual.id)) && 
+             participantes.includes(parseInt(otroUsuario.id));
+    });
 
     if (existente) {
+      console.log('Conversación existente encontrada:', existente);
       setContactoActivo(otroUsuario);
-      setConversacion(existente);
-    } else {
-      const nueva = {
-        participantes: [id, otroUsuario.id]
+      
+      // Asegurar que la conversación tenga la estructura correcta
+      const conversacionNormalizada = {
+        id: existente.id,
+        participantes: existente.participantes || 
+                      (existente.personas ? existente.personas.map(p => p.id) : []),
+        mensajes: existente.mensajes || []
       };
-      const creada = await axios.post(`${URLbase}conversaciones`, nueva, axiosConfig);
-      setConversacion(creada.data);
-      setContactoActivo(otroUsuario);
-      setConversaciones([...conversaciones, creada.data]);
-      if (!contactos.find(c => c.id === otroUsuario.id)) {
-        setContactos([...contactos, otroUsuario]);
+      
+      setConversacion(conversacionNormalizada);
+      return;
+    }
+
+    try {
+      console.log('Creando nueva conversación entre:', usuarioActual.id, 'y', otroUsuario.id);
+      
+      // Crear nueva conversación
+      const axiosConfig = getAxiosConfig();
+      const response = await axios.post(`${URLbase}conversaciones`, {
+        participantes: [parseInt(usuarioActual.id), parseInt(otroUsuario.id)]
+      }, axiosConfig);
+      
+      console.log('Respuesta completa del servidor al crear conversación:', response.data);
+      console.log('Tipo de respuesta:', typeof response.data);
+      console.log('Keys de la respuesta:', Object.keys(response.data));
+      
+      // El backend podría estar devolviendo diferentes formatos, vamos a manejar todos
+      let conversacionId;
+      
+      // Caso 1: El backend devuelve { id: number }
+      if (response.data.id) {
+        conversacionId = parseInt(response.data.id);
       }
+      // Caso 2: El backend devuelve { conversacion: { id: number } }
+      else if (response.data.conversacion && response.data.conversacion.id) {
+        conversacionId = parseInt(response.data.conversacion.id);
+      }
+      // Caso 3: El backend devuelve directamente el número
+      else if (typeof response.data === 'number') {
+        conversacionId = response.data;
+      }
+      // Caso 4: El backend devuelve string con número
+      else if (typeof response.data === 'string' && !isNaN(parseInt(response.data))) {
+        conversacionId = parseInt(response.data);
+      }
+      else {
+        console.error('Formato de respuesta no reconocido:', response.data);
+        alert('Error: El servidor devolvió un formato no esperado');
+        return;
+      }
+      
+      console.log('ID de conversación extraído:', conversacionId);
+      
+      // Verificar que tengamos un ID válido
+      if (!conversacionId || isNaN(conversacionId)) {
+        console.error('No se pudo extraer un ID válido de la respuesta del servidor:', response.data);
+        alert('Error: El servidor no devolvió un ID válido para la conversación');
+        return;
+      }
+      
+      // Crear objeto de conversación con estructura esperada
+      const nuevaConversacion = {
+        id: conversacionId,
+        participantes: [parseInt(usuarioActual.id), parseInt(otroUsuario.id)],
+        mensajes: []
+      };
+      
+      console.log('Nueva conversación creada en frontend:', nuevaConversacion);
+      
+      setConversacion(nuevaConversacion);
+      setContactoActivo(otroUsuario);
+      
+      // Actualizar lista de conversaciones SIN hacer nueva petición al servidor
+      setConversaciones(prev => [...prev, nuevaConversacion]);
+      
+      // Actualizar contactos si es necesario
+      if (!contactos.find(c => c.id === otroUsuario.id)) {
+        setContactos(prev => [...prev, otroUsuario]);
+      }
+      
+    } catch (error) {
+      console.error('Error al crear conversación:', error);
+      console.error('Respuesta de error:', error.response?.data);
+      alert('Error al crear la conversación');
     }
   };
 
   const handleEnviarMensaje = async () => {
-    if (!nuevoMensaje.trim() || !conversacion) return;
+    if (!nuevoMensaje.trim() || !conversacion) {
+      console.log('No se puede enviar:', { nuevoMensaje: nuevoMensaje.trim(), conversacion });
+      return;
+    }
+
+    console.log('Enviando mensaje:', {
+      conversacionId: conversacion.id,
+      emisor: parseInt(usuarioActual.id),
+      texto: nuevoMensaje
+    });
+
+    // VALIDACIÓN IMPORTANTE: Verificar que el ID de conversación sea un número
+    if (!conversacion.id || isNaN(parseInt(conversacion.id))) {
+      console.error('ID de conversación inválido:', conversacion.id);
+      alert('Error: ID de conversación inválido. Por favor, recarga la página.');
+      return;
+    }
 
     try {
+      const axiosConfig = getAxiosConfig();
+      
+      console.log('URL completa para enviar mensaje:', `${URLbase}mensajes`);
+      console.log('Datos a enviar:', {
+        conversacion_id: parseInt(conversacion.id), // Asegurar que sea número
+        emisor: parseInt(usuarioActual.id),
+        texto: nuevoMensaje,
+        fecha: new Date().toISOString()
+      });
+      console.log('Headers de autorización:', axiosConfig.headers);
+      
+      // Usar la ruta correcta del backend para enviar mensajes
       const respuesta = await axios.post(
-        `${URLbase}conversaciones/${conversacion.id}/mensajes`,
+        `${URLbase}mensajes`,
         {
-          emisor: id,
-          texto: nuevoMensaje
+          conversacion_id: parseInt(conversacion.id), // Convertir a número
+          emisor: parseInt(usuarioActual.id),
+          texto: nuevoMensaje,
+          fecha: new Date().toISOString()
         },
         axiosConfig
       );
 
-      const mensajeNuevo = respuesta.data.mensajeEnviado;
-      setConversacion(prev => ({
-        ...prev,
-        mensajes: [...prev.mensajes, mensajeNuevo]
-      }));
-      setNuevoMensaje('');
+      console.log('Respuesta del servidor:', respuesta.data);
+
+      // Solo recargar mensajes si el envío fue exitoso
+      if (respuesta.status === 200 || respuesta.status === 201) {
+        // Recargar los mensajes de la conversación para mostrar el nuevo mensaje
+        // Usar la ruta correcta para obtener mensajes de una conversación
+        console.log('Recargando mensajes para conversación:', conversacion.id);
+        
+        try {
+          const mensajesActualizados = await axios.get(
+            `${URLbase}mensajes?conversacion_id=${conversacion.id}`,
+            axiosConfig
+          );
+
+          console.log('Mensajes actualizados:', mensajesActualizados.data);
+
+          setConversacion(prev => ({
+            ...prev,
+            mensajes: mensajesActualizados.data
+          }));
+          
+          setNuevoMensaje('');
+          console.log('Mensaje enviado exitosamente');
+        } catch (errorMensajes) {
+          console.error('Error al recargar mensajes:', errorMensajes);
+          // Aún así limpiar el input si el mensaje se envió
+          setNuevoMensaje('');
+        }
+      }
     } catch (error) {
-      console.error('Error al enviar mensaje:', error);
+      console.error('Error detallado al enviar mensaje:', {
+        error: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        url: error.config?.url,
+        data: error.config?.data,
+        headers: error.config?.headers
+      });
+      
+      // Mostrar información más específica del error
+      let mensajeError = 'Error desconocido';
+      if (error.response?.data?.message) {
+        mensajeError = error.response.data.message;
+      } else if (error.response?.data?.error) {
+        mensajeError = error.response.data.error;
+      } else if (error.response?.statusText) {
+        mensajeError = `${error.response.status} - ${error.response.statusText}`;
+      } else {
+        mensajeError = error.message;
+      }
+      
+      alert(`Error al enviar el mensaje: ${mensajeError}`);
     }
   };
 
   const handleEliminarMensaje = async (idMensaje) => {
     try {
-      await axios.delete(`${URLbase}conversaciones/${conversacion.id}/mensajes/${idMensaje}`, axiosConfig);
+      const axiosConfig = getAxiosConfig();
+      await axios.delete(`${URLbase}mensajes/${idMensaje}`, axiosConfig);
       setConversacion(prev => ({
         ...prev,
         mensajes: prev.mensajes.filter(m => m.id !== idMensaje)
@@ -133,8 +351,9 @@ const Mensajes = () => {
 
   const handleEditarMensaje = async (idMensaje) => {
     try {
+      const axiosConfig = getAxiosConfig();
       const respuesta = await axios.put(
-        `${URLbase}conversaciones/${conversacion.id}/mensajes/${idMensaje}`,
+        `${URLbase}mensajes/${idMensaje}`,
         { texto: textoEditado },
         axiosConfig
       );
@@ -159,19 +378,24 @@ const Mensajes = () => {
     if (!conversacion) return;
     if (!window.confirm("¿Estás seguro de eliminar esta conversación?")) return;
 
-    await axios.delete(`${URLbase}conversaciones/${conversacion.id}`, axiosConfig);
-    setConversacion(null);
-    setContactoActivo(null);
+    try {
+      const axiosConfig = getAxiosConfig();
+      await axios.delete(`${URLbase}conversaciones/${conversacion.id}`, axiosConfig);
+      setConversacion(null);
+      setContactoActivo(null);
 
-    const convRes = await axios.get(`${URLbase}conversaciones`, axiosConfig);
-    const conversacionesRestantes = convRes.data.filter(c => c.participantes.includes(id));
-    const idsConConversacion = conversacionesRestantes.map(c =>
-      c.participantes.find(pid => pid !== id)
-    );
-    const nuevosContactos = usuarios.filter(u => idsConConversacion.includes(u.id));
-    setContactos(nuevosContactos);
+      const convRes = await axios.get(`${URLbase}conversaciones`, axiosConfig);
+      const conversacionesRestantes = convRes.data.filter(c => c.participantes.includes(parseInt(usuarioActual.id)));
+      const idsConConversacion = conversacionesRestantes.map(c =>
+        c.participantes.find(pid => pid !== parseInt(usuarioActual.id))
+      );
+      const nuevosContactos = usuarios.filter(u => idsConConversacion.includes(u.id));
+      setContactos(nuevosContactos);
 
-    window.location.reload();
+      window.location.reload();
+    } catch (error) {
+      console.error('Error al eliminar conversación:', error);
+    }
   };
 
   return (
@@ -186,12 +410,12 @@ const Mensajes = () => {
             </button>
             {mostrarListaUsuarios && (
               <select onChange={e => {
-                const user = usuarios.find(u => u.id === e.target.value);
+                const user = usuarios.find(u => u.id === parseInt(e.target.value));
                 if (user) iniciarConversacionCon(user);
                 setMostrarListaUsuarios(false);
               }}>
                 <option value="">Selecciona un usuario</option>
-                {usuarios.filter(u => u.id !== id).map(c => (
+                {usuarios.filter(u => u.id !== parseInt(usuarioActual.id)).map(c => (
                   <option key={c.id} value={c.id}>{c.primerNombre} {c.primerApellido}</option>
                 ))}
               </select>
@@ -233,7 +457,7 @@ const Mensajes = () => {
 
           <ul>
             {conversacion?.mensajes.map(msg => {
-              const esPropio = msg.emisor === id;
+              const esPropio = msg.emisor === parseInt(usuarioActual.id);
               return (
                 <li key={msg.id} className={`mensaje-item ${esPropio ? 'mensaje-emisor' : 'mensaje-receptor'}`}>
                   <div className="mensaje-header">
