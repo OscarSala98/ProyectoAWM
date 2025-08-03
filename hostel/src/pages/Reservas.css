@@ -7,14 +7,24 @@
 }
 
 .btn-atras {
-  background-color: #e76e50;
+  background: var(--primary-blue);
   color: white;
   border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 20px;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--shadow-light);
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-atras:hover {
+  background: var(--hover-blue);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--shadow-medium);
 }
 
 .reservas-titulo {

@@ -1,19 +1,21 @@
 .footer {
-  background-color: #dcdcdc;
-  border-radius: 20px;
-  margin: 2rem auto;
-  padding: 2rem 4rem;
-  max-width: 95%;
+  background: linear-gradient(135deg, #e9eff6 0%, #f2f4f8 100%);
+  border-top: 1px solid rgba(0, 84, 166, 0.1);
+  margin: 0;
+  padding: 3rem 2rem 2rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 2rem;
+  box-shadow: 0 -4px 20px rgba(0, 84, 166, 0.05);
+  position: relative;
 }
 
 .footer-logo img {
-  height: 100px;
+  height: 80px;
+  filter: none;
 }
 
 .footer-info {
@@ -24,7 +26,10 @@
 
 .footer-info h4 {
   margin-bottom: 0.5rem;
-  font-weight: bold;
+  font-weight: 600;
+  color: var(--primary-blue);
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
 }
 
 .footer-icons {
@@ -32,6 +37,16 @@
   flex-direction: row;
   gap: 1.5rem;
   font-size: 1.5rem;
-  color: #e76e50;
+  color: var(--text-medium);
   justify-content: center;
+}
+
+.footer-icons > * {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.footer-icons > *:hover {
+  color: var(--primary-blue);
+  transform: translateY(-2px);
 }

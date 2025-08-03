@@ -14,8 +14,11 @@
 }
 
 .filtros-contenedor button:hover {
-  color: #e76e50;
-  border-bottom: 2px solid #e76e50;
+  color: var(--primary-blue);
+  border-bottom: 3px solid var(--primary-blue);
+  transition: all 0.3s ease;
+  transform: translateY(-1px);
+  font-weight: 600;
 }
 
 .punto {

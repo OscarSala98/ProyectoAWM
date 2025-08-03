@@ -48,7 +48,9 @@
 }
 
 .galeria-general-miniaturas img.active {
-  border: 2px solid #e76e50;
+  border: 3px solid var(--primary-blue);
+  box-shadow: 0 4px 15px rgba(0, 84, 166, 0.4);
+  transform: scale(1.02);
 }
 
 /* Responsive */

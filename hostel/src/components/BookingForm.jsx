@@ -26,7 +26,7 @@ const BookingForm = () => {
   return (
     <div className="booking-form">  {/* Contenedor principal con la clase de estilo 'booking-form' */}
       {/* Título del formulario, con un estilo específico en la palabra 'Habitaciones' */}
-      <h2><strong>Buscar</strong> <span style={{ color: '#e76e50' }}>Habitaciones</span></h2>
+      <h2><strong>Buscar</strong> <span>Habitaciones</span></h2>
 
       <div className="form-row"> {/* Contenedor para organizar los campos del formulario en una fila */}
         
