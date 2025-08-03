@@ -6,7 +6,7 @@
 }
 
 .notificaciones-header {
-  background-color: var(--background-white);
+  background-color: #f8f8d8;
   padding: 1rem;
   border-radius: 12px 12px 0 0;
   display: flex;

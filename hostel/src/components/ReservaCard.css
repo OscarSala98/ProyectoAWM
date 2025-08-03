@@ -56,3 +56,67 @@
 .btn-cancelar:hover {
   background-color: #555;
 }
+
+/* Estilos para estados de reserva */
+.estado-pendiente {
+  color: #f39c12;
+  font-weight: 600;
+}
+
+.estado-confirmada {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.estado-rechazada {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+/* Estilos para mensajes de estado */
+.reserva-estado-info {
+  margin-left: 1rem;
+}
+
+.estado-mensaje {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+  padding: 0.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.estado-mensaje.confirmada {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.estado-mensaje.rechazada {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Estilos para botones de acción */
+.reserva-acciones {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.btn-editar {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.btn-editar:hover {
+  background-color: #0056b3;
+}

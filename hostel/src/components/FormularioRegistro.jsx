@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import authService from '../services/authService';
 import ModalConfirmacion from './ModalConfirmacion';
 import './FormularioRegistro.css';
 
 const FormularioRegistro = ({ onClose }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mensajeModal, setMensajeModal] = useState('');
+  const navigate = useNavigate();
 
 
   const [persona, setPersona] = useState({
@@ -26,7 +28,7 @@ const FormularioRegistro = ({ onClose }) => {
     setPersona({ ...persona, [e.target.name]: e.target.value });
   };
 
-  const manejarRegistrar = (e) => {
+  const manejarRegistrar = async (e) => {
     e.preventDefault();
 
     // Combinar prefijo y número antes de enviar
@@ -35,16 +37,25 @@ const FormularioRegistro = ({ onClose }) => {
       numero: persona.prefijo + persona.numero // Sobrescribe el campo 'numero' con el prefijo incluido
     };
 
-    axios.post('http://localhost:3002/personas', datosAEnviar)
-      .then(() => {
-        setMensajeModal('Registro exitoso ✅');
-        setModalVisible(true);
-      })
-      .catch((error) => {
-        console.error(error);
-        setMensajeModal('Error al registrar ❌');
-        setModalVisible(true);
-      });
+    try {
+      // Usar el servicio de autenticación JWT para registro
+      const response = await authService.register(datosAEnviar);
+      
+      setMensajeModal('Registro exitoso ✅ - Iniciando sesión...');
+      setModalVisible(true);
+      
+      // Después de un breve delay, cerrar modal y redirigir
+      setTimeout(() => {
+        onClose();
+        const usuario = response.persona || response;
+        navigate(usuario.tipo === 'admin' ? '/admin/perfil' : '/perfil');
+      }, 2000);
+      
+    } catch (error) {
+      console.error(error);
+      setMensajeModal(error.error || 'Error al registrar ❌');
+      setModalVisible(true);
+    }
   };
 
 

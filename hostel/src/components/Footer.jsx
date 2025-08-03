@@ -7,21 +7,23 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/f
 const Footer = () => {
   return (
     <footer className="footer"> {/* Elemento <footer> que contiene el contenido del pie de página */}
-      <div className="footer-logo"> {/* Contenedor para el logo */}
-        <img src={logoVertical} alt="Grupo Novel" /> {/* Imagen del logo, con texto alternativo */}
-      </div>
-      <div className="footer-info"> {/* Contenedor para la información de contacto */}
-        <h4>CONTACTOS DE INFORMACIÓN</h4> {/* Título que indica la sección de contacto */}
-        <p>Teléfono: 593 - 0995639172</p> {/* Número de teléfono de contacto */}
-        <p>Email: info@hostelnovel.com</p> {/* Dirección de correo electrónico */}
-        <p>Dirección: Av. París y Av. Tómas de Berlanga</p> {/* Dirección física de la empresa */}
-      </div>
-      <div className="footer-icons"> {/* Contenedor para los íconos de redes sociales */}
-        {/* Íconos de redes sociales importados desde react-icons */}
-        <FaFacebookF /> {/* Ícono de Facebook */}
-        <FaTwitter /> {/* Ícono de Twitter */}
-        <FaInstagram /> {/* Ícono de Instagram */}
-        <FaLinkedinIn /> {/* Ícono de LinkedIn */}
+      <div className="footer-content"> {/* Contenedor para el contenido con ancho limitado */}
+        <div className="footer-logo"> {/* Contenedor para el logo */}
+          <img src={logoVertical} alt="Grupo Novel" /> {/* Imagen del logo, con texto alternativo */}
+        </div>
+        <div className="footer-info"> {/* Contenedor para la información de contacto */}
+          <h4>CONTACTOS DE INFORMACIÓN</h4> {/* Título que indica la sección de contacto */}
+          <p>Teléfono: 593 - 0995639172</p> {/* Número de teléfono de contacto */}
+          <p>Email: info@hostelnovel.com</p> {/* Dirección de correo electrónico */}
+          <p>Dirección: Av. París y Av. Tómas de Berlanga</p> {/* Dirección física de la empresa */}
+        </div>
+        <div className="footer-icons"> {/* Contenedor para los íconos de redes sociales */}
+          {/* Íconos de redes sociales importados desde react-icons */}
+          <FaFacebookF /> {/* Ícono de Facebook */}
+          <FaTwitter /> {/* Ícono de Twitter */}
+          <FaInstagram /> {/* Ícono de Instagram */}
+          <FaLinkedinIn /> {/* Ícono de LinkedIn */}
+        </div>
       </div>
     </footer>
   );

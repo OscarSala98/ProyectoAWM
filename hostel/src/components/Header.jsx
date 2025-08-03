@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
 import { FaUserCircle, FaBars } from 'react-icons/fa';
 import logo from '../assets/logo.webp';
 import FormularioLogin from './FormularioLogin';
 import FormularioRegistro from './FormularioRegistro';
-import ModalConfirmacion from './ModalConfirmacion'; 
+import ModalConfirmacion from './ModalConfirmacion';
+import NotificacionesBadge from './NotificacionesBadge';
+import authService from '../services/authService';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -13,6 +15,13 @@ const Header = () => {
   const [mostrarRegistro, setMostrarRegistro] = useState(false);
   const [mostrarMenu, setMostrarMenu] = useState(false);
   const [mostrarAlerta, setMostrarAlerta] = useState(false);
+  const [usuario, setUsuario] = useState(null);
+
+  // Obtener usuario del localStorage cuando el componente se monte
+  useEffect(() => {
+    const usuarioActual = authService.getCurrentUser();
+    setUsuario(usuarioActual);
+  }, []);
 
   const toggleMenu = () => setMostrarMenu(!mostrarMenu);
   const cerrarMenu = () => setMostrarMenu(false);
@@ -28,12 +37,24 @@ const Header = () => {
   };
 
   const manejarClickUsuario = () => {
-    const usuario = localStorage.getItem('usuario');
     if (usuario) {
-      navigate('/perfil');
+      // Redirigir según el tipo de usuario
+      if (usuario.tipo === 'admin') {
+        navigate('/admin/perfil');
+      } else {
+        navigate('/perfil');
+      }
     } else {
       setMostrarAlerta(true);
     }
+  };
+
+  const handleLogout = () => {
+    authService.logout();
+    setUsuario(null);
+    cerrarMenu();
+    navigate('/');
+    window.location.reload(); // Refrescar para aplicar cambios
   };
 
   return (
@@ -47,9 +68,26 @@ const Header = () => {
       </div>
 
       <div className="right-area">
+        {/* Badge de notificaciones - Solo si el usuario está logueado */}
+        {usuario && (
+          <NotificacionesBadge 
+            onClick={() => {
+              if (usuario.tipo === 'admin') {
+                navigate('/admin/notificaciones');
+              } else {
+                navigate('/notificaciones');
+              }
+              cerrarMenu();
+            }} 
+          />
+        )}
+
         <div className="user-button" onClick={manejarClickUsuario}>
           <FaUserCircle size={20} />
-          <span>Usuario</span>
+          
+          <span>
+            {usuario ? `${usuario.primerNombre} ${usuario.primerApellido}` : 'Usuario'}
+          </span>
         </div>
 
         <div className="hamburger" onClick={toggleMenu}>
@@ -58,8 +96,43 @@ const Header = () => {
 
         {mostrarMenu && (
           <div className="hamburger-menu">
-            <button onClick={abrirLogin}>Iniciar Sesión</button>
-            <button onClick={abrirRegistro}>Registrarse</button>
+            {usuario ? (
+              <>
+                <button onClick={() => { 
+                  // Redirigir según el tipo de usuario
+                  if (usuario.tipo === 'admin') {
+                    navigate('/admin/perfil');
+                  } else {
+                    navigate('/perfil');
+                  }
+                  cerrarMenu(); 
+                }}>
+                  Perfil
+                </button>
+                <button onClick={() => { 
+                  // Redirigir a notificaciones según el tipo de usuario
+                  if (usuario.tipo === 'admin') {
+                    navigate('/admin/notificaciones');
+                  } else {
+                    navigate('/notificaciones');
+                  }
+                  cerrarMenu(); 
+                }}>
+                  Notificaciones
+                </button>
+                <button onClick={() => { navigate('/mis-reservas'); cerrarMenu(); }}>
+                  Reservaciones
+                </button>
+                <button onClick={handleLogout}>
+                  Cerrar Sesión
+                </button>
+              </>
+            ) : (
+              <>
+                <button onClick={abrirLogin}>Iniciar Sesión</button>
+                <button onClick={abrirRegistro}>Registrarse</button>
+              </>
+            )}
           </div>
         )}
       </div>

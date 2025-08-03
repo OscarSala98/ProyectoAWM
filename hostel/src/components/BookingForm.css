@@ -49,9 +49,7 @@
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
-  min-width: 140px;
+	@@ -33,27 +55,73 @@
 }
 
 .form-group label {

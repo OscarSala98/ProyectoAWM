@@ -6,6 +6,13 @@
   margin: 0 auto;
 }
 
+.reservas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 .btn-atras {
   background: var(--primary-blue);
   color: white;

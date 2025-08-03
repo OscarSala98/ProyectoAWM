@@ -22,19 +22,21 @@ const PerfilAdmin = () => {
   if (!usuario) return null;
 
   return (
-    <>
-      <Header />
+    <div className="page-layout">
+      <div className="page-content">
+        <Header />
 
-      <div className="perfil-usuario-container">
-        <PerfilSidebar usuario={usuario} />
-        <div className="perfil-usuario-derecha">
-          <PerfilContenido usuario={usuario} />
-          <PerfilOpcionesAdmin usuario={usuario} />
+        <div className="perfil-usuario-container">
+          <PerfilSidebar usuario={usuario} />
+          <div className="perfil-usuario-derecha">
+            <PerfilContenido usuario={usuario} />
+            <PerfilOpcionesAdmin usuario={usuario} />
+          </div>
         </div>
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 };
 

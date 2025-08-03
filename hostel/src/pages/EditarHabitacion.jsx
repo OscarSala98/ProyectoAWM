@@ -8,7 +8,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import HabitacionFormulario from '../components/HabitacionFormulario';
 import ModalConfirmacion from '../components/ModalConfirmacion'; // ✅ importar
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const EditarHabitacion = () => {
   const { id } = useParams();
@@ -64,42 +64,44 @@ const EditarHabitacion = () => {
   };
 
   return (
-    <>
-      <Header />
-      <div className="editar-habitacion-container">
-        <div className="editar-habitacion-header">
-          <button className="btn-atras" onClick={manejarAtras}>Atrás</button>
-          {id !== 'nueva' && (
-            <button className="btn-crear" onClick={manejarCrear}>+ Crear nueva habitación</button>
+    <div className="page-layout">
+      <div className="page-content">
+        <Header />
+        <div className="editar-habitacion-container">
+          <div className="editar-habitacion-header">
+            <button className="btn-atras" onClick={manejarAtras}>Atrás</button>
+            {id !== 'nueva' && (
+              <button className="btn-crear" onClick={manejarCrear}>+ Crear nueva habitación</button>
+            )}
+          </div>
+
+          {id && id !== 'nueva' ? (
+            <HabitacionFormulario />
+          ) : id === 'nueva' ? (
+            <HabitacionFormulario esNuevo />
+          ) : (
+            <div className="habitaciones-lista-editar">
+              {habitaciones.map(habitacion => (
+                <HabitacionEditarCard
+                  key={habitacion.id}
+                  habitacion={habitacion}
+                  onEditar={manejarEditar}
+                  onEliminar={manejarEliminar}
+                />
+              ))}
+            </div>
           )}
         </div>
 
-        {id && id !== 'nueva' ? (
-          <HabitacionFormulario />
-        ) : id === 'nueva' ? (
-          <HabitacionFormulario esNuevo />
-        ) : (
-          <div className="habitaciones-lista-editar">
-            {habitaciones.map(habitacion => (
-              <HabitacionEditarCard
-                key={habitacion.id}
-                habitacion={habitacion}
-                onEditar={manejarEditar}
-                onEliminar={manejarEliminar}
-              />
-            ))}
-          </div>
-        )}
+        <ModalConfirmacion
+          visible={modalVisible}
+          mensaje={modalMensaje}
+          onClose={handleCerrarModal}
+        />
       </div>
 
-      <ModalConfirmacion
-        visible={modalVisible}
-        mensaje={modalMensaje}
-        onClose={handleCerrarModal}
-      />
-
       <Footer />
-    </>
+    </div>
   );
 };
 

@@ -71,6 +71,7 @@ const InfoHabitacion = ({ datos, onChange }) => {
         <div className="campo">
           <label>Tipo de Habitación</label>
           <select name="tipo" value={datos.tipo || ''} onChange={onChange}>
+            <option value="">Seleccione un tipo</option>
             <option value="Simple">Simple</option>
             <option value="Doble">Doble</option>
             <option value="Delux">Delux</option>

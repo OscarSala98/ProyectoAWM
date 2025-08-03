@@ -6,7 +6,7 @@ import HabitacionCard from '../components/HabitacionCard';
 import './Habitaciones.css';
 import axios from 'axios';
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const Habitaciones = () => {
   const [habitaciones, setHabitaciones] = useState([]);
@@ -21,16 +21,18 @@ const Habitaciones = () => {
   },[]);
 
   return (
-    <div>
-      <Header />
-      <FiltroHabitaciones />
+    <div className="page-layout">
+      <div className="page-content">
+        <Header />
+        <FiltroHabitaciones />
 
-      <div className="habitaciones-container">
-        <h2 className="habitaciones-title">Todas las Habitaciones</h2>
-        <div className="habitaciones-grid">
-          {habitaciones.map((h) => (
-            <HabitacionCard key={h.id} {...h} imagen={h.portada} />
-          ))}
+        <div className="habitaciones-container">
+          <h2 className="habitaciones-title">Todas las Habitaciones</h2>
+          <div className="habitaciones-grid">
+            {habitaciones.map((h) => (
+              <HabitacionCard key={h.id} {...h} imagen={h.portada} />
+            ))}
+          </div>
         </div>
       </div>
 

@@ -1,21 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ModalConfirmacionSiNo from './ModalConfirmacionSiNo';
 import ModalConfirmacion from './ModalConfirmacion';
 import './PerfilContenido.css';
 
-const PerfilContenido = ({ usuario }) => {
+const URLbase = 'http://localhost:3002/api/';
+
+const PerfilContenido = () => {
+  const [usuario, setUsuario] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const datosLocal = JSON.parse(localStorage.getItem('usuario'));
+    if (datosLocal?.id) {
+      axios.get(`${URLbase}personas/${datosLocal.id}`)
+        .then((res) => {
+          setUsuario(res.data);
+        })
+        .catch(() => {
+          console.error('Error al obtener los datos del usuario');
+        });
+    }
+  }, []);
+
   const manejarEdicion = () => {
-    navigate(usuario.tipo === 'admin' ? '/admin/editar-perfil' : '/editar-perfil');
+    navigate(usuario?.tipo === 'admin' ? '/admin/editar-perfil' : '/editar-perfil');
   };
 
   const confirmarEliminacion = () => {
-    axios.delete(`http://localhost:3002/personas/${usuario.id}`)
+    axios.delete(`${URLbase}personas/${usuario.id}`)
       .then(() => {
         localStorage.removeItem('usuario');
         setMostrarModal(false);
@@ -32,7 +48,7 @@ const PerfilContenido = ({ usuario }) => {
     navigate('/');
   };
 
-  if (!usuario) return null;
+  if (!usuario) return <p>Cargando perfil...</p>;
 
   return (
     <>
@@ -68,3 +84,4 @@ const PerfilContenido = ({ usuario }) => {
 };
 
 export default PerfilContenido;
+

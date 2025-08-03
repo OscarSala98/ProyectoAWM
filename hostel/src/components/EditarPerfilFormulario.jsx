@@ -4,6 +4,7 @@ import axios from 'axios';
 import ModalConfirmacion from './ModalConfirmacion';
 import './EditarPerfilFormulario.css';
 
+const URLbase = 'http://localhost:3002/api/';
 
 const EditarPerfilFormulario = () => {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ const EditarPerfilFormulario = () => {
       prefijo: prefijo // asegúrate de actualizar también el campo prefijo
     };
 
-    axios.put(`http://localhost:3002/personas/${usuarioLocal.id}`, datosActualizados)
+    axios.put(`${URLbase}personas/${usuarioLocal.id}`, datosActualizados)
       .then(() => {
         localStorage.setItem('usuario', JSON.stringify(datosActualizados));
         setModalVisible(true);
