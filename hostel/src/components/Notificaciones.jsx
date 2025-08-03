@@ -1,62 +1,100 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import './Notificaciones.css';
-
-const API_URL = 'http://localhost:3002/api/notificaciones';
+import { useNotificaciones } from '../hooks/useNotificaciones';
 
 const Notificaciones = () => {
-  const [notificaciones, setNotificaciones] = useState([]);
+  const {
+    notificaciones,
+    notificacionesSinLeer,
+    cargando,
+    cargarNotificaciones,
+    marcarComoLeida,
+    eliminarNotificacion
+  } = useNotificaciones();
 
-  // GET: Cargar notificaciones
-  useEffect(() => {
-    axios.get(API_URL)
-      .then(res => {
-        setNotificaciones(res.data);
-      })
-      .catch(err => {
-        console.error('Error al cargar notificaciones:', err);
-      });
-  }, []);
+  // Obtener el icono según el tipo
+  const obtenerIconoTipo = (tipo) => {
+    switch (tipo) {
+      case 'mensaje':
+        return '💬';
+      case 'reserva':
+        return '📅';
+      case 'sistema':
+        return '⚙️';
+      default:
+        return '📢';
+    }
+  };
 
-  const eliminarNotificacion = (id) => {
-  console.log(`Intentando eliminar notificación con ID: ${id}`);
-  axios.delete(`${API_URL}/${id}`)
-    .then((res) => {
-      if (res.status === 200 || res.status === 204) {
-        console.log(`Notificación con ID ${id} eliminada`);
-        setNotificaciones(notificaciones.filter(n => n.id !== id));
-      } else {
-        console.error(`Error inesperado: código de estado ${res.status}`);
-      }
-    })
-    .catch((error) => {
-      if (error.response) {
-        console.error(`Error ${error.response.status}:`, error.response.data);
-      } else if (error.request) {
-        console.error("No hubo respuesta del servidor:", error.request);
-      } else {
-        console.error("Error general:", error.message);
-      }
-    });
-};
+  if (cargando) {
+    return <div className="notificaciones-container">Cargando notificaciones...</div>;
+  }
 
   return (
     <div className="notificaciones-container">
       <div className="notificaciones-header">
-        <h3>Todas las notificaciones</h3>
+        <h3>
+          Notificaciones 
+          {notificacionesSinLeer > 0 && (
+            <span className="badge-sin-leer">{notificacionesSinLeer}</span>
+          )}
+        </h3>
+        <button 
+          className="btn-recargar" 
+          onClick={cargarNotificaciones}
+          title="Recargar notificaciones"
+        >
+          🔄
+        </button>
       </div>
 
-      <ul className="notificaciones-lista">
-        {notificaciones.map((n) => (
-          <li key={n.id} className="notificacion-item">
-            <div>
-              <strong>{n.texto}</strong>
-              <p>{n.fecha}</p>
-            </div>
-            <button className="btn-cerrar" onClick={() => eliminarNotificacion(n.id)}>✕</button>
-          </li>
-        ))}
-      </ul>
+      {notificaciones.length === 0 ? (
+        <div className="sin-notificaciones">
+          <p>No tienes notificaciones</p>
+        </div>
+      ) : (
+        <ul className="notificaciones-lista">
+          {notificaciones.map((notif) => (
+            <li 
+              key={notif.id} 
+              className={`notificacion-item ${notif.estado === 'sin leer' ? 'sin-leer' : 'leida'}`}
+            >
+              <div className="notificacion-icono">
+                {obtenerIconoTipo(notif.tipo)}
+              </div>
+              
+              <div className="notificacion-contenido">
+                <div className="notificacion-titulo">
+                  <strong>{notif.titulo}</strong>
+                  <span className="notificacion-tipo">{notif.tipo}</span>
+                </div>
+                <p className="notificacion-fecha">
+                  {new Date(notif.fecha).toLocaleString()}
+                </p>
+              </div>
+
+              <div className="notificacion-acciones">
+                {notif.estado === 'sin leer' && (
+                  <button 
+                    className="btn-marcar-leida" 
+                    onClick={() => marcarComoLeida(notif.id)}
+                    title="Marcar como leída"
+                  >
+                    👁️
+                  </button>
+                )}
+                <button 
+                  className="btn-eliminar" 
+                  onClick={() => eliminarNotificacion(notif.id)}
+                  title="Eliminar notificación"
+                >
+                  🗑️
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

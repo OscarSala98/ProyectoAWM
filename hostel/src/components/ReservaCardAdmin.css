@@ -66,3 +66,19 @@
 .btn-rechazar:hover {
   background-color: #ddd;
 }
+
+/* Estilos para estados de reserva */
+.estado-pendiente {
+  color: #f39c12;
+  font-weight: 600;
+}
+
+.estado-confirmada {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.estado-rechazada {
+  color: #e74c3c;
+  font-weight: 600;
+}

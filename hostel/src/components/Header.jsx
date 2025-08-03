@@ -6,6 +6,7 @@ import logo from '../assets/logo.webp';
 import FormularioLogin from './FormularioLogin';
 import FormularioRegistro from './FormularioRegistro';
 import ModalConfirmacion from './ModalConfirmacion';
+import NotificacionesBadge from './NotificacionesBadge';
 import authService from '../services/authService';
 
 const Header = () => {
@@ -67,6 +68,20 @@ const Header = () => {
       </div>
 
       <div className="right-area">
+        {/* Badge de notificaciones - Solo si el usuario está logueado */}
+        {usuario && (
+          <NotificacionesBadge 
+            onClick={() => {
+              if (usuario.tipo === 'admin') {
+                navigate('/admin/notificaciones');
+              } else {
+                navigate('/notificaciones');
+              }
+              cerrarMenu();
+            }} 
+          />
+        )}
+
         <div className="user-button" onClick={manejarClickUsuario}>
           <FaUserCircle size={20} />
           
@@ -93,6 +108,17 @@ const Header = () => {
                   cerrarMenu(); 
                 }}>
                   Perfil
+                </button>
+                <button onClick={() => { 
+                  // Redirigir a notificaciones según el tipo de usuario
+                  if (usuario.tipo === 'admin') {
+                    navigate('/admin/notificaciones');
+                  } else {
+                    navigate('/notificaciones');
+                  }
+                  cerrarMenu(); 
+                }}>
+                  Notificaciones
                 </button>
                 <button onClick={() => { navigate('/mis-reservas'); cerrarMenu(); }}>
                   Reservaciones

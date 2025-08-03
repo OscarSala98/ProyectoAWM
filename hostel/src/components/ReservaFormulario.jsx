@@ -86,6 +86,12 @@ const ReservaFormulario = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validación básica de fechas
+    if (!datos.fechaEntrada || !datos.fechaSalida) {
+      setErrorMsg('Debe seleccionar fechas de check-in y check-out');
+      return;
+    }
 
     const personas = parseInt(datos.adultos) + parseInt(datos.ninos);
     const camas = parseInt(habitacion.camas);
@@ -95,46 +101,103 @@ const ReservaFormulario = () => {
       return;
     }
 
+    // Validar fechas
+    const fechaEntrada = new Date(datos.fechaEntrada);
+    const fechaSalida = new Date(datos.fechaSalida);
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    if (fechaEntrada < hoy) {
+      setErrorMsg('La fecha de check-in no puede ser anterior a hoy');
+      return;
+    }
+
+    if (fechaSalida <= fechaEntrada) {
+      setErrorMsg('La fecha de check-out debe ser posterior a la fecha de check-in');
+      return;
+    }
+
     const precioTotal = calcularPrecio();
 
-    const reserva = {
-      id: reservaEdit ? reservaEdit.id : Date.now().toString(),
-      habitacionId: habitacion.id,
-      tituloHabitacion: habitacion.titulo,
-      imagen: habitacion.portada,
-      usuarioId: usuario.id,
-      usuarioNombre: `${usuario.primerNombre} ${usuario.segundoNombre} ${usuario.primerApellido}`,
+    // Datos para el backend según el modelo de Reservas
+    const datosReserva = {
+      habitacionId: parseInt(habitacion.id),
+      usuarioId: parseInt(usuario.id),
+      usuarioNombre: `${usuario.primerNombre} ${usuario.primerApellido}`,
       correo: usuario.correo,
       checkIn: datos.fechaEntrada,
       checkOut: datos.fechaSalida,
-      adultos: datos.adultos,
-      ninos: datos.ninos,
-      personas: `${datos.adultos} Adulto(s), ${datos.ninos} Niño(s)`,
-      precio: `$${precioTotal}`,
-      estado: 'confirmada',
-      fechaCreacion: new Date().toISOString()
+      adultos: parseInt(datos.adultos),
+      ninos: parseInt(datos.ninos),
+      precio: precioTotal.toString()
+      // El estado se asigna automáticamente como 'pendiente' en el backend
     };
 
     try {
+      const axiosConfig = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      };
+
       if (reservaEdit) {
-        await axios.put(`${URLbase}reservas/${reservaEdit.id}`, reserva);
-        alert('Reserva actualizada correctamente.');
+        // Si es edición, usar la URL que funcionaba antes
+        await axios.put(`${URLbase}reservas/${reservaEdit.id}`, {
+          checkIn: datos.fechaEntrada,
+          checkOut: datos.fechaSalida,
+          adultos: parseInt(datos.adultos),
+          ninos: parseInt(datos.ninos),
+          precio: precioTotal.toString(),
+          estado: 'pendiente' // Forzar estado pendiente al editar
+        }, axiosConfig);
+        
+        alert('✅ Reserva actualizada. Estado cambiado a pendiente para revisión del administrador.');
+        
+        // Notificar al usuario sobre la actualización
+        await axios.post(`${URLbase}notificaciones`, {
+          id_usuario: usuario.id,
+          tipo: "reserva",
+          estado: "sin leer", 
+          titulo: `Reserva actualizada: ${habitacion.titulo || habitacion.nombre} - Pendiente de aprobación`
+        }, axiosConfig).catch(err => console.warn('No se pudo enviar notificación'));
+        
       } else {
-        await axios.post(`${URLbase}reservas`, reserva);
-        alert('Reserva creada con éxito.');
+        // Crear nueva reserva con la URL que funcionaba antes
+        const reservaCompleta = {
+          ...datosReserva,
+          estado: 'pendiente' // Asegurar estado pendiente
+        };
+        
+        const response = await axios.post(`${URLbase}reservas`, reservaCompleta, axiosConfig);
+        
+        alert('✅ Reserva creada exitosamente. Estado: Pendiente de aprobación por el administrador.');
+        
+        // Notificar al usuario sobre la nueva reserva
+        await axios.post(`${URLbase}notificaciones`, {
+          id_usuario: usuario.id,
+          tipo: "reserva",
+          estado: "sin leer", 
+          titulo: `Nueva reserva creada: ${habitacion.titulo || habitacion.nombre} - Pendiente de aprobación`
+        }, axiosConfig).catch(err => console.warn('No se pudo enviar notificación'));
       }
 
-      // Intentar notificar sin bloquear
-      axios.post(`${URLbase}notificaciones`, {
-        id: Date.now().toString(),
-        texto: `Nueva reserva: ${habitacion.titulo}`,
-        fecha: new Date().toISOString().split('T')[0]
-      }).catch(err => console.warn('No se pudo enviar notificación:', err.message));
-
-      navigate('/habitaciones');
+      navigate('/mis-reservas');
+      
     } catch (err) {
-      console.error(err);
-      alert('Ocurrió un error al guardar la reserva.');
+      console.error('❌ Error al procesar reserva:', err);
+      
+      if (err.response?.status === 409) {
+        // Conflicto de disponibilidad
+        const conflicto = err.response.data;
+        setErrorMsg(`❌ La habitación no está disponible en las fechas seleccionadas. ${conflicto.detalle || ''}`);
+      } else if (err.response?.status === 400) {
+        setErrorMsg(`❌ ${err.response.data.error || 'Datos inválidos'}`);
+      } else if (err.response?.status === 404) {
+        setErrorMsg('❌ Habitación o usuario no encontrado');
+      } else {
+        setErrorMsg('❌ Error interno del servidor. Intente nuevamente.');
+      }
     }
   };
 

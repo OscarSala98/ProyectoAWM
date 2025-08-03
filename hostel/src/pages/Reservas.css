@@ -6,6 +6,13 @@
   margin: 0 auto;
 }
 
+.reservas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 .btn-atras {
   background-color: #e76e50;
   color: white;
@@ -14,7 +21,21 @@
   border-radius: 20px;
   font-size: 1rem;
   cursor: pointer;
-  margin-bottom: 1rem;
+}
+
+.btn-recargar {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.btn-recargar:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 .reservas-titulo {

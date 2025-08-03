@@ -172,6 +172,26 @@ const MensajesNuevo = () => {
       console.log('✅ Mensaje enviado correctamente:', response.data);
       console.log('✅ Status del servidor:', response.status);
       
+      // 🔔 CREAR NOTIFICACIÓN PARA EL RECEPTOR DEL MENSAJE
+      try {
+        // Obtener participantes de la conversación para saber quién recibe el mensaje
+        const participantes = conversacionActiva.participantes || [];
+        const receptor = participantes.find(p => p.id !== parseInt(usuarioActual.id));
+        
+        if (receptor?.id) {
+          await axios.post(`${URLbase}notificaciones`, {
+            id_usuario: receptor.id,
+            tipo: "mensaje",
+            estado: "sin leer",
+            titulo: `Nuevo mensaje de ${usuarioActual.primerNombre}: ${nuevoMensaje.length > 50 ? nuevoMensaje.substring(0, 50) + '...' : nuevoMensaje}`
+          }, axiosConfig);
+          
+          console.log('🔔 Notificación de mensaje enviada al usuario:', receptor.id);
+        }
+      } catch (notifError) {
+        console.warn('⚠️ No se pudo enviar notificación de mensaje:', notifError);
+      }
+      
       // Crear el mensaje localmente para mostrarlo inmediatamente
       const nuevoMensajeLocal = {
         id: response.data.id || Date.now(),
