@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaBed, FaShower, FaCar, FaPaw } from 'react-icons/fa';
+import authService from '../services/authService';
+import ModalConfirmacion from './ModalConfirmacion';
 import './HabitacionInfo.css';
 
 const HabitacionInfo = ({ habitacion }) => {
   const navigate = useNavigate();
+  const [mostrarAlerta, setMostrarAlerta] = useState(false);
 
   const manejarReserva = () => {
+    const isAuthenticated = authService.isAuthenticated();
+    if (!isAuthenticated) {
+      setMostrarAlerta(true);
+      return;
+    }
     navigate('/reservas', { state: { habitacion } });
   };
 
@@ -29,6 +37,12 @@ const HabitacionInfo = ({ habitacion }) => {
         </ul>
         <button className="btn-reservar" onClick={manejarReserva}>Reserve Ahora</button>
       </div>
+      
+      <ModalConfirmacion
+        mensaje="Debe iniciar sesión para reservar una habitación."
+        visible={mostrarAlerta}
+        onClose={() => setMostrarAlerta(false)}
+      />
     </div>
   );
 };
