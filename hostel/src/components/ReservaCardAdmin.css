@@ -1,70 +1,46 @@
-.reserva-admin-card {
+/* src/components/ReservaCardAdmin.css */
+
+/* Usar los mismos estilos que ReservaCard.css */
+.reserva-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
-  padding: 1.2rem;
-  border: 1px solid #eee;
-  border-radius: 12px;
   background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 1rem;
   margin-bottom: 1rem;
-  flex-wrap: wrap;
 }
 
-.reserva-admin-img {
-  width: 100px;
-  height: 80px;
+.reserva-img {
+  width: 60px;
+  height: 60px;
   object-fit: cover;
   border-radius: 8px;
+  margin-right: 1rem;
 }
 
-.reserva-admin-detalles {
+.reserva-info {
   flex: 1;
-  min-width: 180px;
+  margin-left: 1rem;
 }
 
-.reserva-admin-detalles h4 {
-  margin: 0 0 0.2rem;
+.reserva-info h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-.reserva-admin-extra {
-  flex: 1;
-  min-width: 160px;
-  font-size: 0.95rem;
+.reserva-info p {
+  font-size: 0.85rem;
+  margin: 2px 0;
   color: #444;
 }
 
-.reserva-admin-acciones {
-  display: flex;
-  gap: 0.7rem;
-}
-
-.btn-aprobar,
-.btn-rechazar {
-  padding: 0.4rem 1.2rem;
-  border: none;
-  border-radius: 20px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.btn-aprobar {
-  background-color: #aaa;
-  color: white;
-}
-
-.btn-rechazar {
-  background-color: #f2f2f2;
-  color: #555;
-}
-
-.btn-aprobar:hover {
-  background-color: #888;
-}
-
-.btn-rechazar:hover {
-  background-color: #ddd;
+.reserva-precio {
+  font-weight: bold;
+  color: #111;
+  margin-top: 0.5rem;
 }
 
 /* Estilos para estados de reserva */
@@ -81,4 +57,67 @@
 .estado-rechazada {
   color: #e74c3c;
   font-weight: 600;
+}
+
+/* Estilos para mensajes de estado */
+.reserva-estado-info {
+  margin-left: 1rem;
+}
+
+.estado-mensaje {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+  padding: 0.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.estado-mensaje.confirmada {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.estado-mensaje.rechazada {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Estilos para botones de acción del admin */
+.reserva-acciones {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.btn-aprobar {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.btn-aprobar:hover {
+  background-color: #218838;
+}
+
+.btn-rechazar {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.btn-rechazar:hover {
+  background-color: #c82333;
 }

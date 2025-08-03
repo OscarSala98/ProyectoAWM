@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const URLbase = 'http://localhost:3002/api/';
 
-const ReservaCardAdminFixed = ({ reserva, recargarReservas }) => {
+const ReservaCardAdmin = ({ reserva, recargarReservas }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mensajeModal, setMensajeModal] = useState('');
 
@@ -57,45 +57,25 @@ const ReservaCardAdminFixed = ({ reserva, recargarReservas }) => {
     setMensajeModal('');
   };
 
-  const renderPersonas = () => {
-    if (typeof reserva.personas === 'string') {
-      return reserva.personas;
-    }
-    if (typeof reserva.personas === 'object' && reserva.personas !== null) {
-      return `${reserva.personas.adultos} Adulto(s), ${reserva.personas.ninos} Niño(s)`;
-    }
-    // Fallback usando adultos y ninos directamente
-    if (reserva.adultos !== undefined && reserva.ninos !== undefined) {
-      return `${reserva.adultos} Adulto(s), ${reserva.ninos} Niño(s)`;
-    }
-    return 'No especificado';
-  };
-
-  const calcularDuracion = (entrada, salida) => {
-    const inDate = new Date(entrada);
-    const outDate = new Date(salida);
-    const dias = Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
-    return `${dias} ${dias === 1 ? 'día' : 'días'}`;
-  };
-
   return (
     <>
-      <div className="reserva-admin-card">
-        <img src={reserva.imagen} alt={reserva.tituloHabitacion} className="reserva-admin-img" />
+      <div className="reserva-card">
+        <img
+          src={reserva.imagen}
+          alt={reserva.tituloHabitacion}
+          className="reserva-img"
+        />
 
-        <div className="reserva-admin-detalles">
+        <div className="reserva-info">
           <h4>{reserva.tituloHabitacion}</h4>
           <p><strong>Check In:</strong> {reserva.checkIn}</p>
+          <p><strong>Check Out:</strong> {reserva.checkOut}</p>
           <p><strong>Por:</strong> {reserva.usuarioNombre}</p>
-        </div>
-
-        <div className="reserva-admin-extra">
-          <p><strong>Duración:</strong> {calcularDuracion(reserva.checkIn, reserva.checkOut)}</p>
-          <p><strong>Personas:</strong> {renderPersonas()}</p>
+          <p><strong>Personas:</strong> {reserva.personas || `${reserva.adultos} Adulto(s), ${reserva.ninos} Niño(s)`}</p>
           <p><strong>Precio:</strong> {reserva.precio}</p>
           <p><strong>Estado:</strong> 
             <span className={`estado-${reserva.estado}`}>
-              {reserva.estado === 'pendiente' ? '⏳ Pendiente' : 
+              {reserva.estado === 'pendiente' ? '⏳ Pendiente de aprobación' : 
                reserva.estado === 'confirmada' ? '✅ Confirmada' : 
                reserva.estado === 'rechazada' ? '❌ Rechazada' : reserva.estado}
             </span>
@@ -104,9 +84,22 @@ const ReservaCardAdminFixed = ({ reserva, recargarReservas }) => {
 
         {/* Solo mostrar botones si la reserva está pendiente */}
         {reserva.estado === 'pendiente' && (
-          <div className="reserva-admin-acciones">
+          <div className="reserva-acciones">
             <button className="btn-aprobar" onClick={manejarAprobar}>Aprobar</button>
             <button className="btn-rechazar" onClick={manejarRechazar}>Rechazar</button>
+          </div>
+        )}
+
+        {/* Mostrar mensaje para reservas confirmadas o rechazadas */}
+        {reserva.estado === 'confirmada' && (
+          <div className="reserva-estado-info">
+            <p className="estado-mensaje confirmada">✅ Reserva aprobada</p>
+          </div>
+        )}
+
+        {reserva.estado === 'rechazada' && (
+          <div className="reserva-estado-info">
+            <p className="estado-mensaje rechazada">❌ Reserva rechazada</p>
           </div>
         )}
       </div>
@@ -120,4 +113,4 @@ const ReservaCardAdminFixed = ({ reserva, recargarReservas }) => {
   );
 };
 
-export default ReservaCardAdminFixed;
+export default ReservaCardAdmin;

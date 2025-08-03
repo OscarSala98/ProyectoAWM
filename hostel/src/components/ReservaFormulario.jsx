@@ -161,6 +161,23 @@ const ReservaFormulario = () => {
           estado: "sin leer", 
           titulo: `Reserva actualizada: ${habitacion.titulo || habitacion.nombre} - Pendiente de aprobación`
         }, axiosConfig).catch(err => console.warn('No se pudo enviar notificación'));
+
+        // Notificar al administrador sobre la reserva actualizada pendiente
+        try {
+          console.log('🔔 Enviando notificación al admin por reserva actualizada...');
+          const adminId = 1; // ID fijo del administrador
+          
+          const notificacionAdmin = await axios.post(`${URLbase}notificaciones`, {
+            id_usuario: adminId,
+            tipo: "reserva",
+            estado: "sin leer",
+            titulo: `Reserva actualizada pendiente: ${habitacion.titulo || habitacion.nombre} - Usuario: ${usuario.primerNombre} ${usuario.primerApellido}`
+          }, axiosConfig);
+          
+          console.log('✅ Notificación enviada al admin:', notificacionAdmin.data);
+        } catch (err) {
+          console.error('❌ Error al enviar notificación al admin:', err);
+        }
         
       } else {
         // Crear nueva reserva con la URL que funcionaba antes
@@ -180,6 +197,23 @@ const ReservaFormulario = () => {
           estado: "sin leer", 
           titulo: `Nueva reserva creada: ${habitacion.titulo || habitacion.nombre} - Pendiente de aprobación`
         }, axiosConfig).catch(err => console.warn('No se pudo enviar notificación'));
+
+        // Notificar al administrador sobre la nueva reserva pendiente
+        try {
+          console.log('🔔 Enviando notificación al admin por nueva reserva...');
+          const adminId = 1; // ID fijo del administrador
+          
+          const notificacionAdmin = await axios.post(`${URLbase}notificaciones`, {
+            id_usuario: adminId,
+            tipo: "reserva",
+            estado: "sin leer",
+            titulo: `Nueva reserva pendiente: ${habitacion.titulo || habitacion.nombre} - Usuario: ${usuario.primerNombre} ${usuario.primerApellido}`
+          }, axiosConfig);
+          
+          console.log('✅ Notificación enviada al admin:', notificacionAdmin.data);
+        } catch (err) {
+          console.error('❌ Error al enviar notificación al admin:', err);
+        }
       }
 
       navigate('/mis-reservas');
