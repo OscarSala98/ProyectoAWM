@@ -18,7 +18,7 @@ label {
 }
 
 .modal-content {
-  background-color: #fffdf5;
+  background-color: var(--background-white);
   padding: 2rem;
   border-radius: 12px;
   width: 100%;
@@ -89,23 +89,26 @@ color: #000;
 }
 
 .btn-continuar {
-  background-color: #db5c35;
+  background-color: var(--primary-blue);
   color: white;
   border: none;
   padding: 0.8rem 2rem;
   font-size: 1rem;
-  border-radius: 30px;
+  border-radius: 8px;
   cursor: pointer;
   align-self: flex-end;
   margin-top: 0.5rem;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
 .btn-continuar:hover {
-  background-color: #c64d2a;
+  background-color: var(--hover-blue);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--shadow-medium);
 }
 .modal-content.formulario-registro {
-  background-color: #fdf9ed;
+  background-color: var(--background-white);
   padding: 2rem;
   border-radius: 12px;
   max-width: 520px;

@@ -16,6 +16,7 @@ const BookingForm = () => {
       <button onClick={() => manejarFiltro('Doble')}>Habitación Doble</button>
       <span className="bookingform-punto">•</span>
       <button onClick={() => manejarFiltro('Delux')}>Habitación Delux</button>
+
     </div>
   );
 };

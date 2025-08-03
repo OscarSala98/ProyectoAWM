@@ -13,7 +13,7 @@
 }
 
 .modal-contenido {
-  background-color: #fcfbe3;
+  background-color: var(--background-white);
   padding: 2rem;
   border-radius: 10px;
   text-align: center;
@@ -34,13 +34,23 @@
 }
 
 .btn-modal {
-  background-color: #e76e50;
+  background: var(--primary-blue);
   color: white;
   border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
   margin-top: 1rem;
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 84, 166, 0.4);
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-modal:hover {
+  background: var(--hover-blue);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 84, 166, 0.5);
 }
 
 .modal-contenido h2 {
