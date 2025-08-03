@@ -18,7 +18,7 @@ const PerfilOpcionesAdmin = () => {
     <>
       <div className="perfil-opciones">
         <ul>
-          <li onClick={() => navigate(`/admin/chat/${usuario.id}`)}><strong>Mensajes</strong></li>
+          <li onClick={() => navigate('/admin/mensajes')}><strong>Mensajes</strong></li>
           <li onClick={() => navigate('/admin/notificaciones')}><strong>Notificaciones</strong></li>
           <li onClick={() => navigate('/admin/reservaciones')}><strong>Reservaciones</strong></li>
         </ul>

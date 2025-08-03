@@ -9,13 +9,13 @@ const ReservasTabs = ({ tabActivo, setTabActivo }) => {
         className={tabActivo === 'futura' ? 'activo' : ''}
         onClick={() => setTabActivo('futura')}
       >
-        Futuras
+        🗓️ Futuras
       </button>
       <button
         className={tabActivo === 'pasada' ? 'activo' : ''}
         onClick={() => setTabActivo('pasada')}
       >
-        Pasadas
+        📅 Pasadas
       </button>
     </div>
   );

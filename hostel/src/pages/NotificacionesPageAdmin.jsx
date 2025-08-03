@@ -9,11 +9,13 @@ const NotificacionesPageAdmin = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <Header />
-      <div className="notificaciones-page-container">
-        <button className="btn-atras" onClick={() => navigate(-1)}>Atrás</button>
-        <Notificaciones />
+    <div className="page-layout">
+      <div className="page-content">
+        <Header />
+        <div className="notificaciones-page-container">
+          <button className="btn-atras" onClick={() => navigate(-1)}>Atrás</button>
+          <Notificaciones />
+        </div>
       </div>
       <Footer />
     </div>

@@ -8,7 +8,7 @@ import MapaHabitaciones from '../components/MapaHabitaciones';
 import './HabitacionesFiltradas.css';
 import axios from 'axios';
 
-const URLbase = 'http://localhost:3002/api/v1/';
+const URLbase = 'http://localhost:3002/api/';
 
 const HabitacionesFiltradas = () => {
   const [habitaciones, setHabitaciones] = useState([]);
@@ -40,18 +40,20 @@ const HabitacionesFiltradas = () => {
   const habitacionesFiltradas = habitaciones.filter(h => h.tipo === tipoSeleccionado);
 
   return (
-    <div>
-      <Header />
-      <FiltroHabitaciones />
+    <div className="page-layout">
+      <div className="page-content">
+        <Header />
+        <FiltroHabitaciones />
 
-      
-      <div className="habitaciones-filtradas-wrapper">
-        <div className="habitaciones-filtradas-grid">
-            <ResultadosHabitaciones
-              habitacionesFiltradas={habitacionesFiltradas}
-              tipoSeleccionado={tipoSeleccionado}
-            />
-            <MapaHabitaciones />
+        
+        <div className="habitaciones-filtradas-wrapper">
+          <div className="habitaciones-filtradas-grid">
+              <ResultadosHabitaciones
+                habitacionesFiltradas={habitacionesFiltradas}
+                tipoSeleccionado={tipoSeleccionado}
+              />
+              <MapaHabitaciones />
+          </div>
         </div>
       </div>
 

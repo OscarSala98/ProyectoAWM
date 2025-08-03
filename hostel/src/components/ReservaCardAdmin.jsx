@@ -3,32 +3,49 @@ import './ReservaCardAdmin.css';
 import ModalConfirmacion from './ModalConfirmacion';
 import axios from 'axios';
 
+const URLbase = 'http://localhost:3002/api/';
+
 const ReservaCardAdmin = ({ reserva, recargarReservas }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mensajeModal, setMensajeModal] = useState('');
 
   const actualizarEstadoReserva = async (nuevoEstado, mensaje) => {
     try {
-      await axios.patch(`http://localhost:3002/reservas/${reserva.id}`, {
-        estado: nuevoEstado
+      // Usar PUT completo en lugar de PATCH para evitar problemas de CORS
+      await axios.put(`${URLbase}reservas/${reserva.id}`, {
+        ...reserva, // Enviar todos los datos de la reserva
+        estado: nuevoEstado // Solo cambiar el estado
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
       });
 
-      await axios.post('http://localhost:3002/notificaciones', {
-        id: Date.now().toString(),
-        texto: `Reserva ${nuevoEstado}: ${reserva.tituloHabitacion}`,
-        fecha: new Date().toISOString().split('T')[0]
-      });
+      // Notificar al usuario sobre el cambio de estado
+      await axios.post(`${URLbase}notificaciones`, {
+        id_usuario: reserva.usuarioId || reserva.id_usuario,
+        tipo: "reserva",
+        estado: "sin leer",
+        titulo: `Reserva ${nuevoEstado === 'confirmada' ? 'aprobada' : 'rechazada'}: ${reserva.tituloHabitacion || 'Habitación'}`
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      }).catch(err => console.warn('No se pudo enviar notificación'));
 
       setMensajeModal(mensaje);
       setModalVisible(true);
       recargarReservas();
     } catch (error) {
       console.error('Error al actualizar reserva:', error);
+      setMensajeModal('❌ Error al actualizar la reserva');
+      setModalVisible(true);
     }
   };
 
   const manejarAprobar = () => {
-    actualizarEstadoReserva('aceptada', '✅ Reserva Aprobada');
+    actualizarEstadoReserva('confirmada', '✅ Reserva Aprobada');
   };
 
   const manejarRechazar = () => {
@@ -40,38 +57,49 @@ const ReservaCardAdmin = ({ reserva, recargarReservas }) => {
     setMensajeModal('');
   };
 
-  const renderPersonas = () => {
-    if (typeof reserva.personas === 'string') {
-      return reserva.personas;
-    }
-    if (typeof reserva.personas === 'object' && reserva.personas !== null) {
-      return `${reserva.personas.adultos} Adulto(s), ${reserva.personas.ninos} Niño(s)`;
-    }
-    return 'No especificado';
-  };
-
   return (
     <>
-      <div className="reserva-admin-card">
-        <img src={reserva.imagen} alt={reserva.tituloHabitacion} className="reserva-admin-img" />
+      <div className="reserva-card">
+        <img
+          src={reserva.imagen}
+          alt={reserva.tituloHabitacion}
+          className="reserva-img"
+        />
 
-        <div className="reserva-admin-detalles">
+        <div className="reserva-info">
           <h4>{reserva.tituloHabitacion}</h4>
           <p><strong>Check In:</strong> {reserva.checkIn}</p>
+          <p><strong>Check Out:</strong> {reserva.checkOut}</p>
           <p><strong>Por:</strong> {reserva.usuarioNombre}</p>
-        </div>
-
-        <div className="reserva-admin-extra">
-         <p><strong>Duración:</strong> {calcularDuracion(reserva.checkIn, reserva.checkOut)}</p>
-
-          <p><strong>Personas:</strong> {renderPersonas()}</p>
+          <p><strong>Personas:</strong> {reserva.personas || `${reserva.adultos} Adulto(s), ${reserva.ninos} Niño(s)`}</p>
           <p><strong>Precio:</strong> {reserva.precio}</p>
+          <p><strong>Estado:</strong> 
+            <span className={`estado-${reserva.estado}`}>
+              {reserva.estado === 'pendiente' ? '⏳ Pendiente de aprobación' : 
+               reserva.estado === 'confirmada' ? '✅ Confirmada' : 
+               reserva.estado === 'rechazada' ? '❌ Rechazada' : reserva.estado}
+            </span>
+          </p>
         </div>
 
-        {reserva.estado === 'confirmada' && (
-          <div className="reserva-admin-acciones">
+        {/* Solo mostrar botones si la reserva está pendiente */}
+        {reserva.estado === 'pendiente' && (
+          <div className="reserva-acciones">
             <button className="btn-aprobar" onClick={manejarAprobar}>Aprobar</button>
             <button className="btn-rechazar" onClick={manejarRechazar}>Rechazar</button>
+          </div>
+        )}
+
+        {/* Mostrar mensaje para reservas confirmadas o rechazadas */}
+        {reserva.estado === 'confirmada' && (
+          <div className="reserva-estado-info">
+            <p className="estado-mensaje confirmada">✅ Reserva aprobada</p>
+          </div>
+        )}
+
+        {reserva.estado === 'rechazada' && (
+          <div className="reserva-estado-info">
+            <p className="estado-mensaje rechazada">❌ Reserva rechazada</p>
           </div>
         )}
       </div>
@@ -83,14 +111,6 @@ const ReservaCardAdmin = ({ reserva, recargarReservas }) => {
       />
     </>
   );
-};
-
-// Calcula duración en días
-const calcularDuracion = (entrada, salida) => {
-  const inDate = new Date(entrada);
-  const outDate = new Date(salida);
-  const dias = Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
-  return `${dias} ${dias === 1 ? 'día' : 'días'}`;
 };
 
 export default ReservaCardAdmin;

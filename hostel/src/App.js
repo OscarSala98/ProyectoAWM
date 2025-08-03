@@ -6,7 +6,6 @@ import HabitacionDetalle from './pages/HabitacionDetalle';
 import Reservas from './pages/Reservas';
 import PerfilUsuario from './pages/PerfilUsuario';
 import EditarPerfil from './pages/EditarPerfil';
-import Chat from './pages/Chat';
 import NotificacionesPage from './pages/NotificacionesPage';
 import MisReservas from './pages/MisReservas';
 import PerfilAdmin from './pages/PerfilAdmin';
@@ -14,39 +13,102 @@ import EditarPerfilAdmin from './pages/EditarPerfilAdmin';
 import NotificacionesPageAdmin from './pages/NotificacionesPageAdmin';
 import ReservacionesAdmin from './pages/ReservacionesAdmin';
 import EditarHabitacion from './pages/EditarHabitacion';
-
-
-import ReservaFormulario from './components/ReservaFormulario';
-
-
+import Unauthorized from './pages/Unauthorized';
+import ProtectedRoute from './components/ProtectedRoute';
+import MensajesPage from './pages/MensajesPage';
 import 'react-datepicker/dist/react-datepicker.css';
-
-import ChatAdmin from './pages/ChatAdmin';
 
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Rutas públicas */}
         <Route path="/" element={<Home />} />
         <Route path="/habitaciones" element={<Habitaciones />} />
         <Route path="/habitaciones-filtradas" element={<HabitacionesFiltradas />} />
         <Route path="/habitacion/:id" element={<HabitacionDetalle />} />
-        <Route path="/reservas" element={<ReservaFormulario />} />
-        <Route path="/perfil" element={<PerfilUsuario/>} />
-        <Route path="/editar-perfil" element={<EditarPerfil />} />
-        <Route path="/chat/:id" element={<Chat />} />
-        <Route path="/notificaciones" element={<NotificacionesPage />} />
-        <Route path="/mis-reservas" element={<MisReservas />} />
-        <Route path="/admin/perfil" element={<PerfilAdmin />} />
-        <Route path="/admin/editar-perfil" element={<EditarPerfilAdmin />} />
-        <Route path="/admin/chat/:id" element={<ChatAdmin/>} />
-        <Route path="/admin/notificaciones" element={<NotificacionesPageAdmin />} />
-        <Route path="/admin/reservaciones" element={<ReservacionesAdmin />} />
-        <Route path="/admin/editar-habitacion" element={<EditarHabitacion />} />
-        <Route path="/admin/editar-habitacion/:id" element={<EditarHabitacion />} />
-        {/* Agrega más rutas según sea necesario */}
+        <Route path="/unauthorized" element={<Unauthorized />} />
 
+        {/* Rutas protegidas para usuarios autenticados */}
+        <Route path="/reservas" element={
+          <ProtectedRoute>
+            <Reservas />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/perfil" element={
+          <ProtectedRoute>
+            <PerfilUsuario />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/editar-perfil" element={
+          <ProtectedRoute>
+            <EditarPerfil />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/mensajes" element={
+          <ProtectedRoute>
+            <MensajesPage />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/notificaciones" element={
+          <ProtectedRoute>
+            <NotificacionesPage />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/mis-reservas" element={
+          <ProtectedRoute>
+            <MisReservas />
+          </ProtectedRoute>
+        } />
+
+        {/* Rutas protegidas solo para administradores */}
+        <Route path="/admin/perfil" element={
+          <ProtectedRoute requiredRole="admin">
+            <PerfilAdmin />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/admin/editar-perfil" element={
+          <ProtectedRoute requiredRole="admin">
+            <EditarPerfilAdmin />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/admin/mensajes" element={
+          <ProtectedRoute requiredRole="admin">
+            <MensajesPage />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/admin/notificaciones" element={
+          <ProtectedRoute requiredRole="admin">
+            <NotificacionesPageAdmin />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/admin/reservaciones" element={
+          <ProtectedRoute requiredRole="admin">
+            <ReservacionesAdmin />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/admin/editar-habitacion" element={
+          <ProtectedRoute requiredRole="admin">
+            <EditarHabitacion />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/admin/editar-habitacion/:id" element={
+          <ProtectedRoute requiredRole="admin">
+            <EditarHabitacion />
+          </ProtectedRoute>
+        } />
       </Routes>
     </BrowserRouter>
   );
