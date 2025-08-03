@@ -11,14 +11,16 @@ const manejarAtras = () => {
 
 const Reservas = () => {
   return (
-    <div>
-      <Header />
+    <div className="page-layout">
+      <div className="page-content">
+        <Header />
 
-      <div className="reservas-container">
-        <button className="btn-atras" onClick={manejarAtras}>Atrás</button>
-        <h2 className="reservas-titulo">Formulario de Reservación</h2>
+        <div className="reservas-container">
+          <button className="btn-atras" onClick={manejarAtras}>Atrás</button>
+          <h2 className="reservas-titulo">Formulario de Reservación</h2>
 
-        <ReservaFormulario />
+          <ReservaFormulario />
+        </div>
       </div>
 
       <Footer />

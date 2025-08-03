@@ -155,40 +155,42 @@ const MisReservas = () => {
   };
 
   return (
-    <div>
-      <Header />
-      <div className="reservas-container">
-        <div className="reservas-header">
-          <button className="btn-atras" onClick={manejarAtras}>Atrás</button>
-          <button className="btn-recargar" onClick={recargarReservas} disabled={cargando}>
-            {cargando ? 'Cargando...' : '🔄 Recargar'}
-          </button>
-        </div>
-        <h2 className="reservas-titulo">Mis Reservas</h2>
-        
-        {/* Info de debug temporal */}
-        <div style={{ fontSize: '0.8rem', color: '#666', marginBottom: '1rem' }}>
-          Usuario: {usuario?.primerNombre} {usuario?.primerApellido} (ID: {usuario?.id}) | 
-          Reservas cargadas: {reservas.length}
-        </div>
-
-        <ReservasTabs tabActivo={tabActivo} setTabActivo={setTabActivo} />
-
-        {cargando ? (
-          <p>Cargando reservas...</p>
-        ) : reservasFiltradas.length === 0 ? (
-          <p className="sin-reservas">No tienes reservas {tabActivo === 'futura' ? 'futuras' : 'pasadas'}.</p>
-        ) : (
-          <div className="reservas-lista">
-            {reservasFiltradas.map(reserva => (
-              <ReservaCard
-                key={reserva.id}
-                reserva={reserva}
-                onCancelar={cancelarReserva}
-              />
-            ))}
+    <div className="page-layout">
+      <div className="page-content">
+        <Header />
+        <div className="reservas-container">
+          <div className="reservas-header">
+            <button className="btn-atras" onClick={manejarAtras}>Atrás</button>
+            <button className="btn-recargar" onClick={recargarReservas} disabled={cargando}>
+              {cargando ? 'Cargando...' : '🔄 Recargar'}
+            </button>
           </div>
-        )}
+          <h2 className="reservas-titulo">Mis Reservas</h2>
+          
+          {/* Info de debug temporal */}
+          <div style={{ fontSize: '0.8rem', color: '#666', marginBottom: '1rem' }}>
+            Usuario: {usuario?.primerNombre} {usuario?.primerApellido} (ID: {usuario?.id}) | 
+            Reservas cargadas: {reservas.length}
+          </div>
+
+          <ReservasTabs tabActivo={tabActivo} setTabActivo={setTabActivo} />
+
+          {cargando ? (
+            <p>Cargando reservas...</p>
+          ) : reservasFiltradas.length === 0 ? (
+            <p className="sin-reservas">No tienes reservas {tabActivo === 'futura' ? 'futuras' : 'pasadas'}.</p>
+          ) : (
+            <div className="reservas-lista">
+              {reservasFiltradas.map(reserva => (
+                <ReservaCard
+                  key={reserva.id}
+                  reserva={reserva}
+                  onCancelar={cancelarReserva}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
       <Footer />
     </div>

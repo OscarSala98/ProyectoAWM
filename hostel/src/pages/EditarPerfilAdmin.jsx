@@ -12,15 +12,17 @@ const EditarPerfilAdmin = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <Header />
+    <div className="page-layout">
+      <div className="page-content">
+        <Header />
 
-      <div className="editar-perfil-container">
-        <button className="btn-atras" onClick={() => navigate(-1)}>Atrás</button>
+        <div className="editar-perfil-container">
+          <button className="btn-atras" onClick={() => navigate(-1)}>Atrás</button>
 
-        <PerfilSidebar nombre={nombre} />
-        <div className="perfil-usuario-derecha">
-          <EditarPerfilFormulario nombre={nombre} />
+          <PerfilSidebar nombre={nombre} />
+          <div className="perfil-usuario-derecha">
+            <EditarPerfilFormulario nombre={nombre} />
+          </div>
         </div>
       </div>
 

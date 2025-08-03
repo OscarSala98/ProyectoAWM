@@ -40,17 +40,19 @@ const HabitacionDetalle = () => {
   ];
 
   return (
-    <div>
-      <Header />
-      <div className="detalle-container">
-        <button className="btn-atras" onClick={() => navigate(-1)}>Atrás</button>
-        <HabitacionCardGeneral imagenes={imagenes} />
-        <div className="detalle-info-wrapper">
-          <div className="detalle-izquierda">
-            <HabitacionInfo habitacion={habitacion} />
-          </div>
-          <div className="detalle-derecha">
-            <HabitacionDescripcion habitacion={habitacion} />
+    <div className="page-layout">
+      <div className="page-content">
+        <Header />
+        <div className="detalle-container">
+          <button className="btn-atras" onClick={() => navigate(-1)}>Atrás</button>
+          <HabitacionCardGeneral imagenes={imagenes} />
+          <div className="detalle-info-wrapper">
+            <div className="detalle-izquierda">
+              <HabitacionInfo habitacion={habitacion} />
+            </div>
+            <div className="detalle-derecha">
+              <HabitacionDescripcion habitacion={habitacion} />
+            </div>
           </div>
         </div>
       </div>

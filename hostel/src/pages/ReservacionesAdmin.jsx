@@ -59,34 +59,36 @@ const ReservacionesAdmin = () => {
   const reservasFiltradas = reservas.filter(r => r.estado === tabActivo);
 
   return (
-    <div>
-      <Header />
-      <div className="reservas-container">
-        <button className="btn-atras" onClick={manejarAtras}>Atrás</button>
-        <h2 className="reservas-titulo">Gestión de Reservaciones</h2>
+    <div className="page-layout">
+      <div className="page-content">
+        <Header />
+        <div className="reservas-container">
+          <button className="btn-atras" onClick={manejarAtras}>Atrás</button>
+          <h2 className="reservas-titulo">Gestión de Reservaciones</h2>
 
-        <ReservasTabsAdmin tabActivo={tabActivo} setTabActivo={setTabActivo} />
+          <ReservasTabsAdmin tabActivo={tabActivo} setTabActivo={setTabActivo} />
 
-        {cargando ? (
-          <p style={{ marginTop: '2rem', textAlign: 'center' }}>Cargando reservas...</p>
-        ) : (
-          <div className="reservas-lista">
-            {reservasFiltradas.length > 0 ? (
-              reservasFiltradas.map(reserva => (
-                <ReservaCardAdmin
-                  key={reserva.id}
-                  reserva={reserva}
-                  recargarReservas={cargarReservas}
-                />
-              ))
-            ) : (
-              <p style={{ marginTop: '2rem', textAlign: 'center' }}>
-                No hay reservas {tabActivo === 'pendiente' ? 'pendientes' : 
-                                tabActivo === 'confirmada' ? 'confirmadas' : 'rechazadas'}.
-              </p>
-            )}
-          </div>
-        )}
+          {cargando ? (
+            <p style={{ marginTop: '2rem', textAlign: 'center' }}>Cargando reservas...</p>
+          ) : (
+            <div className="reservas-lista">
+              {reservasFiltradas.length > 0 ? (
+                reservasFiltradas.map(reserva => (
+                  <ReservaCardAdmin
+                    key={reserva.id}
+                    reserva={reserva}
+                    recargarReservas={cargarReservas}
+                  />
+                ))
+              ) : (
+                <p style={{ marginTop: '2rem', textAlign: 'center' }}>
+                  No hay reservas {tabActivo === 'pendiente' ? 'pendientes' : 
+                                  tabActivo === 'confirmada' ? 'confirmadas' : 'rechazadas'}.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       <Footer />
     </div>

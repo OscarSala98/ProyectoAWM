@@ -7,19 +7,21 @@ import Footer from '../components/Footer'; // Importa el componente Footer, que 
 // Componente Home que estructura la página principal
 const Home = () => {
   return (
-    <>
-      {/* Componente Header que contiene la barra de navegación */}
-      <Header />
+    <div className="page-layout">
+      <div className="page-content">
+        {/* Componente Header que contiene la barra de navegación */}
+        <Header />
 
-      {/* Componente HeroSection que generalmente contiene el encabezado principal y contenido atractivo */}
-      <HeroSection>
-        {/* Componente BookingForm que se pasa como children al HeroSection */}
-        <BookingForm />
-      </HeroSection>
+        {/* Componente HeroSection que generalmente contiene el encabezado principal y contenido atractivo */}
+        <HeroSection>
+          {/* Componente BookingForm que se pasa como children al HeroSection */}
+          <BookingForm />
+        </HeroSection>
+      </div>
 
       {/* Componente Footer que contiene la información de contacto y los enlaces a redes sociales */}
       <Footer />
-    </>
+    </div>
   );
 };
 
