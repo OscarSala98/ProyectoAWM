@@ -7,7 +7,7 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/f
 const Footer = () => {
   return (
     <footer className="footer"> {/* Elemento <footer> que contiene el contenido del pie de página */}
-      <div className="footer-content"> {/* Contenedor para el contenido con ancho limitado */}
+      <div className="footer-content">
         <div className="footer-logo"> {/* Contenedor para el logo */}
           <img src={logoVertical} alt="Grupo Novel" /> {/* Imagen del logo, con texto alternativo */}
         </div>
