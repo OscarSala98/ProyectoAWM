@@ -6,8 +6,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(0, 84, 166, 0.1);
-  box-shadow: 0 4px 20px rgba(0, 84, 166, 0.08);
+  border-bottom: 4px solid #D4A017;
+  box-shadow: 0 4px 20px rgba(212, 160, 23, 0.08);
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 1rem;
@@ -37,8 +37,8 @@
 }
 
 .menu-item:hover {
-  color: var(--primary-blue);
-  background: var(--background-light);
+  color: #D4A017;
+  background: rgba(212, 160, 23, 0.1);
 }
 
 .right-area {
@@ -87,7 +87,7 @@
 }
 
 .hamburger-menu button:hover {
-  background: var(--primary-blue);
+  background: #D4A017;
   color: var(--background-white);
   transform: none;
 }

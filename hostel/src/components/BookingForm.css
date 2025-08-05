@@ -32,7 +32,7 @@
   font-style: italic;
   font-weight: 400;
   font-size: 1.2rem;
-  color: white !important;
+  color: white !important;      
   font-family: 'Playfair Display', serif;
 }
 
@@ -49,7 +49,10 @@
 }
 
 .form-group {
-	@@ -33,27 +55,73 @@
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  flex: 1;
 }
 
 .form-group label {
@@ -122,4 +125,49 @@ input:hover,
   color: white !important;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 84, 166, 0.3) !important;
+}
+
+/* Estilos para los botones de filtros de habitación */
+.bookingform-filtros-contenedor {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 1rem !important;
+  margin: 2rem 0 !important;
+  padding: 1rem !important;
+}
+
+.bookingform-filtros-contenedor button,
+.bookingform-filtros-contenedor > button,
+div.bookingform-filtros-contenedor button {
+  background: var(--primary-blue) !important;
+  color: white !important;
+  border: 2px solid var(--primary-blue) !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  font-family: 'Inter', sans-serif !important;
+  box-shadow: 0 4px 12px rgba(0, 84, 166, 0.2) !important;
+  text-decoration: none !important;
+  outline: none !important;
+}
+
+.bookingform-filtros-contenedor button:hover,
+.bookingform-filtros-contenedor > button:hover,
+div.bookingform-filtros-contenedor button:hover {
+  background: white !important;
+  color: var(--primary-blue) !important;
+  border: 2px solid var(--primary-blue) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0, 84, 166, 0.3) !important;
+}
+
+.bookingform-punto {
+  color: var(--primary-blue) !important;
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
+  margin: 0 0.5rem !important;
 }
